@@ -1217,8 +1217,8 @@ $enemy = "Grabbing Key"
 Moveto(-9570.54, -10958.44)
 RndSleep(3000)
 
-; Attempt to pick up the key
-PickupItems(-1, 5000)
+; Attempt to pick up the key within a 5000 range from the specified location
+PickupItemsAroundLocation(-9570.54, -10958.44, -1, 5000, 5000)
 
 ; Continue with the rest of your script
 CurrentAction("Going to open the door")
@@ -1247,7 +1247,10 @@ Until CheckArea(-13362, -17430)
 CurrentAction("Grabbing boss key")
 Moveto(-13096.48, -17746.39)
 RndSleep(5000)
-PickupItems(-1, 5000)
+
+; Attempt to pick up items within a 5000 range from the specified location
+PickupItemsAroundLocation(-13096.48, -17746.39, -1, 5000, 5000)
+
 
 CurrentAction("Going to open door")
 Moveto(-11215, -18002)
