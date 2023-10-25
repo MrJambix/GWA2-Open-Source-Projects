@@ -13,7 +13,7 @@ Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @H
 Opt("GUIOnEventMode", 1)
 
 #Region ### START Koda GUI section ### Form=c:\bot\reputation farming\title package\form1.kxf
-global $Form1_1 = GUICreate("Globeul Title Package", 450, 400, -1, -1)
+global $Form1_1 = GUICreate("Globeul Title Package 2023 Update", 400, 350, -1, -1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 global $Start = GUICtrlCreateButton("Start", 264, 248, 51, 25)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -62,7 +62,7 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 global $txtName = GUICtrlCreateInput($strName, 152, 248, 105, 21)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-GUICtrlCreateGroup("Points Status", 8, 8, 137, 161)
+GUICtrlCreateGroup("Points Status", 8, 8, 157, 181)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlCreateLabel("Asura", 24, 32, 31, 17)
 GUICtrlSetColor(-1, 0x808000)
@@ -138,8 +138,7 @@ GUICtrlSetState($Gui_PickUp, $GUI_CHECKED)
 GUICtrlSetState($Radio_Asura, $GUI_CHECKED)
 GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 GUISetState(@SW_SHOW)
-GUICtrlCreateLabel("Report all issues to MrJambix on ElitePvPers and Hit that Thanks Button on everyone who's contributed or contributing towards keeping bots alive. Big Shoutout to Zilvermoon's GWA2 updates", 8, 330, 305, 40)
-
+GUICtrlCreateLabel("", 8, 330, 305, 40)
 #EndRegion ### END Koda GUI section ### do i need the region
 
 

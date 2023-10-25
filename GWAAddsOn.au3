@@ -461,7 +461,7 @@ EndFunc
 ; Return Value(s):	On Success - Returns $iItemsPicked (number of items picked)
 ; Author(s):		GWCA team, recoded by ddarek, thnx to The ArkanaProject
 ;=================================================================================================
-Func PickupItems($iItems = -1, $fMaxDistance = 1012)
+Func PickupItems($iItems = -1, $fMaxDistance = 2024)
 	Local $aItemID, $lNearestDistance, $lDistance
 	$tDeadlock = TimerInit()
 	Do
@@ -477,7 +477,7 @@ Func PickupItems($iItems = -1, $fMaxDistance = 1012)
 			If TimerDiff($tDeadlock2) > 5000 Then ContinueLoop 2
 		Until DllStructGetData(GetAgentById($aItemID), 'ID') == 0
 		$iItems_Picked += 1
-		;UpdateStatus("Picked total " & $iItems_Picked & " items")
+		UpdateStatus("Picked total " & $iItems_Picked & " items")
 	Until $iItems_Picked = $iItems
 	Return $iItems_Picked
 EndFunc   ;==>PickupItems
