@@ -31,9 +31,6 @@ Global $SS_LB_Map = 444
 Global $Kurzick_Map = 210
 Global $Luxon_Map = 200
 
-
-
-
 While 1
 	If $boolrun = true Then
 		If $NumberRun = 0 Then ;first run
@@ -1311,10 +1308,6 @@ Moveto(-7730, -18648)
 	CurrentAction("Waiting to really complete load")
 	rndslp(5000)
 
-	;GoNearestNPCToCoords(-23823, 13889)
-	;rndslp(750)
-	;Dialog(8618503)
-	;rndslp(500)
 	CurrentAction("Drop Quest")
 	rndslp(5000)
 	AbandonQuest(898)
@@ -1329,18 +1322,6 @@ Func SwapDistricts()
 	RndSleep(3000)
 	CurrentAction("Leaving GH")
 	LeaveGH()
-;~ 	$region = GetRegion()
-;~ 	If $region = 3 Then ; si Asie
-;~ 		$intDist = 2 ; europe
-;~ 		MoveMap($Map_To_Zone, $intDist, 1, 5) ; spanish
-;~ 		WaitForLoad()
-;~ 	Else ;sinon
-;~ 		$intDist = 3 ;asie
-;~ 		MoveMap($Map_To_Zone, $intDist, 1, 0) ;tradChine
-;~ 		WaitForLoad()
-;~ 	EndIf
-
-;~ 	CurrentAction("District changed")
 	RndSleep(3000)
 EndFunc
 
