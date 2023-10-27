@@ -174,56 +174,127 @@ Func CommandHero7($aX = 0x7F800000, $aY = 0x7F800000)
 	SendPacket(0x14, $HEADER_HERO_PLACE_FLAG, MEMORYREAD($lHeroStruct[1] + 0xDC), $aX, $aY, 0)
 EndFunc   ;==>CommandHero7
 
+Func Fight($x, $s = "enemies")
 
-Func Fight($target, $totalskills, $x)
-    Local $useSkill, $energy, $adrenaline, $recharge, $variabletosort = 0, $TargetAllegiance
+	ChangeWeaponSet(2)
+	If $DeadOnTheRun = 0 Then
+		Local $TimerToGetOut = TimerInit()
+		Do
+			If $DeadOnTheRun = 0 Then $useSkill = -1
+			If $DeadOnTheRun = 0 Then $target = GetNearestEnemyToAgent(-2)
+			;$target = GetNearestEnemyToAgent(GetHeroID(7))
+			$distance = GetDistance($target, -2)
+			If DllStructGetData($target, 'ID') <> 0 AND $distance < $x AND $DeadOnTheRun = 0 Then
+				If $DeadOnTheRun = 0 Then ChangeTarget($target)
+				If $DeadOnTheRun = 0 Then RndSlp(150)
+				If GetAgentName($target) = "Khabuus" AND $DeadOnTheRun = 0 Then
+					If $DeadOnTheRun = 0 Then TargetNextEnemy()
+					If $DeadOnTheRun = 0 Then RndSlp(150)
+					If $DeadOnTheRun = 0 Then $target = GetCurrentTarget()
+					If $DeadOnTheRun = 0 Then ChangeTarget($target)
+					If $DeadOnTheRun = 0 Then RndSlp(150)
+				EndIf
 
-    If $DeadOnTheRun = 0 Then
-        For $i = 0 To $totalskills
+				If $DeadOnTheRun = 0 Then CallTarget($target)
+				If $DeadOnTheRun = 0 Then RndSlp(150)
+				If $DeadOnTheRun = 0 Then Attack($target)
+				If $DeadOnTheRun = 0 Then RndSlp(150)
+			ElseIf DllStructGetData($target, 'ID') = 0 OR $distance > $x OR $DeadOnTheRun = 1 Then
+				exitloop
+			EndIf
+			If $DeadOnTheRun = 0 Then
 
-            $recharge = DllStructGetData(GetSkillbar(), 'Recharge' & $i+1)
-            $energy = GetEnergy(-2)
-            $adrenaline = GetAdrenaline(-2)
+				For $i = 0 To $totalskills
 
-            ; This is one of the checks you mentioned, which I've left unchanged:
-            If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then Return
+					$targetHP = DllStructGetData(GetCurrentTarget(),'HP')
+					if $targetHP = 0 then ExitLoop
 
-            If $recharge = 0 And $energy >= $intSkillEnergy[$i] And $adrenaline >= ($intSkillAdrenaline[$i]*25 - 25) Then
-                $useSkill = $i + 1
+					$distance = GetDistance($target, -2)
+					if $distance > $x then ExitLoop
 
-                ; This is another one of the checks, which remains unchanged:
-                If DllStructGetData(GetCurrentTarget(), 'Type') = 0x400 Then Return
+					$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
+					if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
 
-                Switch $i
-                    Case 0, 1, 2, 4, 5, 6, 8
-                        Do
-                            $energy = GetEnergy(-2)
-                            If $energy >= $intSkillEnergy[$i] Then
-                                UseSkill($useSkill, $target)
-                                RndSlp(600)
-                            EndIf
-                            rndslp(200)
-                            $variabletosort = $variabletosort + 1
-                            if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
-                            if GetDistance($target, -2) > $x then ExitLoop
-                            $TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-                            if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-                            If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
-                            If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
-                        Until (DllStructGetData(GetAgentByID(-1), 'LastStrike') = $i+1 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge' & $i+1) > 0
-                    Case Else
-                        If $i > 5 And $i < 7 Then
-                            UseSkill($useSkill, $target)
-                            RndSlp($intSkillCastTime[$i+1]+500); -- +1 added
-                        EndIf
-                EndSwitch
-            EndIf
+					$TargetIsDead = DllStructGetData(GetCurrentTarget(), 'Effects')
+					If $TargetIsDead = 0x0010 Then ExitLoop
 
-            if $i = $totalskills then $i = -1 ; change -1
-            If $DeadOnTheRun = 1 Then ExitLoop
+					$TargetItem = DllStructGetData(GetCurrentTarget(),'Type')
+					if $TargetItem = 0x400 then ExitLoop
 
-        Next
-    EndIf
+					$energy = GetEnergy(-2)
+					$recharge = DllStructGetData(GetSkillBar(), "Recharge" & $i+1)
+					$adrenaline = DllStructGetData(GetSkillBar(), "Adrenaline" & $i+1)
+					;Update($s & " - Fight!")
+					If $recharge = 0 And $energy >= $intSkillEnergy[$i] And $adrenaline >= ($intSkillAdrenaline[$i]*25 - 25) Then
+						$useSkill = $i + 1
+						;PingSleep(250)
+						$variabletosort = 0
+						;UseSkill($useSkill, $target)
+						If $i = 0 Then
+							Do
+								$energy = GetEnergy(-2)
+								If $energy >= $intSkillEnergy[$i] Then
+									UseSkill($useSkill, $target)
+									RndSlp(600)
+								EndIf
+								rndslp(200)
+								$variabletosort = $variabletosort + 1
+								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
+								if GetDistance($target, -2) > $x then ExitLoop
+								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
+								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
+								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
+								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
+							Until (DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x1 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge1') > 0;--
+						ElseIf $i = 1 Then
+							Do
+								$energy = GetEnergy(-2)
+								If $energy >= $intSkillEnergy[$i] Then
+									UseSkill($useSkill, $target)
+									RndSlp(600)
+								EndIf
+								rndslp(200)
+								$variabletosort = $variabletosort + 1
+								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
+								if GetDistance($target, -2) > $x then ExitLoop
+								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
+								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
+								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
+								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
+							Until(DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x2 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge2') > 0 ;--
+						ElseIf $i = 2 Then
+							Do
+								$energy = GetEnergy(-2)
+								If $energy >= $intSkillEnergy[$i] Then
+									UseSkill($useSkill, $target)
+									RndSlp(600)
+								EndIf
+								rndslp(200)
+								$variabletosort = $variabletosort + 1
+								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
+								if GetDistance($target, -2) > $x then ExitLoop
+								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
+								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
+								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
+								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
+							Until (DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x3 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge3') > 0 ;--
+						Else
+							If $i > 5 And $i < 7 Then
+								UseSkill($useSkill, $target)
+								RndSlp($intSkillCastTime[$i+1]+500); -- +1 added
+							EndIf
+						EndIf
+					EndIf
+					if $i = $totalskills then $i = -1 ; change -1
+					If $DeadOnTheRun = 1 Then ExitLoop
+				Next
+			EndIf
+			$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
+			$TargetIsDead = DllStructGetData(GetCurrentTarget(), 'Effects')
+			$targetHP = DllStructGetData(GetCurrentTarget(),'HP')
+			$TargetItem = DllStructGetData(GetCurrentTarget(),'Type')
+		Until DllStructGetData($target, 'ID') = 0 OR $distance > $x OR $DeadOnTheRun = 1 OR $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 OR $TargetIsDead = 0x0010 OR $targetHP = 0 OR $TargetItem = 0x400 OR TimerDiff($TimerToGetOut) > 240000
+	EndIf
 EndFunc
 
 

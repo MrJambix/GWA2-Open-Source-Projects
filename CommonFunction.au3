@@ -426,7 +426,7 @@ Func AggroMoveToEx($x, $y, $s = "", $z = 1300)
 			$enemy = GetNearestEnemyToAgent(-2)
 			$distance = ComputeDistance(DllStructGetData($enemy, 'X'),DllStructGetData($enemy, 'Y'),DllStructGetData(GetAgentByID(-2), 'X'),DllStructGetData(GetAgentByID(-2), 'Y'))
 			If $distance < $z AND $enemy <> 0 and $DeadOnTheRun = 0 Then
-				If $DeadOnTheRun = 0 Then Fight($z, $s)
+				If $DeadOnTheRun = 0 Then Fight($z, $s) 
 				If $DeadOnTheRun = 0 Then CurrentAction("Hunting " & $s)
 			EndIf
 			If $DeadOnTheRun = 0 Then RndSleep(250)

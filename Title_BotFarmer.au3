@@ -174,36 +174,34 @@ Func FactionCheckLuxon()
 EndFunc
 
 Func TurnInFactionLuxon()
-	TravelTo(193)
-	WaitForLoad()
-	CurrentAction("grabing")
-	GoNearestNPCToCoords(9076, -1111)
+	CurrentAction("turning in faction")
+	TravelGH()
+	RndSleep(1500)
+	GoNearestNPCToCoords(-375.00, 7331.00)
 
 	$beforedone = GetLuxonFaction()
 
 	If $Bool_Donate Then
-		$counter = 0
 		Do
 			CurrentAction("Donate")
-			DonateFaction(1)
-			RndSleep(250)
-			$counter += 1
-			If $counter > 100 Then ExitLoop ; adjust the limit based on your game's specifics
+			DonateFaction("luxon")
+			RndSleep(500)
 		Until GetLuxonFaction() < 5000
 	Else
 		CurrentAction("Grabbing Jade Shards")
 		Dialog(131)
-		RndSleep(500)
+		RndSleep(550)
 		$temp = Floor(GetLuxonFaction() / 5000)
 		$id = 8388609 + ($temp * 256)
 		Dialog($id)
+		RndSleep(550)
 	EndIf
-	RndSleep(500)
+
 	$after_donate = GetLuxonFaction()
 	$what_we_donate = $beforedone - $after_donate + $what_we_donate
 	RndSleep(500)
-	TravelTo(389)
-	WaitForLoad()
+	LeaveGH()
+	RndSleep(1500)
 EndFunc
 
 Func GoOut()
