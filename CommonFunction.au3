@@ -158,10 +158,10 @@ func gui_eventHandler()
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_UNCHECKED)
 		Case $Radio_Kurzick
-			GUICtrlSetState($Gui_Donate, $GUI_ENABLE)
+			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_CHECKED)
 		Case $Radio_Luxon
-			GUICtrlSetState($Gui_Donate, $GUI_ENABLE)
+			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_CHECKED)
 		Case $Radio_SS
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
