@@ -177,10 +177,13 @@ Func TurnInFactionLuxon()
 	$beforedone = GetLuxonFaction()
 
 	If $Bool_Donate Then
+		$counter = 0
 		Do
 			CurrentAction("Donate")
 			DonateFaction(1)
 			RndSleep(250)
+			$counter += 1
+			If $counter > 100 Then ExitLoop ; adjust the limit based on your game's specifics
 		Until GetLuxonFaction() < 5000
 	Else
 		CurrentAction("Grabbing Jade Shards")
