@@ -149,7 +149,7 @@ Global Const $HEADER_GUILDHALL_LEAVE = 0xB0			;Leaves Guildhall
 
 #Region ;=FACTION=
 ;GAME_CMSG_DEPOSIT_FACTION
-Global Const $HEADER_FACTION_DONATE = 0x89			;Donates kurzick/luxon faction to ally
+Global Const $HEADER_FACTION_DONATE = 0x87			;Donates kurzick/luxon faction to ally
 #EndRegion ;=FACTION=
 
 #Region ;=TITLE=

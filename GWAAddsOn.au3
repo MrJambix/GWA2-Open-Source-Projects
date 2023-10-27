@@ -55,9 +55,9 @@ Global Enum $LANGUAGE_English = 0, $LANGUAGE_French = 2, $LANGUAGE_German, $LANG
 Global Const $FLAG_RESET = 0x7F800000; unflagging heores
 
 
-Global $intSkillEnergy[8] = [0, 15, 5, 5, 15, 15, 5, 5]
+Global $intSkillEnergy[8] = [0, 5, 5, 10, 15, 5, 5, 5]
 ; Change the next lines to your skill casting times in milliseconds. use ~250 for shouts/stances, ~1000 for attack skills:
-Global $intSkillCastTime[8] = [1000, 750, 750, 750, 1000, 1000,  250, 1000]
+Global $intSkillCastTime[8] = [1000, 750, 750, 750, 1000, 250,  250, 1000]
 ; Change the next lines to your skill adrenaline count (1 to 8). leave as 0 for skills without adren
 Global $intSkillAdrenaline[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -313,7 +313,6 @@ Func Fight($x, $s = "enemies")
 			$targetHP = DllStructGetData(GetCurrentTarget(),'HP')
 			$TargetItem = DllStructGetData(GetCurrentTarget(),'Type')
 		Until DllStructGetData($target, 'ID') = 0 OR $distance > $x OR $DeadOnTheRun = 1 OR $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 OR $TargetIsDead = 0x0010 OR $targetHP = 0 OR $TargetItem = 0x400 OR TimerDiff($TimerToGetOut) > 240000
-		;PickupItems(-1, $x)
 	EndIf
 EndFunc
 
@@ -442,7 +441,6 @@ Func FightBug($x, $s = "enemies")
 			$targetHP = DllStructGetData(GetCurrentTarget(),'HP')
 			$TargetItem = DllStructGetData(GetCurrentTarget(),'Type')
 		Until DllStructGetData($target, 'ID') = 0 OR $distance > $x OR $DeadOnTheRun = 1 OR $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 OR $TargetIsDead = 0x0010 OR $targetHP = 0 OR $TargetItem = 0x400 OR TimerDiff($TimerToGetOut) > 30000
-		;PickupItems(-1, $x)
 	EndIf
 	If TimerDiff($TimerToGetOut) > 30000 Then
 		Return 1
@@ -461,26 +459,33 @@ EndFunc
 ; Return Value(s):	On Success - Returns $iItemsPicked (number of items picked)
 ; Author(s):		GWCA team, recoded by ddarek, thnx to The ArkanaProject
 ;=================================================================================================
-Func PickupItems($iItems = -1, $fMaxDistance = 2024)
-	Local $aItemID, $lNearestDistance, $lDistance
-	$tDeadlock = TimerInit()
-	Do
-		$aItem = GetNearestItemToAgent(-2)
-		$lDistance = @extended
+Func PickupItems($iItems = -1, $fMaxDistance = 3036)
+    Local $aItemID, $lNearestDistance, $lDistance, $iItems_Picked = 0
+    $tDeadlock = TimerInit()
 
-		$aItemID = DllStructGetData($aItem, 'ID')
-		If $aItemID = 0 Or $lDistance > $fMaxDistance Or TimerDiff($tDeadlock) > 30000 Then ExitLoop
-		PickUpItem($aItem)
-		$tDeadlock2 = TimerInit()
-		Do
-			Sleep(500)
-			If TimerDiff($tDeadlock2) > 5000 Then ContinueLoop 2
-		Until DllStructGetData(GetAgentById($aItemID), 'ID') == 0
-		$iItems_Picked += 1
-		UpdateStatus("Picked total " & $iItems_Picked & " items")
-	Until $iItems_Picked = $iItems
-	Return $iItems_Picked
+    Do
+        $aItem = GetNearestItemToAgent(-2)
+        $lDistance = @extended
+        $aItemID = DllStructGetData($aItem, 'ID')
+        $aModelID = DllStructGetData($aItem, 'ModelID') 
+
+        If ($aModelID <> 25410 And $aModelID <> 25416) Or $aItemID = 0 Or $lDistance > $fMaxDistance Or TimerDiff($tDeadlock) > 30000 Then 
+            ExitLoop
+        Else
+            PickUpItem($aItem)
+            $iItems_Picked += 1
+        EndIf
+
+        $tDeadlock2 = TimerInit()
+        Do
+            Sleep(500)
+            If TimerDiff($tDeadlock2) > 5000 Then ContinueLoop 2
+        Until DllStructGetData(GetAgentById($aItemID), 'ID') == 0
+
+    Until $iItems_Picked = $iItems
+    Return $iItems_Picked
 EndFunc   ;==>PickupItems
+
 
 ;=================================================================================================
 ; Function:			GetNearestItemToAgent($aAgent)
@@ -531,26 +536,7 @@ Local $lNearestAgent, $lNearestDistance = 100000000
 	Return $lNearestAgent; return struct of Agent not item!
 EndFunc   ;==>GetNearestItemByModelId
 
-
-;Func GetNumberOfFoesInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
-;	Local $lDistance, $lCount = 0
-;
-;	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
-;	For $i = 1 To GetMaxAgents()
-;		$lAgentToCompare = GetAgentByID($i)
-;		If GetIsDead($lAgentToCompare) <> 0 Then ContinueLoop
-;		If DllStructGetData($lAgentToCompare, 'Allegiance') = 0x3 Then
-;			$lDistance = GetDistance($lAgentToCompare, $aAgent)
-;			If $lDistance < $fMaxDistance Then
-;				$lCount += 1
-;				;ConsoleWrite("Counts: " &$lCount & @CRLF)
-;			EndIf
-;		EndIf
-;	Next
-;	Return $lCount
-;EndFunc   ;==>GetNumberOfFoesInRangeOfAgent
-
-Func GetNumberOfAlliesInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
+Func GetNumberOfAlliesInRangeOfAgent($aAgent = -2, $fMaxDistance = 3036)
 	Local $lDistance, $lCount = 0
 
 	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
@@ -568,7 +554,7 @@ Func GetNumberOfAlliesInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
 	Return $lCount
 EndFunc   ;==>GetNumberOfAlliesInRangeOfAgent
 
-Func GetNumberOfItemsInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
+Func GetNumberOfItemsInRangeOfAgent($aAgent = -2, $fMaxDistance = 3036)
 	Local $lDistance, $lCount = 0
 
 	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
@@ -602,8 +588,6 @@ Func GetNearestEnemyToCoords($aX, $aY)
 
 	Return $lNearestAgent
 EndFunc   ;==>GetNearestAgentToCoords
-
-
 ;=================================================================================================
 ; Function:			Ident($bagIndex = 1, $numOfSlots)
 ; Description:		Idents items in $bagIndex, NEEDS ANY ID kit in inventory!

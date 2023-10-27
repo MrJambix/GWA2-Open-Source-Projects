@@ -31,6 +31,11 @@ Global $SS_LB_Map = 444
 Global $Kurzick_Map = 210
 Global $Luxon_Map = 200
 
+;=================================================
+;=================================================
+;=================================================
+;=================================================
+
 While 1
 	If $boolrun = true Then
 		If $NumberRun = 0 Then ;first run
@@ -1200,31 +1205,23 @@ Func VQDeldrimor();
 	GoNearestNPCToCoords(-16025, -10702)
 	RndSleep(500)
 
-	Do
-		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Ennemy near door"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15396, -10850, $enemy)
-		If $DeadOnTheRun = 0 Then Moveto(-13970, -9719)
-		If $DeadOnTheRun = 0 Then Moveto(-13047, -10683)
-		If $DeadOnTheRun = 0 Then $enemy = "Angry Snowman"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-10097, -11373, $enemy)
-		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(-10097, -11373)
+Do
+	$DeadOnTheRun = 0
+	If $DeadOnTheRun = 0 Then $enemy = "Ennemy near door"
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-15396, -10850, $enemy)
+	If $DeadOnTheRun = 0 Then Moveto(-13970, -9719)
+	If $DeadOnTheRun = 0 Then Moveto(-13047, -10683)
+	If $DeadOnTheRun = 0 Then $enemy = "Angry Snowman"
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10097, -11373, $enemy)
+	If $DeadOnTheRun = 1 Then RndSlp(15000)
+Until CheckArea(-10097, -11373)
 
 $enemy = "Grabbing Key"
 
 ; Move to the key's location
 Moveto(-9570.54, -10958.44)
-RndSleep(5000)
-PickupItems(-1, 15000)
-
-Moveto(-9713.97, -10956.16)
-RndSleep(5000)
-PickupItems(-1, 15000)
-
-Moveto(-9674.30, -10936.60)
-RndSleep(5000)
-PickupItems(-1, 15000)
+PickupItems(-1, 3036)
+RndSlp(1000)
 
 ; Continue with the rest of your script
 CurrentAction("Going to open the door")
@@ -1251,19 +1248,9 @@ Do
 Until CheckArea(-13362, -17430)
 
 CurrentAction("Grabbing boss key")
-Moveto(-13096.48, -17746.39)
-RndSleep(5000)
-PickupItems(-1, 15000)
-
-Moveto(-13272.14, -17647.64)
-RndSleep(5000)
-PickupItems(-1, 15000)
-
-Moveto(-13405.13, -17465.41)
-RndSleep(5000)
-PickupItems(-1, 15000)
-
-
+Moveto(-13472.00, -17429.53)
+PickupItems(-1, 3036)
+RndSlp(1000)
 
 CurrentAction("Going to open door")
 Moveto(-11215, -18002)
@@ -1278,6 +1265,7 @@ Moveto(-9618, -19271)
 CurrentAction("Move to chest")
 Moveto(-7856, -19136)
 Moveto(-7730, -18648)
+moveto(-7594.00, -18657.00)
 
 	CurrentAction("Waiting on Chest")
 	local $chestspawn = False
