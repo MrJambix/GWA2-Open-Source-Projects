@@ -3,9 +3,10 @@
 Following are being updated:
 TitleBot
 
-1. Luxon/Kurzick
+1. Asura 
 2. Deldrimor
 3. Norn
+4. Luxon
 
 Custom Changes to GWA2 Headers/CommonFunctions/Addons
 
