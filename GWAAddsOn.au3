@@ -402,12 +402,10 @@ Func FightBug($x, $s = "enemies")
 								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
 							Until (DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x3 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge3') > 0 ;--
 						Else
-							If $i > 5 Then
 								UseSkill($useSkill, $target)
 								RndSlp($intSkillCastTime[$i+1]+500);-- +1 geadded
 							EndIf
 						EndIf
-					EndIf
 					if $i = $totalskills then $i = -1 ; change -1
 					If $DeadOnTheRun = 1 Then ExitLoop
 				Next
@@ -958,15 +956,5 @@ Func GoNearestNPCToCoords($aX, $aY)
 	RndSleep(500)
 EndFunc
 
-;Func CheckArea($aX, $aY, $n = 200)
-;	$ret = False
-;	$pX = DllStructGetData(GetAgentByID(-2), "X")
-;	$pY = DllStructGetData(GetAgentByID(-2), "Y")
-;
-;	If ($pX < $aX + $n) And ($pX > $aX - $n) And ($pY < $aY + $n) And ($pY > $aY - $n) Then
-;		$ret = True
-;	EndIf
-;	Return $ret
-;EndFunc
 
 #EndRegion Misc

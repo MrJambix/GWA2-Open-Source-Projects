@@ -184,7 +184,7 @@ Func TurnInFactionLuxon()
 	If $Bool_Donate Then
 		Do
 			CurrentAction("Donate")
-			DonateFaction("luxon")
+			DonateFaction(1)
 			RndSleep(500)
 		Until GetLuxonFaction() < 5000
 	Else
