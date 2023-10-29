@@ -103,7 +103,7 @@ Global $Array_Store_ModelIDs460[147] = [474, 476, 486, 522, 525, 811, 819, 822, 
 Opt("GUIOnEventMode", 1)
 
 #Region ### START Koda GUI section ### Form=c:\bot\reputation farming\title package\form1.kxf
-global $Form1_1 = GUICreate("Globeul Title Package (mod)", 321, 283, -1, -1)
+global $Form1_1 = GUICreate("Globeul -Title Package updated", 321, 283, -1, -1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 global $Start = GUICtrlCreateButton("Start", 264, 248, 51, 25)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
