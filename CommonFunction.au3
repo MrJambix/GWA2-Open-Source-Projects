@@ -10,11 +10,7 @@ Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_St
 
 Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
 
-Global Const $RARITY_Gold = 2624
-Global Const $RARITY_Purple = 2626
-Global Const $RARITY_Blue = 2623
-Global Const $RARITY_White = 2621
-Global Const $PickUpAll = False
+
 
 Global $intSkillEnergy[8] = [1, 15, 5, 5, 10, 15, 10, 5]
 ; Change the next lines to your skill casting times in milliseconds. use ~250 for shouts/stances, ~1000 for attack skills:
@@ -23,82 +19,6 @@ Global $intSkillCastTime[8] = [1000, 1250, 1250, 1250, 1250, 1000,  250, 1000]
 Global $intSkillAdrenaline[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 
 Global $totalskills = 7
-
-;~ Dungeon Key
-Global Const $TYPE_KEY = 18
-
-;~ Charr Carving
-Global Const $Carving = 27052
-
-;~ All Weapon mods
-Global $Weapon_Mod_Array[25] = [893, 894, 895, 896, 897, 905, 906, 907, 908, 909, 6323, 6331, 15540, 15541, 15542, 15543, 15544, 15551, 15552, 15553, 15554, 15555, 17059, 19122, 19123]
-
-;~ General Items
-Global $General_Items_Array[6] = [2989, 2991, 2992, 5899, 5900, 22751]
-Global Const $ITEM_ID_Lockpicks = 22751
-
-;~ Dyes
-Global Const $ITEM_ID_Dyes = 146
-Global Const $ITEM_ExtraID_BlackDye = 10
-Global Const $ITEM_ExtraID_WhiteDye = 12
-
-;~ Alcohol
-Global $Alcohol_Array[19] = [910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 19172, 19173, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682]
-Global $OnePoint_Alcohol_Array[11] = [910, 5585, 6049, 6367, 6375, 15477, 19171, 19172, 19173, 22190, 28435]
-Global $ThreePoint_Alcohol_Array[7] = [2513, 6366, 24593, 30855, 31145, 31146, 35124]
-Global $FiftyPoint_Alcohol_Array[1] = [36682]
-
-;~ Party
-Global $Spam_Party_Array[5] = [6376, 21809, 21810, 21813, 36683]
-
-;~ Sweets
-Global $Spam_Sweet_Array[6] = [21492, 21812, 22269, 22644, 22752, 28436]
-
-;~ Tonics
-Global $Tonic_Party_Array[4] = [15837, 21490, 30648, 31020]
-
-;~ DR Removal
-Global $DPRemoval_Sweets[6] = [6370, 21488, 21489, 22191, 26784, 28433]
-
-;~ Special Drops
-Global $Special_Drops[7] = [5656, 18345, 21491, 37765, 21833, 28433, 28434]
-
-;~ Stupid Drops that I am not using, but in here in case you want these to add these to the CanPickUp and collect in your chest
-Global $Map_Piece_Array[4] = [24629, 24630, 24631, 24632]
-
-;~ Stackable Trophies
-Global $Stackable_Trophies_Array[1] = [27047]
-Global Const $ITEM_ID_Glacial_Stones = 27047
-
-;~ Materials
-Global $All_Materials_Array[36] = [921, 922, 923, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 948, 949, 950, 951, 952, 953, 954, 955, 956, 6532, 6533]
-Global $Common_Materials_Array[11] = [921, 925, 929, 933, 934, 940, 946, 948, 953, 954, 955]
-Global $Rare_Materials_Array[25] = [922, 923, 926, 927, 928, 930, 931, 932, 935, 936, 937, 938, 939, 941, 942, 943, 944, 945, 949, 950, 951, 952, 956, 6532, 6533]
-
-;~ Tomes
-Global $All_Tomes_Array[20] = [21796, 21797, 21798, 21799, 21800, 21801, 21802, 21803, 21804, 21805, 21786, 21787, 21788, 21789, 21790, 21791, 21792, 21793, 21794, 21795]
-Global Const $ITEM_ID_Mesmer_Tome = 21797
-
-;~ Arrays for the title spamming (Not inside this version of the bot, but at least the arrays are made for you)
-Global $ModelsAlcohol[100] = [910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682]
-Global $ModelSweetOutpost[100] = [15528, 15479, 19170, 21492, 21812, 22644, 31150, 35125, 36681]
-Global $ModelsSweetPve[100] = [22269, 22644, 28431, 28432, 28436]
-Global $ModelsParty[100] = [6368, 6369, 6376, 21809, 21810, 21813]
-
-Global $Array_pscon[39]=[910, 5585, 6366, 6375, 22190, 24593, 28435, 30855, 31145, 35124, 36682, 6376, 21809, 21810, 21813, 36683, 21492, 21812, 22269, 22644, 22752, 28436,15837, 21490, 30648, 31020, 6370, 21488, 21489, 22191, 26784, 28433, 5656, 18345, 21491, 37765, 21833, 28433, 28434]
-
-#Region Global MatsPic´s And ModelID´Select
-Global $PIC_MATS[26][2] = [["Fur Square", 941],["Bolt of Linen", 926],["Bolt of Damask", 927],["Bolt of Silk", 928],["Glob of Ectoplasm", 930],["Steel of Ignot", 949],["Deldrimor Steel Ingot", 950],["Monstrous Claws", 923],["Monstrous Eye", 931],["Monstrous Fangs", 932],["Rubies", 937],["Sapphires", 938],["Diamonds", 935],["Onyx Gemstones", 936],["Lumps of Charcoal", 922],["Obsidian Shard", 945],["Tempered Glass Vial", 939],["Leather Squares", 942],["Elonian Leather Square", 943],["Vial of Ink", 944],["Rolls of Parchment", 951],["Rolls of Vellum", 952],["Spiritwood Planks", 956],["Amber Chunk", 6532],["Jadeite Shard", 6533]]
-#EndRegion Global MatsPic´s And ModelID´Select
-
-Global $Array_Store_ModelIDs460[147] = [474, 476, 486, 522, 525, 811, 819, 822, 835, 610, 2994, 19185, 22751, 4629, 24630, 4631, 24632, 27033, 27035, 27044, 27046, 27047, 7052, 5123 _
-		, 1796, 21797, 21798, 21799, 21800, 21801, 21802, 21803, 21804, 1805, 910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682 _
-		, 6376 , 6368 , 6369 , 21809 , 21810, 21813, 29436, 29543, 36683, 4730, 15837, 21490, 22192, 30626, 30630, 30638, 30642, 30646, 30648, 31020, 31141, 31142, 31144, 1172, 15528 _
-		, 15479, 19170, 21492, 21812, 22269, 22644, 22752, 28431, 28432, 28436, 1150, 35125, 36681, 3256, 3746, 5594, 5595, 5611, 5853, 5975, 5976, 21233, 22279, 22280, 6370, 21488 _
-		, 21489, 22191, 35127, 26784, 28433, 18345, 21491, 28434, 35121, 921, 922, 923, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943 _
-		, 944, 945, 946, 948, 949, 950, 951, 952, 953, 954, 955, 956, 6532, 6533]
-
-#EndRegion Global Items
 
 Opt("GUIOnEventMode", 1)
 
@@ -145,6 +65,8 @@ GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $Gui_HM_enable = GUICtrlCreateCheckbox("HM", 168, 208, 49, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $Gui_Donate = GUICtrlCreateCheckbox("Donate", 248, 208, 57, 17)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+Global $gui_cons = GUICtrlCreateCheckbox("Cons", 248, 160, 65, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 248, 184, 60, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -306,6 +228,7 @@ func gui_eventHandler()
 			If BitAND(GUICtrlRead($Gui_HM_enable), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_HM = True
 			If BitAND(GUICtrlRead($Gui_Donate), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Donate = True
 			If BitAND(GUICtrlRead($Gui_PickUp), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_PickUp = True
+			If BitAND(GUICtrlRead($gui_cons), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_cons = True
 
 			If GUICtrlRead($txtName) = "" Then
 				MsgBox(0, "Error", "Plz enter your name in the input box")
@@ -520,18 +443,18 @@ EndFunc   ;==>GoldIs
 
 
 ; This searches for empty slots in your Storage
-Func FindEmptySlot($BagIndex)
-	Local $LItemINFO, $aSlot
-	For $aSlot = 1 To DllStructGetData(GetBAG($BagIndex), "Slots")
-		Sleep(40)
-		$LItemINFO = GetItemBySlot($BagIndex, $aSlot)
-		If DllStructGetData($LItemINFO, "ID") = 0 Then
-			SetExtended($aSlot)
-			ExitLoop
-		EndIf
-	Next
-	Return 0
-EndFunc
+;Func FindEmptySlot($BagIndex)
+;	Local $LItemINFO, $aSlot
+;	For $aSlot = 1 To DllStructGetData(GetBAG($BagIndex), "Slots")
+;		Sleep(40)
+;		$LItemINFO = GetItemBySlot($BagIndex, $aSlot)
+;		If DllStructGetData($LItemINFO, "ID") = 0 Then
+;			SetExtended($aSlot)
+;			ExitLoop
+;		EndIf
+;	Next
+;	Return 0
+;EndFunc
 
 
 
@@ -712,10 +635,10 @@ Func Fight($x, $s = "")
 	If $Bool_PickUp Then PickUpLoot()
 EndFunc   ;==>Fight
 
-Func PingSleep($msExtra = 0)
-	$ping = GetPing()
-	Sleep($ping + $msExtra)
-EndFunc   ;==>PingSleep
+;Func PingSleep($msExtra = 0)
+;	$ping = GetPing()
+;	Sleep($ping + $msExtra)
+;EndFunc   ;==>PingSleep
 
 Func FightEx($z, $s = "enemies")
 	Local $lastId = 99999, $coordinate[2], $timer
@@ -805,33 +728,33 @@ Func FightEx($z, $s = "enemies")
 	EndIf
 EndFunc   ;==>FightEx
 
-Func GoNearestNPCToCoords($x, $y)
-	Local $guy, $Me
-	Do
-		RndSleep(250)
-		$guy = GetNearestNPCToCoords($x, $y)
-	Until DllStructGetData($guy, 'Id') <> 0
-	ChangeTarget($guy)
-	RndSleep(250)
-	GoNPC($guy)
-	RndSleep(250)
-	Do
-		RndSleep(500)
-		Move(DllStructGetData($guy, 'X'), DllStructGetData($guy, 'Y'), 40)
-		RndSleep(500)
-		GoNPC($guy)
-		RndSleep(250)
-		$Me = GetAgentByID(-2)
-	Until ComputeDistance(DllStructGetData($Me, 'X'), DllStructGetData($Me, 'Y'), DllStructGetData($guy, 'X'), DllStructGetData($guy, 'Y')) < 250
-	RndSleep(1000)
-EndFunc   ;==>GoNearestNPCToCoords
+;Func GoNearestNPCToCoords($x, $y)
+;	Local $guy, $Me
+;	Do
+;		RndSleep(250)
+;		$guy = GetNearestNPCToCoords($x, $y)
+;	Until DllStructGetData($guy, 'Id') <> 0
+;	ChangeTarget($guy)
+;	RndSleep(250)
+;	GoNPC($guy)
+;	RndSleep(250)
+;	Do
+;		RndSleep(500)
+;		Move(DllStructGetData($guy, 'X'), DllStructGetData($guy, 'Y'), 40)
+;		RndSleep(500)
+;		GoNPC($guy)
+;		RndSleep(250)
+;		$Me = GetAgentByID(-2)
+;	Until ComputeDistance(DllStructGetData($Me, 'X'), DllStructGetData($Me, 'Y'), DllStructGetData($guy, 'X'), DllStructGetData($guy, 'Y')) < 250
+;	RndSleep(1000)
+;EndFunc   ;==>GoNearestNPCToCoords
 
-Func ComputeDistanceEx($x1, $y1, $x2, $y2)
-	Return Sqrt(($y2 - $y1) ^ 2 + ($x2 - $x1) ^ 2)
-	$dist = Sqrt(($y2 - $y1) ^ 2 + ($x2 - $x1) ^ 2)
-	ConsoleWrite("Distance: " & $dist & @CRLF)
-
-EndFunc   ;==>ComputeDistanceEx
+;Func ComputeDistanceEx($x1, $y1, $x2, $y2)
+;	Return Sqrt(($y2 - $y1) ^ 2 + ($x2 - $x1) ^ 2)
+;	$dist = Sqrt(($y2 - $y1) ^ 2 + ($x2 - $x1) ^ 2)
+;	ConsoleWrite("Distance: " & $dist & @CRLF)
+;
+;EndFunc   ;==>ComputeDistanceEx
 
 Func PickUpLoot()
 	Local $lAgent
@@ -896,41 +819,41 @@ Func CanPickUp($aItem)
 EndFunc   ;==>CanPickUp
 
 #Region Arrays
-Func CheckArrayPscon($lModelID)
-	For $p = 0 To (UBound($Array_pscon) -1)
-		If ($lModelID == $Array_pscon[$p]) Then Return True
-	Next
-EndFunc
+;Func CheckArrayPscon($lModelID)
+;	For $p = 0 To (UBound($Array_pscon) -1)
+;		If ($lModelID == $Array_pscon[$p]) Then Return True
+;	Next
+;EndFunc
 
-Func CheckArrayGeneralItems($lModelID)
-	For $p = 0 To (UBound($General_Items_Array) -1)
-		If ($lModelID == $General_Items_Array[$p]) Then Return True
-	Next
-EndFunc
+;Func CheckArrayGeneralItems($lModelID)
+;	For $p = 0 To (UBound($General_Items_Array) -1)
+;		If ($lModelID == $General_Items_Array[$p]) Then Return True
+;	Next
+;EndFunc
 
-Func CheckArrayWeaponMods($lModelID)
-	For $p = 0 To (UBound($Weapon_Mod_Array) -1)
-		If ($lModelID == $Weapon_Mod_Array[$p]) Then Return True
-	Next
-EndFunc
+;Func CheckArrayWeaponMods($lModelID)
+;	For $p = 0 To (UBound($Weapon_Mod_Array) -1)
+;		If ($lModelID == $Weapon_Mod_Array[$p]) Then Return True
+;	Next
+;EndFunc
 
-Func CheckArrayTomes($lModelID)
-	For $p = 0 To (UBound($All_Tomes_Array) -1)
-		If ($lModelID == $All_Tomes_Array[$p]) Then Return True
-	Next
-EndFunc
+;Func CheckArrayTomes($lModelID)
+;	For $p = 0 To (UBound($All_Tomes_Array) -1)
+;		If ($lModelID == $All_Tomes_Array[$p]) Then Return True
+;	Next
+;EndFunc
 
-Func CheckArrayMaterials($lModelID)
-	For $p = 0 To (UBound($All_Materials_Array) -1)
-		If ($lModelID == $All_Materials_Array[$p]) Then Return True
-	Next
-EndFunc
+;Func CheckArrayMaterials($lModelID)
+;	For $p = 0 To (UBound($All_Materials_Array) -1)
+;		If ($lModelID == $All_Materials_Array[$p]) Then Return True
+;	Next
+;EndFunc
 
-Func CheckArrayMapPieces($lModelID)
-	For $p = 0 To (UBound($Map_Piece_Array) -1)
-		If ($lModelID == $Map_Piece_Array[$p]) Then Return True
-	Next
-EndFunc
+;Func CheckArrayMapPieces($lModelID)
+;	For $p = 0 To (UBound($Map_Piece_Array) -1)
+;		If ($lModelID == $Map_Piece_Array[$p]) Then Return True
+;	Next
+;EndFunc
 #EndRegion Arrays
 
 ;Func CheckArea($AX, $AY)

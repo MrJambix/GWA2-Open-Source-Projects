@@ -57,6 +57,7 @@ Global Const $HEADER_INVITE_CANCEL = 0x9B	;Cancel invitation of player
 ;GAME_CMSG_PARTY_ACCEPT_INVITE 0x9B or GAME_SMSG_PARTY_JOIN_REQUEST 0x01CB
 Global Const $HEADER_INVITE_ACCEPT = 0x9A	;Accept invitation to party
 
+
 ;=TARGET (Enemies or NPC)=
 ;GAME_CMSG_TARGET_CALL 0x22
 Global Const $HEADER_CALL_TARGET = 0x21	;Calls the target without attacking (Ctrl+Shift+Space)
@@ -70,6 +71,9 @@ Global Const $HEADER_AGENT_FOLLOW = 0x31	;Follows the agent/npc. Ctrl+Click trig
 Global Const $HEADER_NPC_TALK = 0x37	;talks/goes to npc
 ;GAME_CMSG_INTERACT_ITEM 0x3E or GAME_CMSG_INTERACT_GADGET 0x50
 Global Const $HEADER_SIGNPOST_RUN = 0x4F	;Runs to signpost
+
+
+Global Const $HEADER_OPEN_CHEST = 0x0051
 
 ;=DROP=
 ;GAME_CMSG_DROP_ITEM 0x2B

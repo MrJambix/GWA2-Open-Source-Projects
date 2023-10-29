@@ -19,6 +19,10 @@ Global Const $RARITY_Blue = 2623
 Global Const $RARITY_White = 2621
 Global Const $PickUpAll = False
 
+Global $Armor_of_Salvation_item_effect = 2520
+Global $Grail_of_Might_item_effect = 2521
+Global $Essence_of_Celerity_item_effect = 2522
+
 
 ;~ Dungeon Key
 Global Const $TYPE_KEY = 18
@@ -82,6 +86,9 @@ Global $ModelsSweetPve[100] = [22269, 22644, 28431, 28432, 28436]
 Global $ModelsParty[100] = [6368, 6369, 6376, 21809, 21810, 21813]
 
 Global $Array_pscon[39]=[910, 5585, 6366, 6375, 22190, 24593, 28435, 30855, 31145, 35124, 36682, 6376, 21809, 21810, 21813, 36683, 21492, 21812, 22269, 22644, 22752, 28436,15837, 21490, 30648, 31020, 6370, 21488, 21489, 22191, 26784, 28433, 5656, 18345, 21491, 37765, 21833, 28433, 28434]
+
+
+Global $Legion = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_usealc = False, $Bool_lockpicks = False, $Bool_cons = False
 
 #Region Global MatsPic´s And ModelID´Select
 Global $PIC_MATS[26][2] = [["Fur Square", 941],["Bolt of Linen", 926],["Bolt of Damask", 927],["Bolt of Silk", 928],["Glob of Ectoplasm", 930],["Steel of Ignot", 949],["Deldrimor Steel Ingot", 950],["Monstrous Claws", 923],["Monstrous Eye", 931],["Monstrous Fangs", 932],["Rubies", 937],["Sapphires", 938],["Diamonds", 935],["Onyx Gemstones", 936],["Lumps of Charcoal", 922],["Obsidian Shard", 945],["Tempered Glass Vial", 939],["Leather Squares", 942],["Elonian Leather Square", 943],["Vial of Ink", 944],["Rolls of Parchment", 951],["Rolls of Vellum", 952],["Spiritwood Planks", 956],["Amber Chunk", 6532],["Jadeite Shard", 6533]]
@@ -219,6 +226,25 @@ Func CheckArrayMapPieces($lModelID)
 		If ($lModelID == $Map_Piece_Array[$p]) Then Return True
 	Next
 EndFunc
+
+Func UseConsets() ;Uses Consets if in inventory based on GUI checkbox and remaining effect is less than 1 minute
+	$item = GetItemByModelID(24859)
+	If (DllStructGetData($item, 'Bag') <> 0) And GetEffectTimeRemaining($Essence_of_Celerity_item_effect) < 60000 Then
+		UseItem($item)
+	EndIf
+Sleep(200)
+	$item = GetItemByModelID(24860)
+	If (DllStructGetData($item, 'Bag') <> 0) And GetEffectTimeRemaining($Armor_of_Salvation_item_effect) < 60000 Then
+		UseItem($item)
+	EndIf
+	Sleep(200)
+	$item = GetItemByModelID(24861)
+	If (DllStructGetData($item, 'Bag') <> 0) And GetEffectTimeRemaining($Grail_of_Might_item_effect) < 60000 Then
+		UseItem($item)
+	EndIf
+	Sleep(200)
+EndFunc   ;==>UseConsets
+
 #EndRegion Arrays
 
 
@@ -295,6 +321,24 @@ EndFunc   ;==>CommandHero7
 
 #Region Item related commands
 
+
+
+Func OpenChestByExtraType($ExtraType)
+		Out("Use Lockpick")
+		OpenChest()
+EndFunc   ;==>OpenChestByExtraType
+
+;~ Description: Open a chest with key.
+Func OpenChestNoLockpick()
+	Return SendPacket(0x8, $HEADER_OPEN_CHEST, 1)
+EndFunc   ;==>OpenChestNoLockpick
+
+;~ Description: Open a chest with lockpick.
+;Func OpenChest()
+;	Return SendPacket(0x8, $HEADER_OPEN_CHEST, 2)
+;EndFunc   ;==>OpenChest
+#EndRegion Chest
+
 ;=================================================================================================
 ; Function:			PickUpItems($iItems = -1, $fMaxDistance = 1012)
 ; Description:		PickUp defined number of items in defined area around default = 1012
@@ -358,23 +402,23 @@ Local $lNearestAgent, $lNearestDistance = 100000000
 EndFunc   ;==>GetNearestItemByModelId
 
 
-Func GetNumberOfFoesInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
-	Local $lDistance, $lCount = 0
-
-	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
-	For $i = 1 To GetMaxAgents()
-		$lAgentToCompare = GetAgentByID($i)
-		If GetIsDead($lAgentToCompare) <> 0 Then ContinueLoop
-		If DllStructGetData($lAgentToCompare, 'Allegiance') = 0x3 Then
-			$lDistance = GetDistance($lAgentToCompare, $aAgent)
-			If $lDistance < $fMaxDistance Then
-				$lCount += 1
-				;ConsoleWrite("Counts: " &$lCount & @CRLF)
-			EndIf
-		EndIf
-	Next
-	Return $lCount
-EndFunc   ;==>GetNumberOfFoesInRangeOfAgent
+;Func GetNumberOfFoesInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
+;	Local $lDistance, $lCount = 0
+;
+;	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
+;	For $i = 1 To GetMaxAgents()
+;		$lAgentToCompare = GetAgentByID($i)
+;		If GetIsDead($lAgentToCompare) <> 0 Then ContinueLoop
+;		If DllStructGetData($lAgentToCompare, 'Allegiance') = 0x3 Then
+;			$lDistance = GetDistance($lAgentToCompare, $aAgent)
+;			If $lDistance < $fMaxDistance Then
+;				$lCount += 1
+;				;ConsoleWrite("Counts: " &$lCount & @CRLF)
+;			EndIf
+;		EndIf
+;	Next
+;	Return $lCount
+;EndFunc   ;==>GetNumberOfFoesInRangeOfAgent
 
 Func GetNumberOfAlliesInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
 	Local $lDistance, $lCount = 0

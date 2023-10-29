@@ -5,8 +5,7 @@
 #include <StaticConstants.au3>
 #include <WindowsConstants.au3>
 #include <GuiComboBox.au3>
-;#include "GWA2.au3"
-;#include "AddsOn.au3"
+#include "GWAAddsOn.au3"
 #include "CommonFunction.au3"
 
 global $DeadOnTheRun = 0
@@ -32,6 +31,35 @@ Global $Vanguard_Map = 647
 Global $SS_LB_Map = 444
 Global $Kurzick_Map = 210
 Global $Luxon_Map = 200
+
+Global $OpenedChestAgentIDs[1]
+Global $aChestID[9000]
+     $aChestID[65] = "Krytan Chest"
+     $aChestID[66] = "Elonian Chest"
+     $aChestID[67] = "Maguuma Chest"
+     $aChestID[68] = "Phantom Chest"
+     $aChestID[69] = "Ascalonian Chest"
+	 $aChestID[70] = "Miners Chest"
+     $aChestID[71] = "Steel Chest"
+     $aChestID[72] = "Shiverpeak Chest"
+     $aChestID[73] = "Darkstone Chest"
+	 $aChestID[74] = "Obsidian Chest"
+	 $aChestID[4576] = "Forbidden Chest"
+     $aChestID[4577] = "Kurzick Chest"
+	 $aChestID[4578] = "Stoneroot Chest"
+     $aChestID[4579] = "Shing Jea Chest"
+	 $aChestID[4580] = "Luxon Chest"
+	 $aChestID[4581] = "Deep Jade Chest"
+     $aChestID[4582] = "Canthan Chest"
+	 $aChestID[6061] = "Ancient Elonian Chest"
+     $aChestID[6062] = "Istani Chest"
+	 $aChestID[6063] = "Vabbi Chest"
+     $aChestID[6064] = "Kournan Chest"
+     $aChestID[6065] = "Margonite Chest"
+     $aChestID[7053] = "Demonic Chest"
+	 $aChestID[8141] = "Locked Chest"
+
+
 
 While 1
 	If $boolrun = true Then
@@ -415,13 +443,51 @@ Func SSpoint()
 	GUICtrlSetData($Pt_SS, $point_earn)
 EndFunc
 
+Func CheckForChest($chestrun = False)
+	Local $AgentArray, $lAgent, $lExtraType
+	Local $ChestFound = False
+	If GetIsDead(-2) Then Return
+	$AgentArray = GetAgentArraySorted(0x200)   ;0x200 = type: static
+	Out("Looking for chests")
+	For $i = 0 To UBound($AgentArray) - 1    ;there might be multiple chests in range
+		$lAgent = GetAgentByID($AgentArray[$i][0])
+		$lType = DllStructGetData($lAgent, 'Type')
+		$lExtraType = DllStructGetData($lAgent, 'ExtraType')
+		If $lType <> 512 Then ContinueLoop
+		If $aChestID = "" Then ContinueLoop
+		If _ArraySearch($OpenedChestAgentIDs, $AgentArray[$i][0]) == -1 Then
+			If @error <> 6 Then ContinueLoop
+			If $OpenedChestAgentIDs[0] = "" Then    ;dirty fix: blacklist chests that were opened before
+				$OpenedChestAgentIDs[0] = $AgentArray[$i][0]
+			Else
+				_ArrayAdd($OpenedChestAgentIDs, $AgentArray[$i][0])
+			EndIf
+			$ChestFound = True
+			Out("Find " & $aChestID)
+			ExitLoop
+		EndIf
+	Next
+	If Not $ChestFound Then Return
+	Out("opening " & $aChestID)
+	ChangeTarget($lAgent)
+	GoSignpost($lAgent)
+	OpenChestByExtraType($aChestID)
+	Sleep(GetPing() + 500)
+	$AgentArray = GetAgentArraySorted(0x400)    ;0x400 = type: item
+	ChangeTarget($AgentArray[0][0])    ;in case you watch the bot running you can see what dropped immed
+		PickupLootEx(3500)
+EndFunc   ;==>CheckForChest
+
 Func VQLuxon() ;
+
 	CurrentAction("Taking blessing")
 	$deadlock = 0
+	
+	if $Bool_cons then  
+		UseConsets()
+	EndIf
 
-		GoNearestNPCToCoords(-8394, -9801)
-		;Dialog(0x83)
-;	Sleep(1000)
+	GoNearestNPCToCoords(-8394, -9801)
 	Dialog(0x85)
 	Sleep(1000)
 	Dialog(0x86)
@@ -521,12 +587,17 @@ Func VQLuxon() ;
 EndFunc
 
 Func VQVanguard();
+	
 	$DeadOnTheRun = 0
 	CurrentAction("Taking Blessing")
 	GoNearestNPCToCoords(-14903, 11023)
 	Sleep(1000)
 	Dialog(0x84)
 	Sleep(1000)
+	
+	if $Bool_cons then  
+		UseConsets()
+	EndIf
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
 	If $DeadOnTheRun = 0 Then MoveTo(-12373, 12899)
@@ -681,9 +752,15 @@ Func VQVanguard();
 EndFunc
 
 Func VQSS();
+
 	CurrentAction("Taking blessing")
 
 	$deadlock = 0
+
+	if $Bool_cons then  
+		UseConsets()
+	EndIf
+
 
 	GoNearestNPCToCoords(15773, -15302)
 	Sleep(1000)
@@ -740,9 +817,15 @@ Func VQSS();
 EndFunc
 
 Func VQSSLB();
+
 	CurrentAction("Taking blessing")
 
 	$deadlock = 0
+
+	if $Bool_cons then  
+		UseConsets()
+	EndIf
+
 
 	CurrentAction("Taking Blessing")
 	GoToNPC(GetNearestNPCToCoords(-704, 15988))
@@ -824,9 +907,15 @@ Func VQSSLB();
 EndFunc
 
 Func VQNorn();
+	
 	CurrentAction("Taking blessing")
 	MoveTo(-2034, -4512)
 	$deadlock = 0
+
+	if $Bool_cons then  
+		UseConsets()
+	EndIf
+
 
 	GoNearestNPCToCoords(-2034, -4512)
 	RndSleep(1000)
@@ -1001,6 +1090,10 @@ Func VQKurzick();
 
 	$deadlock = 0
 
+	if $Bool_cons then  
+		UseConsets()
+	EndIf
+
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(-12909, 15616)
 	Dialog(0x81)
@@ -1168,15 +1261,20 @@ Func VQKurzick();
 EndFunc
 
 Func VQDeldrimor();
+	
 	CurrentAction("Taking blessing")
 
 	$deadlock = 0
+	if $Bool_cons then  
+		UseConsets()
+	EndIf
+
 
 	GoNearestNPCToCoords(-14103, 15457)
 	RndSleep(1000)
 	Dialog(0x00000084)
 	RndSleep(1000)
-
+	
 	Do
 		$DeadOnTheRun = 0
 		If $DeadOnTheRun = 0 Then $enemy = "Snowmen at begining"
@@ -1354,6 +1452,10 @@ Func VQAsura();
 	Dialog(0x85)
 	Sleep(5000)
 	$DeadOnTheRun = 0
+	
+	if $Bool_cons then  
+		UseConsets()
+	EndIf
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
 	If $DeadOnTheRun = 0 Then MoveTo(16722, 11774)
