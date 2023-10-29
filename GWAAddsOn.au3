@@ -1,10 +1,5 @@
 #include-once
-#RequireAdmin
-#include "GWA2_Headers.au3"
 #include <Array.au3>
-;#include "GWA².au3"
-#include "GWA2.au3"
-
 
 ;GENERAL THNX to miracle444 for his work with GWA2
 
@@ -17,7 +12,89 @@
 ; Return Value(s):
 ; Author(s):		GWCA team
 ;=================================================================================================
-Global Enum $RARITY_White = 0x3D, $RARITY_Blue = 0x3F, $RARITY_Purple = 0x42, $RARITY_Gold = 0x40, $RARITY_Green = 0x43
+#Region Global Items
+Global Const $RARITY_Gold = 2624
+Global Const $RARITY_Purple = 2626
+Global Const $RARITY_Blue = 2623
+Global Const $RARITY_White = 2621
+Global Const $PickUpAll = False
+
+
+;~ Dungeon Key
+Global Const $TYPE_KEY = 18
+
+;~ Charr Carving
+Global Const $Carving = 27052 
+
+;~ All Weapon mods
+Global $Weapon_Mod_Array[25] = [893, 894, 895, 896, 897, 905, 906, 907, 908, 909, 6323, 6331, 15540, 15541, 15542, 15543, 15544, 15551, 15552, 15553, 15554, 15555, 17059, 19122, 19123]
+
+;~ General Items
+Global $General_Items_Array[6] = [2989, 2991, 2992, 5899, 5900, 22751]
+Global Const $ITEM_ID_Lockpicks = 22751
+
+;~ Dyes
+Global Const $ITEM_ID_Dyes = 146
+Global Const $ITEM_ExtraID_BlackDye = 10
+Global Const $ITEM_ExtraID_WhiteDye = 12
+
+;~ Alcohol
+Global $Alcohol_Array[19] = [910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 19172, 19173, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682]
+Global $OnePoint_Alcohol_Array[11] = [910, 5585, 6049, 6367, 6375, 15477, 19171, 19172, 19173, 22190, 28435]
+Global $ThreePoint_Alcohol_Array[7] = [2513, 6366, 24593, 30855, 31145, 31146, 35124]
+Global $FiftyPoint_Alcohol_Array[1] = [36682]
+
+;~ Party
+Global $Spam_Party_Array[5] = [6376, 21809, 21810, 21813, 36683]
+
+;~ Sweets
+Global $Spam_Sweet_Array[6] = [21492, 21812, 22269, 22644, 22752, 28436]
+
+;~ Tonics
+Global $Tonic_Party_Array[4] = [15837, 21490, 30648, 31020]
+
+;~ DR Removal
+Global $DPRemoval_Sweets[6] = [6370, 21488, 21489, 22191, 26784, 28433]
+
+;~ Special Drops
+Global $Special_Drops[7] = [5656, 18345, 21491, 37765, 21833, 28433, 28434]
+
+;~ Stupid Drops that I am not using, but in here in case you want these to add these to the CanPickUp and collect in your chest
+Global $Map_Piece_Array[4] = [24629, 24630, 24631, 24632]
+
+;~ Stackable Trophies
+Global $Stackable_Trophies_Array[1] = [27047]
+Global Const $ITEM_ID_Glacial_Stones = 27047
+
+;~ Materials
+Global $All_Materials_Array[36] = [921, 922, 923, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 948, 949, 950, 951, 952, 953, 954, 955, 956, 6532, 6533]
+Global $Common_Materials_Array[11] = [921, 925, 929, 933, 934, 940, 946, 948, 953, 954, 955]
+Global $Rare_Materials_Array[25] = [922, 923, 926, 927, 928, 930, 931, 932, 935, 936, 937, 938, 939, 941, 942, 943, 944, 945, 949, 950, 951, 952, 956, 6532, 6533]
+
+;~ Tomes
+Global $All_Tomes_Array[20] = [21796, 21797, 21798, 21799, 21800, 21801, 21802, 21803, 21804, 21805, 21786, 21787, 21788, 21789, 21790, 21791, 21792, 21793, 21794, 21795]
+Global Const $ITEM_ID_Mesmer_Tome = 21797
+
+;~ Arrays for the title spamming (Not inside this version of the bot, but at least the arrays are made for you)
+Global $ModelsAlcohol[100] = [910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682]
+Global $ModelSweetOutpost[100] = [15528, 15479, 19170, 21492, 21812, 22644, 31150, 35125, 36681]
+Global $ModelsSweetPve[100] = [22269, 22644, 28431, 28432, 28436]
+Global $ModelsParty[100] = [6368, 6369, 6376, 21809, 21810, 21813]
+
+Global $Array_pscon[39]=[910, 5585, 6366, 6375, 22190, 24593, 28435, 30855, 31145, 35124, 36682, 6376, 21809, 21810, 21813, 36683, 21492, 21812, 22269, 22644, 22752, 28436,15837, 21490, 30648, 31020, 6370, 21488, 21489, 22191, 26784, 28433, 5656, 18345, 21491, 37765, 21833, 28433, 28434]
+
+#Region Global MatsPic´s And ModelID´Select
+Global $PIC_MATS[26][2] = [["Fur Square", 941],["Bolt of Linen", 926],["Bolt of Damask", 927],["Bolt of Silk", 928],["Glob of Ectoplasm", 930],["Steel of Ignot", 949],["Deldrimor Steel Ingot", 950],["Monstrous Claws", 923],["Monstrous Eye", 931],["Monstrous Fangs", 932],["Rubies", 937],["Sapphires", 938],["Diamonds", 935],["Onyx Gemstones", 936],["Lumps of Charcoal", 922],["Obsidian Shard", 945],["Tempered Glass Vial", 939],["Leather Squares", 942],["Elonian Leather Square", 943],["Vial of Ink", 944],["Rolls of Parchment", 951],["Rolls of Vellum", 952],["Spiritwood Planks", 956],["Amber Chunk", 6532],["Jadeite Shard", 6533]]
+#EndRegion Global MatsPic´s And ModelID´Select
+
+Global $Array_Store_ModelIDs460[147] = [474, 476, 486, 522, 525, 811, 819, 822, 835, 610, 2994, 19185, 22751, 4629, 24630, 4631, 24632, 27033, 27035, 27044, 27046, 27047, 7052, 5123 _
+		, 1796, 21797, 21798, 21799, 21800, 21801, 21802, 21803, 21804, 1805, 910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682 _
+		, 6376 , 6368 , 6369 , 21809 , 21810, 21813, 29436, 29543, 36683, 4730, 15837, 21490, 22192, 30626, 30630, 30638, 30642, 30646, 30648, 31020, 31141, 31142, 31144, 1172, 15528 _
+		, 15479, 19170, 21492, 21812, 22269, 22644, 22752, 28431, 28432, 28436, 1150, 35125, 36681, 3256, 3746, 5594, 5595, 5611, 5853, 5975, 5976, 21233, 22279, 22280, 6370, 21488 _
+		, 21489, 22191, 35127, 26784, 28433, 18345, 21491, 28434, 35121, 921, 922, 923, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943 _
+		, 944, 945, 946, 948, 949, 950, 951, 952, 953, 954, 955, 956, 6532, 6533]
+
+#EndRegion Global Items
 
 Global Enum $BAG_Backpack = 1, $BAG_BeltPouch, $BAG_Bag1, $BAG_Bag2, $BAG_EquipmentPack, $BAG_UnclaimedItems = 7, $BAG_Storage1, $BAG_Storage2, _
 		$BAG_Storage3, $BAG_Storage4, $BAG_StorageAnniversary, $BAG_Storage5, $BAG_Storage6, $BAG_Storage7, $BAG_Storage8
@@ -27,7 +104,6 @@ Global Enum $HERO_Norgu = 1, $HERO_Goren, $HERO_Tahlkora, $HERO_MasterOfWhispers
 		$HERO_Livia = 21, $HERO_Hayda, $HERO_Kahmu, $HERO_Gwen, $HERO_Xandra, $HERO_Vekk, $HERO_Ogden
 Global Enum $HEROMODE_Fight, $HEROMODE_Guard, $HEROMODE_Avoid
 
-Global Enum $DYE_Blue = 2, $DYE_Green, $DYE_Purple, $DYE_Red, $DYE_Yellow, $DYE_Brown, $DYE_Orange, $DYE_Silver, $DYE_Black, $DYE_Gray, $DYE_White
 
 Global Enum $ATTRIB_FastCasting, $ATTRIB_IllusionMagic, $ATTRIB_DominationMagic, $ATTRIB_InspirationMagic, _
 		$ATTRIB_BloodMagic, $ATTRIB_DeathMagic, $ATTRIB_SoulReaping, $ATTRIB_Curses, _
@@ -54,10 +130,12 @@ Global Enum $LANGUAGE_English = 0, $LANGUAGE_French = 2, $LANGUAGE_German, $LANG
 
 Global Const $FLAG_RESET = 0x7F800000; unflagging heores
 
+Global $DroknardIsHere = 0
 
-Global $intSkillEnergy[8] = [0, 5, 5, 10, 15, 5, 5, 5]
+
+Global $intSkillEnergy[8] = [1, 15, 5, 5, 10, 15, 10, 5]
 ; Change the next lines to your skill casting times in milliseconds. use ~250 for shouts/stances, ~1000 for attack skills:
-Global $intSkillCastTime[8] = [1000, 750, 750, 750, 1000, 250,  250, 1000]
+Global $intSkillCastTime[8] = [1000, 1250, 1250, 1250, 1250, 1000,  250, 1000]
 ; Change the next lines to your skill adrenaline count (1 to 8). leave as 0 for skills without adren
 Global $intSkillAdrenaline[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -105,7 +183,43 @@ Global $lItemModStructSize = DllStructGetSize($lItemModStruct)
 
 
 
+#Region Arrays
+Func CheckArrayPscon($lModelID)
+	For $p = 0 To (UBound($Array_pscon) -1)
+		If ($lModelID == $Array_pscon[$p]) Then Return True
+	Next
+EndFunc
 
+Func CheckArrayGeneralItems($lModelID)
+	For $p = 0 To (UBound($General_Items_Array) -1)
+		If ($lModelID == $General_Items_Array[$p]) Then Return True
+	Next
+EndFunc
+
+Func CheckArrayWeaponMods($lModelID)
+	For $p = 0 To (UBound($Weapon_Mod_Array) -1)
+		If ($lModelID == $Weapon_Mod_Array[$p]) Then Return True
+	Next
+EndFunc
+
+Func CheckArrayTomes($lModelID)
+	For $p = 0 To (UBound($All_Tomes_Array) -1)
+		If ($lModelID == $All_Tomes_Array[$p]) Then Return True
+	Next
+EndFunc
+
+Func CheckArrayMaterials($lModelID)
+	For $p = 0 To (UBound($All_Materials_Array) -1)
+		If ($lModelID == $All_Materials_Array[$p]) Then Return True
+	Next
+EndFunc
+
+Func CheckArrayMapPieces($lModelID)
+	For $p = 0 To (UBound($Map_Piece_Array) -1)
+		If ($lModelID == $Map_Piece_Array[$p]) Then Return True
+	Next
+EndFunc
+#EndRegion Arrays
 
 
 #Region H&H
@@ -174,254 +288,11 @@ Func CommandHero7($aX = 0x7F800000, $aY = 0x7F800000)
 	SendPacket(0x14, $HEADER_HERO_PLACE_FLAG, MEMORYREAD($lHeroStruct[1] + 0xDC), $aX, $aY, 0)
 EndFunc   ;==>CommandHero7
 
-Func Fight($x, $s = "enemies")
-
-	ChangeWeaponSet(2)
-	If $DeadOnTheRun = 0 Then
-		Local $TimerToGetOut = TimerInit()
-		Do
-			If $DeadOnTheRun = 0 Then $useSkill = -1
-			If $DeadOnTheRun = 0 Then $target = GetNearestEnemyToAgent(-2)
-			;$target = GetNearestEnemyToAgent(GetHeroID(7))
-			$distance = GetDistance($target, -2)
-			If DllStructGetData($target, 'ID') <> 0 AND $distance < $x AND $DeadOnTheRun = 0 Then
-				If $DeadOnTheRun = 0 Then ChangeTarget($target)
-				If $DeadOnTheRun = 0 Then RndSlp(150)
-				If GetAgentName($target) = "Khabuus" AND $DeadOnTheRun = 0 Then
-					If $DeadOnTheRun = 0 Then TargetNextEnemy()
-					If $DeadOnTheRun = 0 Then RndSlp(150)
-					If $DeadOnTheRun = 0 Then $target = GetCurrentTarget()
-					If $DeadOnTheRun = 0 Then ChangeTarget($target)
-					If $DeadOnTheRun = 0 Then RndSlp(150)
-				EndIf
-
-				If $DeadOnTheRun = 0 Then CallTarget($target)
-				If $DeadOnTheRun = 0 Then RndSlp(150)
-				If $DeadOnTheRun = 0 Then Attack($target)
-				If $DeadOnTheRun = 0 Then RndSlp(150)
-			ElseIf DllStructGetData($target, 'ID') = 0 OR $distance > $x OR $DeadOnTheRun = 1 Then
-				exitloop
-			EndIf
-			If $DeadOnTheRun = 0 Then
-
-				For $i = 0 To $totalskills
-
-					$targetHP = DllStructGetData(GetCurrentTarget(),'HP')
-					if $targetHP = 0 then ExitLoop
-
-					$distance = GetDistance($target, -2)
-					if $distance > $x then ExitLoop
-
-					$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-					if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-
-					$TargetIsDead = DllStructGetData(GetCurrentTarget(), 'Effects')
-					If $TargetIsDead = 0x0010 Then ExitLoop
-
-					$TargetItem = DllStructGetData(GetCurrentTarget(),'Type')
-					if $TargetItem = 0x400 then ExitLoop
-
-					$energy = GetEnergy(-2)
-					$recharge = DllStructGetData(GetSkillBar(), "Recharge" & $i+1)
-					$adrenaline = DllStructGetData(GetSkillBar(), "Adrenaline" & $i+1)
-					;Update($s & " - Fight!")
-					If $recharge = 0 And $energy >= $intSkillEnergy[$i] And $adrenaline >= ($intSkillAdrenaline[$i]*25 - 25) Then
-						$useSkill = $i + 1
-						;PingSleep(250)
-						$variabletosort = 0
-						;UseSkill($useSkill, $target)
-						If $i = 0 Then
-							Do
-								$energy = GetEnergy(-2)
-								If $energy >= $intSkillEnergy[$i] Then
-									UseSkill($useSkill, $target)
-									RndSlp(600)
-								EndIf
-								rndslp(200)
-								$variabletosort = $variabletosort + 1
-								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
-								if GetDistance($target, -2) > $x then ExitLoop
-								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
-							Until (DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x1 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge1') > 0;--
-						ElseIf $i = 1 Then
-							Do
-								$energy = GetEnergy(-2)
-								If $energy >= $intSkillEnergy[$i] Then
-									UseSkill($useSkill, $target)
-									RndSlp(600)
-								EndIf
-								rndslp(200)
-								$variabletosort = $variabletosort + 1
-								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
-								if GetDistance($target, -2) > $x then ExitLoop
-								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
-							Until(DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x2 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge2') > 0 ;--
-						ElseIf $i = 2 Then
-							Do
-								$energy = GetEnergy(-2)
-								If $energy >= $intSkillEnergy[$i] Then
-									UseSkill($useSkill, $target)
-									RndSlp(600)
-								EndIf
-								rndslp(200)
-								$variabletosort = $variabletosort + 1
-								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
-								if GetDistance($target, -2) > $x then ExitLoop
-								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
-							Until (DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x3 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge3') > 0 ;--
-						Else
-							If $i > 5 And $i < 7 Then
-								UseSkill($useSkill, $target)
-								RndSlp($intSkillCastTime[$i+1]+500); -- +1 added
-							EndIf
-						EndIf
-					EndIf
-					if $i = $totalskills then $i = -1 ; change -1
-					If $DeadOnTheRun = 1 Then ExitLoop
-				Next
-			EndIf
-			$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-			$TargetIsDead = DllStructGetData(GetCurrentTarget(), 'Effects')
-			$targetHP = DllStructGetData(GetCurrentTarget(),'HP')
-			$TargetItem = DllStructGetData(GetCurrentTarget(),'Type')
-		Until DllStructGetData($target, 'ID') = 0 OR $distance > $x OR $DeadOnTheRun = 1 OR $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 OR $TargetIsDead = 0x0010 OR $targetHP = 0 OR $TargetItem = 0x400 OR TimerDiff($TimerToGetOut) > 240000
-	EndIf
-EndFunc
 
 
-Func FightBug($x, $s = "enemies")
-	ChangeWeaponSet(2)
-	If $DeadOnTheRun = 0 Then
-		Local $TimerToGetOut = TimerInit()
-		Do
-			If $DeadOnTheRun = 0 Then $useSkill = -1
-			If $DeadOnTheRun = 0 Then $target = GetNearestEnemyToAgent(-2)
-			;$target = GetNearestEnemyToAgent(GetHeroID(7))
-			$distance = GetDistance($target, -2)
-			If DllStructGetData($target, 'ID') <> 0 AND $distance < $x AND $DeadOnTheRun = 0 Then
-				If $DeadOnTheRun = 0 Then ChangeTarget($target)
-				If $DeadOnTheRun = 0 Then RndSlp(150)
-				If GetAgentName($target) = "Khabuus" AND $DeadOnTheRun = 0 Then
-					If $DeadOnTheRun = 0 Then TargetNextEnemy()
-					If $DeadOnTheRun = 0 Then RndSlp(150)
-					If $DeadOnTheRun = 0 Then $target = GetCurrentTarget()
-					If $DeadOnTheRun = 0 Then ChangeTarget($target)
-					If $DeadOnTheRun = 0 Then RndSlp(150)
-				EndIf
+#Region Action-related commands
 
-				If $DeadOnTheRun = 0 Then CallTarget($target)
-				If $DeadOnTheRun = 0 Then RndSlp(150)
-				If $DeadOnTheRun = 0 Then Attack($target)
-				If $DeadOnTheRun = 0 Then RndSlp(150)
-			ElseIf DllStructGetData($target, 'ID') = 0 OR $distance > $x OR $DeadOnTheRun = 1 Then
-				exitloop
-			EndIf
-			If $DeadOnTheRun = 0 Then
 
-				For $i = 0 To $totalskills
-
-					$targetHP = DllStructGetData(GetCurrentTarget(),'HP')
-					if $targetHP = 0 then ExitLoop
-
-					$distance = GetDistance($target, -2)
-					if $distance > $x then ExitLoop
-
-					$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-					if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-
-					$TargetIsDead = DllStructGetData(GetCurrentTarget(), 'Effects')
-					If $TargetIsDead = 0x0010 Then ExitLoop
-
-					$TargetItem = DllStructGetData(GetCurrentTarget(),'Type')
-					if $TargetItem = 0x400 then ExitLoop
-
-					$energy = GetEnergy(-2)
-					$recharge = DllStructGetData(GetSkillBar(), "Recharge" & $i+1)
-					$adrenaline = DllStructGetData(GetSkillBar(), "Adrenaline" & $i+1)
-					;Update($s & " - Fight!")
-					If $recharge = 0 And $energy >= $intSkillEnergy[$i] And $adrenaline >= ($intSkillAdrenaline[$i]*25 - 25) Then
-						$useSkill = $i + 1
-						;PingSleep(250)
-						$variabletosort = 0
-						;UseSkill($useSkill, $target)
-						If $i = 0 Then
-							Do
-								$energy = GetEnergy(-2)
-								If $energy >= $intSkillEnergy[$i] Then
-									UseSkill($useSkill, $target)
-									RndSlp(600)
-								EndIf
-								rndslp(200)
-								$variabletosort = $variabletosort + 1
-								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
-								if GetDistance($target, -2) > $x then ExitLoop
-								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
-							Until (DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x1 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge1') > 0;--
-						ElseIf $i = 1 Then
-							Do
-								$energy = GetEnergy(-2)
-								If $energy >= $intSkillEnergy[$i] Then
-									UseSkill($useSkill, $target)
-									RndSlp(600)
-								EndIf
-								rndslp(200)
-								$variabletosort = $variabletosort + 1
-								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
-								if GetDistance($target, -2) > $x then ExitLoop
-								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
-							Until(DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x2 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge2') > 0 ;--
-						ElseIf $i = 2 Then
-							Do
-								$energy = GetEnergy(-2)
-								If $energy >= $intSkillEnergy[$i] Then
-									UseSkill($useSkill, $target)
-									RndSlp(600)
-								EndIf
-								rndslp(200)
-								$variabletosort = $variabletosort + 1
-								if DllStructGetData(GetCurrentTarget(),'HP') = 0 then ExitLoop
-								if GetDistance($target, -2) > $x then ExitLoop
-								$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-								if $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(), 'Effects') = 0x0010 Then ExitLoop
-								If DllStructGetData(GetCurrentTarget(),'Type') = 0x400 then ExitLoop
-							Until (DllStructGetData(GetAgentByID(-1), 'LastStrike') = 0x3 OR $variabletosort = 3) Or DllStructGetData(GetSkillbar(), 'Recharge3') > 0 ;--
-						Else
-								UseSkill($useSkill, $target)
-								RndSlp($intSkillCastTime[$i+1]+500);-- +1 geadded
-							EndIf
-						EndIf
-					if $i = $totalskills then $i = -1 ; change -1
-					If $DeadOnTheRun = 1 Then ExitLoop
-				Next
-			EndIf
-			$TargetAllegiance = DllStructGetData(GetCurrentTarget(),'Allegiance')
-			$TargetIsDead = DllStructGetData(GetCurrentTarget(), 'Effects')
-			$targetHP = DllStructGetData(GetCurrentTarget(),'HP')
-			$TargetItem = DllStructGetData(GetCurrentTarget(),'Type')
-		Until DllStructGetData($target, 'ID') = 0 OR $distance > $x OR $DeadOnTheRun = 1 OR $TargetAllegiance = 0x1 OR $TargetAllegiance = 0x4 OR $TargetAllegiance = 0x5 OR $TargetAllegiance = 0x6 OR $TargetIsDead = 0x0010 OR $targetHP = 0 OR $TargetItem = 0x400 OR TimerDiff($TimerToGetOut) > 30000
-	EndIf
-	If TimerDiff($TimerToGetOut) > 30000 Then
-		Return 1
-	Else
-		Return 0
-	EndIf
-EndFunc
 #Region Item related commands
 
 ;=================================================================================================
@@ -433,33 +304,26 @@ EndFunc
 ; Return Value(s):	On Success - Returns $iItemsPicked (number of items picked)
 ; Author(s):		GWCA team, recoded by ddarek, thnx to The ArkanaProject
 ;=================================================================================================
-Func PickupItems($iItems = -1, $fMaxDistance = 3036)
-    Local $aItemID, $lNearestDistance, $lDistance, $iItems_Picked = 0
-    $tDeadlock = TimerInit()
+Func PickupItems($iItems = -1, $fMaxDistance = 1012)
+	Local $aItemID, $lNearestDistance, $lDistance
+	$tDeadlock = TimerInit()
+	Do
+		$aItem = GetNearestItemToAgent(-2)
+		$lDistance = @extended
 
-    Do
-        $aItem = GetNearestItemToAgent(-2)
-        $lDistance = @extended
-        $aItemID = DllStructGetData($aItem, 'ID')
-        $aModelID = DllStructGetData($aItem, 'ModelID') 
-
-        If ($aModelID <> 25410 And $aModelID <> 25416) Or $aItemID = 0 Or $lDistance > $fMaxDistance Or TimerDiff($tDeadlock) > 30000 Then 
-            ExitLoop
-        Else
-            PickUpItem($aItem)
-            $iItems_Picked += 1
-        EndIf
-
-        $tDeadlock2 = TimerInit()
-        Do
-            Sleep(500)
-            If TimerDiff($tDeadlock2) > 5000 Then ContinueLoop 2
-        Until DllStructGetData(GetAgentById($aItemID), 'ID') == 0
-
-    Until $iItems_Picked = $iItems
-    Return $iItems_Picked
+		$aItemID = DllStructGetData($aItem, 'ID')
+		If $aItemID = 0 Or $lDistance > $fMaxDistance Or TimerDiff($tDeadlock) > 30000 Then ExitLoop
+		PickUpItem($aItem)
+		$tDeadlock2 = TimerInit()
+		Do
+			Sleep(500)
+			If TimerDiff($tDeadlock2) > 5000 Then ContinueLoop 2
+		Until DllStructGetData(GetAgentById($aItemID), 'ID') == 0
+		$iItems_Picked += 1
+		;UpdateStatus("Picked total " & $iItems_Picked & " items")
+	Until $iItems_Picked = $iItems
+	Return $iItems_Picked
 EndFunc   ;==>PickupItems
-
 
 ;=================================================================================================
 ; Function:			GetNearestItemToAgent($aAgent)
@@ -470,24 +334,7 @@ EndFunc   ;==>PickupItems
 ;					@extended  - distance to item
 ; Author(s):		GWCA team, recoded by ddarek
 ;=================================================================================================
-Func GetNearestItemToAgent2($aAgent)
-	Local $lNearestAgent, $lNearestDistance = 100000000
-	Local $lDistance, $lAgentToCompare
 
-	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
-	For $i = 1 To GetMaxAgents()
-		$lAgentToCompare = GetAgentByID($i)
-
-	If DllStructGetData($lAgentToCompare, 'Type') <> 0x400 Then ContinueLoop
-		$lDistance = (DllStructGetData($lAgentToCompare, 'Y') - DllStructGetData($aAgent, 'Y')) ^ 2 + (DllStructGetData($lAgentToCompare, 'X') - DllStructGetData($aAgent, 'X')) ^ 2
-		If $lDistance < $lNearestDistance Then
-			$lNearestAgent = $lAgentToCompare
-			$lNearestDistance = $lDistance
-		EndIf
-	Next
-	SetExtended(Sqrt($lNearestDistance)) ;this could be used to retrieve the distance also
-	Return $lNearestAgent
-EndFunc   ;==>GetNearestItemToAgent
 
 
 Func GetNearestItemByModelId($ModelId, $aAgent = -2 )
@@ -510,7 +357,26 @@ Local $lNearestAgent, $lNearestDistance = 100000000
 	Return $lNearestAgent; return struct of Agent not item!
 EndFunc   ;==>GetNearestItemByModelId
 
-Func GetNumberOfAlliesInRangeOfAgent($aAgent = -2, $fMaxDistance = 3036)
+
+Func GetNumberOfFoesInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
+	Local $lDistance, $lCount = 0
+
+	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
+	For $i = 1 To GetMaxAgents()
+		$lAgentToCompare = GetAgentByID($i)
+		If GetIsDead($lAgentToCompare) <> 0 Then ContinueLoop
+		If DllStructGetData($lAgentToCompare, 'Allegiance') = 0x3 Then
+			$lDistance = GetDistance($lAgentToCompare, $aAgent)
+			If $lDistance < $fMaxDistance Then
+				$lCount += 1
+				;ConsoleWrite("Counts: " &$lCount & @CRLF)
+			EndIf
+		EndIf
+	Next
+	Return $lCount
+EndFunc   ;==>GetNumberOfFoesInRangeOfAgent
+
+Func GetNumberOfAlliesInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
 	Local $lDistance, $lCount = 0
 
 	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
@@ -528,7 +394,7 @@ Func GetNumberOfAlliesInRangeOfAgent($aAgent = -2, $fMaxDistance = 3036)
 	Return $lCount
 EndFunc   ;==>GetNumberOfAlliesInRangeOfAgent
 
-Func GetNumberOfItemsInRangeOfAgent($aAgent = -2, $fMaxDistance = 3036)
+Func GetNumberOfItemsInRangeOfAgent($aAgent = -2, $fMaxDistance = 1012)
 	Local $lDistance, $lCount = 0
 
 	If IsDllStruct($aAgent) = 0 Then $aAgent = GetAgentByID($aAgent)
@@ -562,6 +428,8 @@ Func GetNearestEnemyToCoords($aX, $aY)
 
 	Return $lNearestAgent
 EndFunc   ;==>GetNearestAgentToCoords
+
+
 ;=================================================================================================
 ; Function:			Ident($bagIndex = 1, $numOfSlots)
 ; Description:		Idents items in $bagIndex, NEEDS ANY ID kit in inventory!
@@ -572,20 +440,20 @@ EndFunc   ;==>GetNearestAgentToCoords
 ; Author(s):		GWCA team, recoded by ddarek, thnx to The ArkanaProject
 ;=================================================================================================
 
-Func Ident($bagIndex, $numOfSlots)
-	If FindIDKit() = False Then
-	;	UpdateStatus("Buying ID Kit..........")
-		BuyIDKit();Buy IDKit
-		Sleep(Random(240, 260))
-	EndIf
-	For $i = 1 To $numOfSlots
-		;UpdateStatus("Identifying item: " & $bagIndex & ", " & $i)
-		$aItem = GetItemBySlot($bagIndex, $i)
-		If DllStructGetData($aItem, 'ID') = 0 Then ContinueLoop
-		IdentifyItem($aItem)
-		Sleep(Random(500, 750))
-	Next
-EndFunc   ;==>Ident
+;~ Func Ident($bagIndex, $numOfSlots)
+;~ 	If FindIDKit() = False Then
+;~ 	;	UpdateStatus("Buying ID Kit..........")
+;~ 		BuyIDKit();Buy IDKit
+;~ 		Sleep(Random(240, 260))
+;~ 	EndIf
+;~ 	For $i = 0 To $numOfSlots - 1
+;~ 		;UpdateStatus("Identifying item: " & $bagIndex & ", " & $i)
+;~ 		$aItem = GetItemBySlot($bagIndex, $i)
+;~ 		If DllStructGetData($aItem, 'ID') = 0 Then ContinueLoop
+;~ 		IdentifyItem($aItem)
+;~ 		Sleep(Random(500, 750))
+;~ 	Next
+;~ EndFunc   ;==>Ident
 ;=================================================================================================
 ; Function:			CanSell($aItem); only part of it can do
 ; Description:		general precaution not to sell things we want to save; ModelId page = http://wiki.gamerevision.com/index.php/Model_IDs
@@ -596,30 +464,22 @@ EndFunc   ;==>Ident
 ; Author(s):		GWCA team, recoded by ddarek, thnx to The ArkanaProject
 ;=================================================================================================
 
-Func CanSell($aItem)
-	$m = DllStructGetData($aItem, 'ModelID')
-	$q = DllStructGetData($aItem, 'Quantity')
-	$r = DllStructGetData(GetEtraItemInfoByItemId($aItem), 'Rarity')
-	If $m = 0 Or $q > 1 OR $r = $Rarity_Gold OR $r = $Rarity_Green Then
-		Return False
-	ElseIf $m > 21785 And $m < 21806 Then ;Tomes not for sale
-		Return False
-	ElseIf $m = 146 Or $m = 22751 Then ; 146 = dyes, 22751 = lockpick not for sale
-		Return False
-	ElseIf $m = 5899 Or $m = 5900 Then ;Sup ID/Salvage not for sale
-		Return False
-	ElseIf $m = 5594 Or $m = 5595 Or $m = 5611 Or $m = 5853 Or $m = 5975 Or $m = 5976 Or $m = 21233 Then ;scrolls not for sale
-		Return False
-	ElseIf $m = 923 OR $m = 931 OR $m = 6533 Then			;Jade/Eye/Claw
-		Return False
-	ElseIf ($m = 1175 OR $m = 1176 OR $m = 1152 OR $m = 1153 OR $m = 920 OR $m = 0) AND $r <> $Rarity_White Then
-		Return False
-	ElseIf $m = 27033 Then ; D-Cores not for sale
-		Return False
-	Else
-		Return True
-	EndIf
-EndFunc   ;==>CanSell
+;~ Func CanSell($aItem)
+;~ 	$m = DllStructGetData($aItem, 'ModelID')
+;~ 	$q = DllStructGetData($aItem, 'Quantity')
+;~ 	$r = DllStructGetData(GetEtraItemInfoByItemId($aItem), 'Rarity')
+;~ 	If $m = 19185 Then ;kabob
+;~ 		Return False
+;~ 	ElseIf $m = 0 Or $q > 1 OR $r = $Rarity_Gold OR $r = $Rarity_Green Then
+;~ 		Return False
+;~ 	ElseIf $m = 146 Or $m = 22751 Then ; 146 = dyes, 22751 = lockpick not for sale
+;~ 		Return False
+;~ 	ElseIf ($m = 1175 OR $m = 1176 OR $m = 1152 OR $m = 1153 OR $m = 920 OR $m = 0) AND $r <> $Rarity_White Then
+;~ 		Return False
+;~ 	Else
+;~ 		Return True
+;~ 	EndIf
+;~ EndFunc   ;==>CanSell
 
 ;=================================================================================================
 ; Function:			Sell($bagIndex, $numOfSlots)
@@ -632,20 +492,31 @@ EndFunc   ;==>CanSell
 ;=================================================================================================
 
 
-Func Sell($bagIndex, $numOfSlots)
-	Sleep(Random(150, 250))
-	For $i = 1 To $numOfSlots
-		$aItem = GetItemBySlot($bagIndex, $i)
-		If CanSell($aItem) Then SellItem($aItem)
-		Sleep(Random(500, 550))
-	Next
-EndFunc   ;==>Sell
+;~ Func Sell($bagIndex, $numOfSlots)
+;~ 	Sleep(Random(150, 250))
+;~ 	For $i = 0 To $numOfSlots - 1
+;~ 		$aItem = GetItemBySlot($bagIndex, $i)
+;~ 		If CanSell($aItem) Then
+;~ 			SellItem($aItem)
+;~ 			Sleep(Random(500, 550))
+;~ 		EndIf
+;~ 	Next
+;~ EndFunc   ;==>Sell
+
+Func GetExtraItemInfoBySlot($aBag, $aSlot)
+	$item = GetItembySlot($aBag, $aSlot)
+	$lItemExtraPtr = DllStructGetData($item, "ModPtr")
+
+	DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
+	Return $lItemExtraStruct
+	;ConsoleWrite($rarity & @CRLF)
+EndFunc   ;==>GetExtraInfoBySlot
 
 Func GetEtraItemInfoByItemId($aItem)
 	$item = GetItemByItemID($aItem)
 	$lItemExtraPtr = DllStructGetData($item, "ModPtr")
 
-	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
+	DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
 	Return $lItemExtraStruct
 EndFunc   ;==>GetEtraInfoByItemId
 
@@ -653,7 +524,7 @@ Func GetEtraItemInfoByAgentId($aItem)
 	$item = GetItemByAgentID($aItem)
 	$lItemExtraPtr = DllStructGetData($item, "ModPtr")
 
-	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
+	DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
 	Return $lItemExtraStruct
 EndFunc   ;==>GetEtraInfoByAgentId
 
@@ -661,7 +532,7 @@ Func GetEtraItemInfoByModelId($aItem)
 	$item = GetItemByModelID($aItem)
 	$lItemExtraPtr = DllStructGetData($item, "ModPtr")
 
-	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
+	DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
 	Return $lItemExtraStruct
 EndFunc   ;==>GetEtraInfoByModelId
 
@@ -669,45 +540,45 @@ Func GetExtraItemReqBySlot($aBag, $aSlot)
 	$item = GetItembySlot($aBag, $aSlot)
 	$lItemExtraReqPtr = DllStructGetData($item, "extraItemReq")
 
-	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemExtraReqPtr, 'ptr', $lItemExtraReqStructPtr, 'int', $lItemExtraReqStructSize, 'int', '')
+	DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraReqPtr, 'ptr', $lItemExtraReqStructPtr, 'int', $lItemExtraReqStructSize, 'int', '')
 	Return $lItemExtraReqStruct
 	;ConsoleWrite($rarity & @CRLF)
 EndFunc   ;==>GetExtraItemReqBySlot
 
-Func GetExtraItemReqByItemId($aItem)
+Func GetEtraItemReqByItemId($aItem)
 	$item = GetItemByItemID($aItem)
 	$lItemExtraReqPtr = DllStructGetData($item, "extraItemReq")
 
-	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemExtraReqPtr, 'ptr', $lItemExtraReqStructPtr, 'int', $lItemExtraReqStructSize, 'int', '')
+	DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraReqPtr, 'ptr', $lItemExtraReqStructPtr, 'int', $lItemExtraReqStructSize, 'int', '')
 	Return $lItemExtraReqStruct
 EndFunc   ;==>GetEtraItemReqByItemId
 
-Func GetExtraItemReqByAgentId($aItem)
+Func GetEtraItemReqByAgentId($aItem)
 	$item = GetItemByAgentID($aItem)
 	$lItemExtraReqPtr = DllStructGetData($item, "extraItemReq")
 
-	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemExtraReqPtr, 'ptr', $lItemExtraReqStructPtr, 'int', $lItemExtraReqStructSize, 'int', '')
+	DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraReqPtr, 'ptr', $lItemExtraReqStructPtr, 'int', $lItemExtraReqStructSize, 'int', '')
 	Return $lItemExtraReqStruct
 EndFunc   ;==>GetEtraItemReqByAgentId
 
-Func GetExtraItemReqByModelId($aItem)
+Func GetEtraItemReqByModelId($aItem)
 	$item = GetItemByModelID($aItem)
 	$lItemExtraReqPtr = DllStructGetData($item, "extraItemReq")
 
-	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemExtraReqPtr, 'ptr', $lItemExtraReqStructPtr, 'int', $lItemExtraReqStructSize, 'int', '')
+	DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraReqPtr, 'ptr', $lItemExtraReqStructPtr, 'int', $lItemExtraReqStructSize, 'int', '')
 	Return $lItemExtraReqStruct
 EndFunc   ;==>GetEtraItemReqByModelId
 
 Func FindEmptySlot($bagIndex) ;Parameter = bag index to start searching from. Returns integer with item slot. This function also searches the storage. If any of the returns = 0, then no empty slots were found
 	Local $lItemInfo, $aSlot
 
-	For $aSlot = 0 To DllStructGetData(GetBag($bagIndex), 'Slots')-1
+	For $aSlot = 1 To DllStructGetData(GetBag($bagIndex), 'Slots')
 		Sleep(40)
 		ConsoleWrite("Checking: " & $bagIndex & ", " & $aSlot & @CRLF)
 		$lItemInfo = GetItemBySlot($bagIndex, $aSlot)
 		If DllStructGetData($lItemInfo, 'ID') = 0 Then
 			ConsoleWrite($bagIndex & ", " & $aSlot & "  <-Empty! " & @CRLF)
-			SetExtended($aSlot +1)
+			SetExtended($aSlot)
 			ExitLoop
 		EndIf
 	Next
@@ -719,6 +590,7 @@ Func GetHPPips($aAgent = -2); Thnx to The Arkana Project
    If IsDllStruct($aAgent) == 0 Then $aAgent = GetAgentByID($aAgent)
    Return Round(DllStructGetData($aAgent, 'hppips') * DllStructGetData($aAgent, 'maxhp') / 2, 0)
 EndFunc
+
 
 Func GetTeam($aTeam); Thnx to The Arkana Project. Only works in PvP!
 	Local $lTeamNumber
@@ -819,6 +691,8 @@ Func FormatName($aAgent); Thnx to The Arkana Project. Only works in PvP!
 	EndIf
 	Return $lString
 EndFunc
+
+
 
 ; #FUNCTION: Death ==============================================================================================================
 ; Description ...: Checks the dead
@@ -955,6 +829,5 @@ Func GoNearestNPCToCoords($aX, $aY)
 	Until GetDistance($NPC, -2) < 250
 	RndSleep(500)
 EndFunc
-
 
 #EndRegion Misc

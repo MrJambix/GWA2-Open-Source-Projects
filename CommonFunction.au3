@@ -10,10 +10,100 @@ Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_St
 
 Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
 
+Global Const $RARITY_Gold = 2624
+Global Const $RARITY_Purple = 2626
+Global Const $RARITY_Blue = 2623
+Global Const $RARITY_White = 2621
+Global Const $PickUpAll = False
+
+Global $intSkillEnergy[8] = [1, 15, 5, 5, 10, 15, 10, 5]
+; Change the next lines to your skill casting times in milliseconds. use ~250 for shouts/stances, ~1000 for attack skills:
+Global $intSkillCastTime[8] = [1000, 1250, 1250, 1250, 1250, 1000,  250, 1000]
+; Change the next lines to your skill adrenaline count (1 to 8). leave as 0 for skills without adren
+Global $intSkillAdrenaline[8] = [0, 0, 0, 0, 0, 0, 0, 0]
+
+Global $totalskills = 7
+
+;~ Dungeon Key
+Global Const $TYPE_KEY = 18
+
+;~ Charr Carving
+Global Const $Carving = 27052
+
+;~ All Weapon mods
+Global $Weapon_Mod_Array[25] = [893, 894, 895, 896, 897, 905, 906, 907, 908, 909, 6323, 6331, 15540, 15541, 15542, 15543, 15544, 15551, 15552, 15553, 15554, 15555, 17059, 19122, 19123]
+
+;~ General Items
+Global $General_Items_Array[6] = [2989, 2991, 2992, 5899, 5900, 22751]
+Global Const $ITEM_ID_Lockpicks = 22751
+
+;~ Dyes
+Global Const $ITEM_ID_Dyes = 146
+Global Const $ITEM_ExtraID_BlackDye = 10
+Global Const $ITEM_ExtraID_WhiteDye = 12
+
+;~ Alcohol
+Global $Alcohol_Array[19] = [910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 19172, 19173, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682]
+Global $OnePoint_Alcohol_Array[11] = [910, 5585, 6049, 6367, 6375, 15477, 19171, 19172, 19173, 22190, 28435]
+Global $ThreePoint_Alcohol_Array[7] = [2513, 6366, 24593, 30855, 31145, 31146, 35124]
+Global $FiftyPoint_Alcohol_Array[1] = [36682]
+
+;~ Party
+Global $Spam_Party_Array[5] = [6376, 21809, 21810, 21813, 36683]
+
+;~ Sweets
+Global $Spam_Sweet_Array[6] = [21492, 21812, 22269, 22644, 22752, 28436]
+
+;~ Tonics
+Global $Tonic_Party_Array[4] = [15837, 21490, 30648, 31020]
+
+;~ DR Removal
+Global $DPRemoval_Sweets[6] = [6370, 21488, 21489, 22191, 26784, 28433]
+
+;~ Special Drops
+Global $Special_Drops[7] = [5656, 18345, 21491, 37765, 21833, 28433, 28434]
+
+;~ Stupid Drops that I am not using, but in here in case you want these to add these to the CanPickUp and collect in your chest
+Global $Map_Piece_Array[4] = [24629, 24630, 24631, 24632]
+
+;~ Stackable Trophies
+Global $Stackable_Trophies_Array[1] = [27047]
+Global Const $ITEM_ID_Glacial_Stones = 27047
+
+;~ Materials
+Global $All_Materials_Array[36] = [921, 922, 923, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 948, 949, 950, 951, 952, 953, 954, 955, 956, 6532, 6533]
+Global $Common_Materials_Array[11] = [921, 925, 929, 933, 934, 940, 946, 948, 953, 954, 955]
+Global $Rare_Materials_Array[25] = [922, 923, 926, 927, 928, 930, 931, 932, 935, 936, 937, 938, 939, 941, 942, 943, 944, 945, 949, 950, 951, 952, 956, 6532, 6533]
+
+;~ Tomes
+Global $All_Tomes_Array[20] = [21796, 21797, 21798, 21799, 21800, 21801, 21802, 21803, 21804, 21805, 21786, 21787, 21788, 21789, 21790, 21791, 21792, 21793, 21794, 21795]
+Global Const $ITEM_ID_Mesmer_Tome = 21797
+
+;~ Arrays for the title spamming (Not inside this version of the bot, but at least the arrays are made for you)
+Global $ModelsAlcohol[100] = [910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682]
+Global $ModelSweetOutpost[100] = [15528, 15479, 19170, 21492, 21812, 22644, 31150, 35125, 36681]
+Global $ModelsSweetPve[100] = [22269, 22644, 28431, 28432, 28436]
+Global $ModelsParty[100] = [6368, 6369, 6376, 21809, 21810, 21813]
+
+Global $Array_pscon[39]=[910, 5585, 6366, 6375, 22190, 24593, 28435, 30855, 31145, 35124, 36682, 6376, 21809, 21810, 21813, 36683, 21492, 21812, 22269, 22644, 22752, 28436,15837, 21490, 30648, 31020, 6370, 21488, 21489, 22191, 26784, 28433, 5656, 18345, 21491, 37765, 21833, 28433, 28434]
+
+#Region Global MatsPic´s And ModelID´Select
+Global $PIC_MATS[26][2] = [["Fur Square", 941],["Bolt of Linen", 926],["Bolt of Damask", 927],["Bolt of Silk", 928],["Glob of Ectoplasm", 930],["Steel of Ignot", 949],["Deldrimor Steel Ingot", 950],["Monstrous Claws", 923],["Monstrous Eye", 931],["Monstrous Fangs", 932],["Rubies", 937],["Sapphires", 938],["Diamonds", 935],["Onyx Gemstones", 936],["Lumps of Charcoal", 922],["Obsidian Shard", 945],["Tempered Glass Vial", 939],["Leather Squares", 942],["Elonian Leather Square", 943],["Vial of Ink", 944],["Rolls of Parchment", 951],["Rolls of Vellum", 952],["Spiritwood Planks", 956],["Amber Chunk", 6532],["Jadeite Shard", 6533]]
+#EndRegion Global MatsPic´s And ModelID´Select
+
+Global $Array_Store_ModelIDs460[147] = [474, 476, 486, 522, 525, 811, 819, 822, 835, 610, 2994, 19185, 22751, 4629, 24630, 4631, 24632, 27033, 27035, 27044, 27046, 27047, 7052, 5123 _
+		, 1796, 21797, 21798, 21799, 21800, 21801, 21802, 21803, 21804, 1805, 910, 2513, 5585, 6049, 6366, 6367, 6375, 15477, 19171, 22190, 24593, 28435, 30855, 31145, 31146, 35124, 36682 _
+		, 6376 , 6368 , 6369 , 21809 , 21810, 21813, 29436, 29543, 36683, 4730, 15837, 21490, 22192, 30626, 30630, 30638, 30642, 30646, 30648, 31020, 31141, 31142, 31144, 1172, 15528 _
+		, 15479, 19170, 21492, 21812, 22269, 22644, 22752, 28431, 28432, 28436, 1150, 35125, 36681, 3256, 3746, 5594, 5595, 5611, 5853, 5975, 5976, 21233, 22279, 22280, 6370, 21488 _
+		, 21489, 22191, 35127, 26784, 28433, 18345, 21491, 28434, 35121, 921, 922, 923, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943 _
+		, 944, 945, 946, 948, 949, 950, 951, 952, 953, 954, 955, 956, 6532, 6533]
+
+#EndRegion Global Items
+
 Opt("GUIOnEventMode", 1)
 
 #Region ### START Koda GUI section ### Form=c:\bot\reputation farming\title package\form1.kxf
-global $Form1_1 = GUICreate("Globeul Title Package 2023 Update", 400, 350, -1, -1)
+global $Form1_1 = GUICreate("Globeul Title Package (mod)", 321, 283, -1, -1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 global $Start = GUICtrlCreateButton("Start", 264, 248, 51, 25)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -60,9 +150,11 @@ global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 248, 184, 60, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-global $txtName = GUICtrlCreateInput($strName, 152, 248, 105, 21)
+;global $txtName = GUICtrlCreateInput($strName, 152, 248, 105, 21)
+Global Const $txtName = GUICtrlCreateCombo("", 152, 248, 105, 21, BitOR($CBS_DROPDOWN, $CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, GetLoggedCharNames())
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-GUICtrlCreateGroup("Points Status", 8, 8, 157, 181)
+GUICtrlCreateGroup("Points Status", 8, 8, 137, 161)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlCreateLabel("Asura", 24, 32, 31, 17)
 GUICtrlSetColor(-1, 0x808000)
@@ -138,10 +230,7 @@ GUICtrlSetState($Gui_PickUp, $GUI_CHECKED)
 GUICtrlSetState($Radio_Asura, $GUI_CHECKED)
 GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 GUISetState(@SW_SHOW)
-GUICtrlCreateLabel("", 8, 330, 305, 40)
-#EndRegion ### END Koda GUI section ### do i need the region
-
-
+#EndRegion ### END Koda GUI section ###
 
 func gui_eventHandler()
 	switch (@GUI_CtrlId)
@@ -158,11 +247,11 @@ func gui_eventHandler()
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_UNCHECKED)
 		Case $Radio_Kurzick
-			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
-			GUICtrlSetState($Gui_Donate, $GUI_UNCHECKED)
+			GUICtrlSetState($Gui_Donate, $GUI_ENABLE)
+			GUICtrlSetState($Gui_Donate, $GUI_CHECKED)
 		Case $Radio_Luxon
-			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
-			GUICtrlSetState($Gui_Donate, $GUI_UNCHECKED)
+			GUICtrlSetState($Gui_Donate, $GUI_ENABLE)
+			GUICtrlSetState($Gui_Donate, $GUI_CHECKED)
 		Case $Radio_SS
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_UNCHECKED)
@@ -253,7 +342,7 @@ Func SellItemToMerchant()
 	If $Bool_Store Then
 		CurrentAction("Storing Gold Unid")
 		StoreGolds()
-		RNDSLP(1000)
+		Sleep(1000)
 	EndIf
 	If $Bool_IdAndSell Then
 		CurrentAction("Going to merchant")
@@ -275,15 +364,15 @@ Func SellItemToMerchant()
 		ElseIf $Title = "SS" Then
 			$merchant = GetNearestNPCToCoords(498, 1297)
 		EndIf
-		RNDSLP(1000)
+		Sleep(1000)
 		GoToNPC($merchant)
-		RNDSLP(1000)
+		Sleep(1000)
 		If $Title = "Vanguard" Then
-			rndslp(2000)
+			Sleep(2000)
 			Dialog(0x0000007F)
 		EndIf
 		BuyIDKit()
-		RNDSLP(1000)
+		Sleep(1000)
 		CurrentAction("Ident inventory")
 		Ident(1)
 		Ident(2)
@@ -297,14 +386,81 @@ Func SellItemToMerchant()
 	EndIf
 EndFunc  ;==>SellItemToMerchant
 
+Func IDENT($bagIndex)
+	$bag = GetBag($bagIndex)
+	For $i = 1 To DllStructGetData($bag, 'slots')
+		If FindIDKit() = 0 Then
+			If GetGoldCharacter() < 500 And GetGoldStorage() > 499 Then
+				WithdrawGold(500)
+				Sleep(Random(200, 300))
+			EndIf
+			local $J = 0
+			Do
+				BuyIDKit()
+				RndSleep(500)
+				$J = $J+1
+			Until FindIDKit() <> 0 OR $J = 3
+			If $J = 3 Then ExitLoop
+			RndSleep(500)
+		EndIf
+		$aitem = GetItemBySlot($bagIndex, $i)
+		If DllStructGetData($aitem, 'ID') = 0 Then ContinueLoop
+		IdentifyItem($aitem)
+		Sleep(Random(400, 750))
+	Next
+EndFunc   ;==>IDENT
+
+Func Sell($BAGINDEX)
+	Local $AITEM
+	Local $BAG = GETBAG($BAGINDEX)
+	Local $NUMOFSLOTS = DllStructGetData($BAG, "slots")
+	For $I = 1 To $NUMOFSLOTS
+		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
+		If DllStructGetData($AITEM, "Id") == 0 Then ContinueLoop
+		If CANSELL($AITEM) Then
+			SELLITEM($AITEM)
+		EndIf
+		Sleep(GetPing()+250)
+	Next
+EndFunc
+
+
 Func GetExtraItemInfo($aitem)
+	;Use GetRarity() instead... 
     If IsDllStruct($aitem) = 0 Then $aAgent = GetItemByItemID($aitem)
     $lItemExtraPtr = DllStructGetData($aitem, "namestring")
 
-    DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
+    ;DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
     Return $lItemExtraStruct
 EndFunc   ;==>GetExtraItemInfo
 
+Func CanSell($aitem)
+	local $m = DllStructGetData($aitem, 'ModelID')
+	local $i = DllStructGetData($aitem, 'extraId')
+	If $m = 0 Then
+		Return False
+	ElseIf $m > 21785 And $m < 21806 Then ;Elite/Normal Tomes
+		Return False
+	ElseIf $m = 146 Then
+		If $i = 10 OR $i = 12 Then ;black and white
+			Return False
+		Else
+			Return True
+		EndIf
+	ElseIf $m =  6533 Then
+		Return False    ;jade
+	ElseIf $m =  19198 Then
+		Return False    ;jade
+	ElseIf $m =  934 Then
+		Return False    ;jade
+	ElseIf $m =  929 Then
+		Return False    ;jade
+	ElseIf $m = 22751 Then
+		return False
+	Else
+		Return True
+	EndIf
+EndFunc   ;==>CanSell
 
 Func GoMerchant($id_merchant, $xmerchant, $ymerchant)
 	Local $lNearestAgent, $lNearestDistance = 100000000
@@ -313,30 +469,32 @@ Func GoMerchant($id_merchant, $xmerchant, $ymerchant)
 	For $i = 1 To GetMaxAgents()
 		$lAgentToCompare = GetAgentByID($i)
 		If DllStructGetData($lAgentToCompare, 'PlayerNumber') <> $id_merchant then ContinueLoop
-		rndslp(150)
+		Sleep(150)
 		ChangeTarget($lAgentToCompare)
-		rndslp(150)
+		Sleep(150)
 		GoNPC($lAgentToCompare)
 		ExitLoop
 	Next
 	Do
-		rndslp(100)
+		Sleep(100)
 	Until CheckArea($xmerchant, $ymerchant)
-	rndslp(2000)
+	Sleep(2000)
 EndFunc
 
 Func StoreGolds()
-	GoldIs(1, 20)
-	GoldIs(2, 5)
-	GoldIs(3, 10)
-	GoldIs(4, 10)
+	GoldIs(1)
+	GoldIs(2)
+	GoldIs(3)
+	GoldIs(4)
 EndFunc
 
-Func GoldIs($bagIndex, $numOfSlots)
-	For $i = 1 To $numOfSlots
+Func GoldIs($bagIndex)
+	$lBag = GetBag($bagIndex)
+	
+	For $i = 1 To DllStructGetData($lBag, 'Slots')
 		$aItem = GetItemBySlot($bagIndex, $i)
-		ConsoleWrite("Checking items: " & $bagIndex & ", " & $i & @CRLF & DllStructGetData(GetExtraItemInfo($aItem), 'rarity') & @crlf)
-		If DllStructGetData($aItem, 'ID') <> 0 And DllStructGetData(GetExtraItemInfo($aItem), 'rarity') = $RARITY_Gold Then
+		ConsoleWrite("Checking items: " & $bagIndex & ", " & $i & @CRLF & GetRarity($aItem) & @crlf)
+		If DllStructGetData($aItem, 'ID') <> 0 And GetRarity($aItem) = $RARITY_Gold Then
 				Do
 					For $bag = 8 To 12; Storage panels are form 8 till 16 (I have only standard amount plus aniversary one)
 						$slot = FindEmptySlot($bag)
@@ -360,6 +518,23 @@ Func GoldIs($bagIndex, $numOfSlots)
 	Next
 EndFunc   ;==>GoldIs
 
+
+; This searches for empty slots in your Storage
+Func FindEmptySlot($BagIndex)
+	Local $LItemINFO, $aSlot
+	For $aSlot = 1 To DllStructGetData(GetBAG($BagIndex), "Slots")
+		Sleep(40)
+		$LItemINFO = GetItemBySlot($BagIndex, $aSlot)
+		If DllStructGetData($LItemINFO, "ID") = 0 Then
+			SetExtended($aSlot)
+			ExitLoop
+		EndIf
+	Next
+	Return 0
+EndFunc
+
+
+
 Func CheckIfInventoryIsFull()
 	If CountSlots() = 0 Then
 		return true
@@ -378,7 +553,7 @@ Func WaitForLoad()
 		$load = GetMapLoading()
 		$lMe = GetAgentByID(-2)
 
-	Until $load = 2 And DllStructGetData($lMe, 'X') = 0 And DllStructGetData($lMe, 'Y') = 0 Or $deadlock > 10000
+	Until $load = 2 And DllStructGetData($lMe, 'X') = 0 And DllStructGetData($lMe, 'Y') = 0 Or $deadlock > 1000
 
 	$deadlock = 0
 	Do
@@ -389,9 +564,9 @@ Func WaitForLoad()
 		$load = GetMapLoading()
 		$lMe = GetAgentByID(-2)
 
-	Until $load <> 2 And DllStructGetData($lMe, 'X') <> 0 And DllStructGetData($lMe, 'Y') <> 0 Or $deadlock > 30000
+	Until $load <> 2 And DllStructGetData($lMe, 'X') <> 0 And DllStructGetData($lMe, 'Y') <> 0 Or $deadlock > 3000
 	CurrentAction("Load complete")
-	rndslp(3000)
+	Sleep(1000)
 EndFunc   ;==>WaitForLoad
 
 Func CountSlots()
@@ -403,46 +578,377 @@ Func CountSlots()
 	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
 	$bag = GetBag(3)
 	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(4)
+	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
 	Return $temp
 EndFunc   ;==>CountSlots
 
 
-Func AggroMoveToEx($x, $y, $s = "", $z = 1300)
-
-	local $TimerToKill = TimerInit()
-	If $DeadOnTheRun = 0 Then CurrentAction("Hunting " & $s)
+Func AggroMoveToEx($x, $y, $s = "", $z = 1450)
+	Local $TimerToKill = TimerInit()
+	CurrentAction("Hunting " & $s)
 	$random = 50
 	$iBlocked = 0
 
 	If $DeadOnTheRun = 0 Then Move($x, $y, $random)
-	$Me = GetAgentByID()
-	$coords[0] = DllStructGetData($Me, 'X')
-	$coords[1] = DllStructGetData($Me, 'Y')
+
+	$lMe = GetAgentByID(-2)
+	$coordsX = DllStructGetData($lMe, "X")
+	$coordsY = DllStructGetData($lMe, "Y")
+
 	If $DeadOnTheRun = 0 Then
 		Do
-			If $DeadOnTheRun = 0 Then RndSleep(250)
-			$oldCoords = $coords
+			If $DeadOnTheRun = 1 Then ExitLoop
+			;If $DeadOnTheRun = 0 Then Sleep(250) //////
+			$oldCoordsX = $coordsX
+			$oldCoordsY = $coordsY
+			$nearestenemy = GetNearestEnemyToAgent(-2)
+			$lDistance = GetDistance($nearestenemy, -2)
+			If $DeadOnTheRun = 1 Then ExitLoop
+			If $lDistance < $z And DllStructGetData($nearestenemy, 'ID') <> 0 And $DeadOnTheRun = 0 Then
 
-			$enemy = GetNearestEnemyToAgent(-2)
-			$distance = ComputeDistance(DllStructGetData($enemy, 'X'),DllStructGetData($enemy, 'Y'),DllStructGetData(GetAgentByID(-2), 'X'),DllStructGetData(GetAgentByID(-2), 'Y'))
-			If $distance < $z AND $enemy <> 0 and $DeadOnTheRun = 0 Then
-				If $DeadOnTheRun = 0 Then Fight($z, $s) 
-				If $DeadOnTheRun = 0 Then CurrentAction("Hunting " & $s)
+					FightEx($z, $s = "enemies")
+
 			EndIf
-			If $DeadOnTheRun = 0 Then RndSleep(250)
-			$Me = GetAgentByID()
-			$coords[0] = DllStructGetData($Me, 'X')
-			$coords[1] = DllStructGetData($Me, 'Y')
-			If $oldCoords[0] = $coords[0] AND $oldCoords[1] = $coords[1] and $DeadOnTheRun = 0 Then
+			;If $DeadOnTheRun = 0 Then Sleep(250) /////
+			$lMe = GetAgentByID(-2)
+			$coordsX = DllStructGetData($lMe, "X")
+			$coordsY = DllStructGetData($lMe, "Y")
+			If $oldCoordsX = $coordsX And $oldCoordsY = $coordsY Then
 				$iBlocked += 1
-				If $DeadOnTheRun = 0 Then MoveTo($coords[0], $coords[1], 300)
-				If $DeadOnTheRun = 0 Then RndSleep(350)
-				If $DeadOnTheRun = 0 Then Move($x, $y)
+				If $DeadOnTheRun = 0 Then Move($coordsX, $coordsY, 500)
+				If $DeadOnTheRun = 0 Then Sleep(350)
+				If $DeadOnTheRun = 0 Then Move($x, $y, $random)
 			EndIf
-
-		Until ComputeDistance($coords[0], $coords[1], $x, $y) < 250 OR $iBlocked > 20 or $DeadOnTheRun = 1
+		Until ComputeDistanceEx($coordsX, $coordsY, $x, $y) < 250 Or $iBlocked > 20 Or $DeadOnTheRun = 1
 	EndIf
 	$TimerToKillDiff = TimerDiff($TimerToKill)
-	$Text = StringFormat("min: %03u  sec: %02u ", $TimerToKillDiff/1000/60, Mod($TimerToKillDiff/1000,60))
-	FileWriteLine($File, $s & " en ================================== >   " & $Text & @CRLF)
+	$TEXT = StringFormat("min: %03u  sec: %02u ", $TimerToKillDiff / 1000 / 60, Mod($TimerToKillDiff / 1000, 60))
+	FileWriteLine($File, $s & " en ================================== >   " & $TEXT & @CRLF)
+EndFunc   ;==>AggroMoveToEx
+
+Func AggroMoveTo($x, $y, $s = "", $z = 1450)
+	CurrentAction("Hunting " & $s)
+	$random = 50
+	$iBlocked = 0
+
+	Move($x, $y, $random)
+
+
+	$lMe = GetAgentByID(-2)
+	$coordsX = DllStructGetData($lMe, "X")
+	$coordsY = DllStructGetData($lMe, "Y")
+
+	Do
+		RndSleep(250)
+		$oldCoordsX = $coordsX
+		$oldCoordsY = $coordsY
+		$nearestenemy = GetNearestEnemyToAgent(-2)
+		$lDistance = GetDistance($nearestenemy, -2)
+		If $lDistance < $z And DllStructGetData($nearestenemy, 'ID') <> 0 Then
+			Fight($z, $s)
+
+		EndIf
+		RndSleep(250)
+		$lMe = GetAgentByID(-2)
+		$coordsX = DllStructGetData($lMe, "X")
+		$coordsY = DllStructGetData($lMe, "Y")
+		If $oldCoordsX = $coordsX And $oldCoordsY = $coordsY Then
+			$iBlocked += 1
+			Move($coordsX, $coordsY, 500)
+			RndSleep(350)
+			Move($x, $y, $random)
+		EndIf
+	Until ComputeDistanceEx($coordsX, $coordsY, $x, $y) < 250 Or $iBlocked > 20
+EndFunc   ;==>AggroMoveTo
+
+Func Fight($x, $s = "")
+	CurrentAction("Fighting " & $s & "!")
+	Do
+		Sleep(250)
+		$nearestenemy = GetNearestEnemyToAgent(-2)
+	Until DllStructGetData($nearestenemy, 'ID') <> 0
+
+	Do
+		$useSkill = -1
+		$target = GetNearestEnemyToAgent(-2)
+		$distance = GetDistance($target, -2)
+		If DllStructGetData($target, 'ID') <> 0 And $distance < $x Then
+			ChangeTarget($target)
+			Sleep(150)
+			CallTarget($target)
+			Sleep(150)
+			Attack($target)
+			Sleep(150)
+		ElseIf DllStructGetData($target, 'ID') = 0 Or $distance > $x Then
+			ExitLoop
+		EndIf
+
+		For $i = 0 To $totalskills
+
+			$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+			If $targetHP = 0 Then ExitLoop
+
+			$distance = GetDistance($target, -2)
+			If $distance > $x Then ExitLoop
+
+			$energy = GetEnergy(-2)
+			$recharge = DllStructGetData(GetSkillBar(), "Recharge" & $i + 1)
+			$adrenaline = DllStructGetData(GetSkillBar(), "Adrenaline" & $i + 1)
+
+			If $recharge = 0 And $energy >= $intSkillEnergy[$i] And $adrenaline >= ($intSkillAdrenaline[$i] * 25 - 25) Then
+				$useSkill = $i + 1
+				PingSleep(250)
+				UseSkill($useSkill, $target)
+				Sleep($intSkillCastTime[$i] + 1000)
+			EndIf
+			If $i = $totalskills Then $i = 0
+		Next
+
+	Until DllStructGetData($target, 'ID') = 0 Or $distance > $x
+	If GetHealth(-2) < 2400 Then UseSkill(7, -2)
+	PingSleep(3000)
+	CurrentAction("Picking up items")
+	If $Bool_PickUp Then PickUpLoot()
+EndFunc   ;==>Fight
+
+Func PingSleep($msExtra = 0)
+	$ping = GetPing()
+	Sleep($ping + $msExtra)
+EndFunc   ;==>PingSleep
+
+Func FightEx($z, $s = "enemies")
+	Local $lastId = 99999, $coordinate[2], $timer
+	CurrentAction("Fighting Ex!")
+
+	If $DeadOnTheRun = 0 Then
+		Do
+			$Me = GetAgentByID(-2)
+			$energy = GetEnergy()
+			$skillbar = GetSkillbar()
+			If $DeadOnTheRun = 0 Then $target = GetNearestEnemyToAgent(-2)
+			If Not $target <> 0 Then
+				TargetNearestEnemy()
+			EndIf
+			$distance = GetDistance($target, -2)
+			If DllStructGetData($target, 'ID') <> 0 And $distance < $z And $DeadOnTheRun = 0 Then
+				If $DeadOnTheRun = 0 Then ChangeTarget($target)
+				If $DeadOnTheRun = 0 Then Sleep(150)
+				If $DeadOnTheRun = 0 Then CallTarget($target)
+				If $DeadOnTheRun = 0 Then Sleep(150)
+				If $DeadOnTheRun = 0 Then Attack($target)
+				If $DeadOnTheRun = 0 Then Sleep(150)
+			ElseIf DllStructGetData($target, 'ID') = 0 Or $distance > $z Or $DeadOnTheRun = 1 Then
+				$lastId = DllStructGetData($target, 'Id')
+				$coordinate[0] = DllStructGetData($target, 'X')
+				$coordinate[1] = DllStructGetData($target, 'Y')
+				$timer = TimerInit()
+				Do
+					Move($coordinate[0], $coordinate[1])
+					rndsleep(500)
+					$Me = GetAgentByID(-2)
+					$distance = ComputeDistance($coordinate[0], $coordinate[1], DllStructGetData($Me, 'X'), DllStructGetData($Me, 'Y'))
+				Until $distance < 1100 Or TimerDiff($timer) > 10000
+			EndIf
+			RndSleep(150)
+			$timer = TimerInit()
+			Do
+				$target = GetCurrentTarget()
+
+				If $DeadOnTheRun = 0 And $target <> 0 Then Attack($target)
+				If $DeadOnTheRun = 0 And $target <> 0 Then UseSkillEx(1, -1)
+				$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+				If $targetHP = 0 Then ExitLoop
+				If $DeadOnTheRun = 0 And $target <> 0 Then UseSkillEx(2, -1)
+				$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+				If $targetHP = 0 Then ExitLoop
+				If $DeadOnTheRun = 0 And $target <> 0 Then UseSkillEx(3, -1)
+				$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+				If $targetHP = 0 Then ExitLoop
+				If $DeadOnTheRun = 0 And $target <> 0 Then UseSkillEx(4, -1)
+				$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+				If $targetHP = 0 Then ExitLoop
+				If $DeadOnTheRun = 0 And $target <> 0 Then UseSkillEx(5, -1)
+				$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+				If $targetHP = 0 Then ExitLoop
+				If $DeadOnTheRun = 0 And $target <> 0 Then UseSkillEx(6, -1)
+				$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+				If $targetHP = 0 Then ExitLoop
+				If $DeadOnTheRun = 0 And $target <> 0 Then UseSkillEx(7, -1)
+				$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+				If $targetHP = 0 Then ExitLoop
+				If $DeadOnTheRun = 0 And $target <> 0 Then UseSkillEx(8, -1)
+				Sleep(200)
+
+				$targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
+				If $targetHP = 0 Then ExitLoop
+				$target = GetAgentByID(DllStructGetData($target, 'Id'))
+				$coordinate[0] = DllStructGetData($target, 'X')
+				$coordinate[1] = DllStructGetData($target, 'Y')
+				$Me = GetAgentByID(-2)
+				$distance = ComputeDistance($coordinate[0], $coordinate[1], DllStructGetData($Me, 'X'), DllStructGetData($Me, 'Y'))
+			Until DllStructGetData($target, 'HP') < 0.005 Or $distance > $z Or TimerDiff($timer) > 5000
+			$target = GetNearestEnemyToAgent(-2)
+			$coordinate[0] = DllStructGetData($target, 'X')
+			$coordinate[1] = DllStructGetData($target, 'Y')
+			$distance = ComputeDistance(DllStructGetData($target, 'X'), DllStructGetData($target, 'Y'), DllStructGetData(GetAgentByID(-2), 'X'), DllStructGetData(GetAgentByID(-2), 'Y'))
+		Until DllStructGetData($target, 'Id') = 0 Or $distance > $z ;; ==
+	EndIf
+
+	Sleep(200)
+	If getIsDead(-2) Then CurrentAction("Died")
+	If CountSlots() = 0 Then
+		CurrentAction("Inventory full")
+	Else
+		CurrentAction("Picking up items")
+		If $Bool_PickUp Then PickUpLoot()
+	EndIf
+EndFunc   ;==>FightEx
+
+Func GoNearestNPCToCoords($x, $y)
+	Local $guy, $Me
+	Do
+		RndSleep(250)
+		$guy = GetNearestNPCToCoords($x, $y)
+	Until DllStructGetData($guy, 'Id') <> 0
+	ChangeTarget($guy)
+	RndSleep(250)
+	GoNPC($guy)
+	RndSleep(250)
+	Do
+		RndSleep(500)
+		Move(DllStructGetData($guy, 'X'), DllStructGetData($guy, 'Y'), 40)
+		RndSleep(500)
+		GoNPC($guy)
+		RndSleep(250)
+		$Me = GetAgentByID(-2)
+	Until ComputeDistance(DllStructGetData($Me, 'X'), DllStructGetData($Me, 'Y'), DllStructGetData($guy, 'X'), DllStructGetData($guy, 'Y')) < 250
+	RndSleep(1000)
+EndFunc   ;==>GoNearestNPCToCoords
+
+Func ComputeDistanceEx($x1, $y1, $x2, $y2)
+	Return Sqrt(($y2 - $y1) ^ 2 + ($x2 - $x1) ^ 2)
+	$dist = Sqrt(($y2 - $y1) ^ 2 + ($x2 - $x1) ^ 2)
+	ConsoleWrite("Distance: " & $dist & @CRLF)
+
+EndFunc   ;==>ComputeDistanceEx
+
+Func PickUpLoot()
+	Local $lAgent
+	Local $lItem
+	Local $lDeadlock
+	For $i = 1 To GetMaxAgents()
+		If CountSlots() < 1 Then Return ;full inventory dont try to pick up
+		If GetIsDead(-2) Then Return
+		$lAgent = GetAgentByID($i)
+		If DllStructGetData($lAgent, 'Type') <> 0x400 Then ContinueLoop
+		$lItem = GetItemByAgentID($i)
+		If CanPickUp($lItem) Then
+			PickUpItem($lItem)
+			$lDeadlock = TimerInit()
+			While GetAgentExists($i)
+				Sleep(100)
+				If GetIsDead(-2) Then Return
+				If TimerDiff($lDeadlock) > 10000 Then ExitLoop
+			WEnd
+		EndIf
+	Next
+EndFunc   ;==>PickUpLoot
+
+; Checks if should pick up the given item. Returns True or False
+Func CanPickUp($aItem)
+	Local $lModelID = DllStructGetData(($aItem), 'ModelId')
+	Local $t = DllStructGetData($aItem, 'Type')
+	Local $aExtraID = DllStructGetData($aItem, 'ExtraId')
+	Local $lRarity = GetRarity($aItem)
+	Local $Requirement = GetItemReq($aItem)
+
+	If $lModelID > 21785 And $lModelID < 21806 Then Return True ; Elite/Normal Tomes
+	If ($lModelID == 2511) Then
+		If (GetGoldCharacter() < 99000) Then
+			Return True	; gold coins (only pick if character has less than 99k in inventory)
+		Else
+			Return False
+		EndIf
+	ElseIf ($lModelID == $ITEM_ID_Dyes) Then	; if dye
+		If (($aExtraID == $ITEM_ExtraID_BlackDye) Or ($aExtraID == $ITEM_ExtraID_WhiteDye)) Then ; only pick white and black ones
+			Return True
+		EndIf
+	ElseIf ($lRarity == $RARITY_Gold) Then ; gold items
+		Return True
+	ElseIf ($t == $TYPE_KEY) Then ; dungeon key
+		Return True
+	ElseIf($lModelID == $ITEM_ID_Lockpicks) Then
+		Return True ; Lockpicks
+	ElseIf($lModelID == $ITEM_ID_Glacial_Stones) Then
+		Return True ; glacial stones
+	ElseIf($lModelID == $Carving) Then
+		Return True ; charr carvings
+	ElseIf CheckArrayPscon($lModelID) Then ; ==== Pcons ==== or all event items
+		Return True
+	ElseIf CheckArrayMapPieces($lModelID) Then ; ==== Map Pieces ====
+		Return True
+	ElseIf ($lRarity == $RARITY_White) And $PickUpAll Then ; White items
+		Return False
+	Else
+		Return False
+	EndIf
+EndFunc   ;==>CanPickUp
+
+#Region Arrays
+Func CheckArrayPscon($lModelID)
+	For $p = 0 To (UBound($Array_pscon) -1)
+		If ($lModelID == $Array_pscon[$p]) Then Return True
+	Next
 EndFunc
+
+Func CheckArrayGeneralItems($lModelID)
+	For $p = 0 To (UBound($General_Items_Array) -1)
+		If ($lModelID == $General_Items_Array[$p]) Then Return True
+	Next
+EndFunc
+
+Func CheckArrayWeaponMods($lModelID)
+	For $p = 0 To (UBound($Weapon_Mod_Array) -1)
+		If ($lModelID == $Weapon_Mod_Array[$p]) Then Return True
+	Next
+EndFunc
+
+Func CheckArrayTomes($lModelID)
+	For $p = 0 To (UBound($All_Tomes_Array) -1)
+		If ($lModelID == $All_Tomes_Array[$p]) Then Return True
+	Next
+EndFunc
+
+Func CheckArrayMaterials($lModelID)
+	For $p = 0 To (UBound($All_Materials_Array) -1)
+		If ($lModelID == $All_Materials_Array[$p]) Then Return True
+	Next
+EndFunc
+
+Func CheckArrayMapPieces($lModelID)
+	For $p = 0 To (UBound($Map_Piece_Array) -1)
+		If ($lModelID == $Map_Piece_Array[$p]) Then Return True
+	Next
+EndFunc
+#EndRegion Arrays
+
+;Func CheckArea($AX, $AY)
+;	Local $RET = False
+;	Local $PX = DllStructGetData(GetAgentByID(-2), "X")
+;	Local $PY = DllStructGetData(GetAgentByID(-2), "Y")
+;	If ($PX < $AX + 500) And ($PX > $AX - 500) And ($PY < $AY + 500) And ($PY > $AY - 500) Then
+;		$RET = True
+;	EndIf
+;	Return $RET
+;EndFunc   ;==>CHECKAREA
+
+Func RndTravel($aMapID) ;Travel to a random region in the outpost
+	Local $UseDistricts = 11 ; 7=eu-only, 8=eu+int, 11=all(excluding America)
+	; Region/Language order: eu-en, eu-fr, eu-ge, eu-it, eu-sp, eu-po, eu-ru, us-en, int, asia-ko, asia-ch, asia-ja
+	Local $Region[11] = [2, 2, 2, 2, 2, 2, 2, -2, 1, 3, 4]
+	Local $Language[11] = [0, 2, 3, 4, 5, 9, 10, 0, 0, 0, 0]
+	Local $Random = Random(0, $UseDistricts - 1, 1)
+	MoveMap($aMapID, $Region[$Random], 0, $Language[$Random])
+	WaitMapLoading($aMapID)
+EndFunc   ;==>RndTravel

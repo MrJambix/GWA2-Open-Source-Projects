@@ -1,10 +1,12 @@
+#include "GWA2_Headers.au3"
+#include "GWA2.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
 #include <WindowsConstants.au3>
 #include <GuiComboBox.au3>
-#include "GWA2.au3"
-#include "GWAAddsOn.au3"
+;#include "GWA2.au3"
+;#include "AddsOn.au3"
 #include "CommonFunction.au3"
 
 global $DeadOnTheRun = 0
@@ -30,11 +32,6 @@ Global $Vanguard_Map = 647
 Global $SS_LB_Map = 444
 Global $Kurzick_Map = 210
 Global $Luxon_Map = 200
-
-;=================================================
-;=================================================
-;=================================================
-;=================================================
 
 While 1
 	If $boolrun = true Then
@@ -91,15 +88,12 @@ While 1
 			CurrentAction("Moving to Outpost")
 			local $out = 0
 			Do
-				TravelTo($Map_To_Zone)
+				RndTravel($Map_To_Zone)
 				WaitForLoad()
-				rndslp(500)
-				CurrentAction("Waiting to really complete load")
-				rndslp(5000)
 				$out = $out + 1
 			Until GetMapID() = $Map_To_Zone or $out = 6
 		EndIf
-		rndslp(3000)
+		Sleep(3000)
 		If $Title = "Kurzick" Then
 			If FactionCheckKurzick() Then TurnInFactionKurzick()
 		ElseIf $Title = "Luxon" Then
@@ -121,7 +115,7 @@ While 1
 
 		$NumberRun = $NumberRun +1
 	EndIf
-	sleep(50)
+	Sleep(50)
 WEnd
 
 Func FactionCheckKurzick()
@@ -174,10 +168,10 @@ Func FactionCheckLuxon()
 EndFunc
 
 Func TurnInFactionLuxon()
-	CurrentAction("turning in faction")
-	TravelGH()
-	RndSleep(1500)
-	GoNearestNPCToCoords(-375.00, 7331.00)
+	RndTravel(193)
+	WaitForLoad()
+	CurrentAction("grabing")
+	GoNearestNPCToCoords(9076, -1111)
 
 	$beforedone = GetLuxonFaction()
 
@@ -185,23 +179,22 @@ Func TurnInFactionLuxon()
 		Do
 			CurrentAction("Donate")
 			DonateFaction(1)
-			RndSleep(500)
+			RndSleep(250)
 		Until GetLuxonFaction() < 5000
 	Else
 		CurrentAction("Grabbing Jade Shards")
 		Dialog(131)
-		RndSleep(550)
+		RndSleep(500)
 		$temp = Floor(GetLuxonFaction() / 5000)
 		$id = 8388609 + ($temp * 256)
 		Dialog($id)
-		RndSleep(550)
 	EndIf
-
+	RndSleep(500)
 	$after_donate = GetLuxonFaction()
 	$what_we_donate = $beforedone - $after_donate + $what_we_donate
 	RndSleep(500)
-	LeaveGH()
-	RndSleep(1500)
+	RndTravel(389)
+	WaitForLoad()
 EndFunc
 
 Func GoOut()
@@ -230,9 +223,12 @@ Func GoOut()
 				Move(-15200, 13500)
 				WaitForLoad()
 			ElseIf $Title = "Norn" Then
-				MoveTo(-141, 1416)
-				Move(-1448, 1171)
+				MoveTo(-609, 1372)
+				Sleep(Random(200,350))
+				Move(-1440, 1170)
 				WaitForLoad()
+				Sleep(Random(500,750))
+				
 			ElseIf $Title = "Kurzick" Then
 				MoveTo(7810,-726)
 				Do
@@ -247,15 +243,15 @@ Func GoOut()
 				Move(-5493, 13712)
 				WaitForLoad()
 			ElseIf $Title = "SS and LB" Then
-				MoveTo(235, -3610)
-				Move(2314, -4560)
+				MoveTo(1527, -4114)
+				Move(1970, -4353)
 				WaitForLoad()
 			ElseIf $Title = "SS" Then
 				MoveTo(-204, 3665)
 				Move(-490, 4995)
 				WaitForLoad()
 			EndIf
-			rndslp(2000)
+			Sleep(2000)
 		Until GetMapID() = $Map_To_Farm
 	EndIf
 
@@ -271,7 +267,7 @@ Func TakeQuestDeldrimor()
 	RndSleep(750)
 	Dialog(0x00000083)
 	Dialog(0x00000084)
-	rndslp(200)
+	Sleep(200)
 EndFunc
 
 Func status()
@@ -299,65 +295,56 @@ Func CheckPartyDead()
 	Next
 EndFunc
 
-Func HeroBuff()
-	$mSkillBar = GetSkillbar(3)
-	$mHeroInfo = GetAgentByID(GetHeroID(3))
-	If GetIsTargetBuffed($GWA_CONST_UnyieldingAura,  GetHeroID(3), 3) == 0 AND DllStructGetData($mSkillBar, 'Recharge1') == 0 AND GetIsDead($mHeroInfo) == False Then
-		UseHeroSkill(3, 1,  GetHeroID(3))
-	EndIf
-EndFunc
-
 Func VQ()
-	CurrentAction("Waiting to really complete load")
-	rndslp(5000)
+
 	$DeadOnTheRun = 0
 
 	If $Title = "Asura" Then
-		AdlibRegister("HeroBuff", 3000)
+
 		AdlibRegister("CheckPartyDead", 2000)
 		AdlibRegister("AsuraPoint", 5000)
 		VQAsura()
 		AdlibUnRegister("CheckPartyDead")
 		AdlibUnRegister("AsuraPoint")
-		AdlibUnRegister("HeroBuff")
+
 	ElseIf $Title = "Deldrimor" Then
-		AdlibRegister("HeroBuff", 3000)
+
 		AdlibRegister("DeldrimorPoint", 5000)
 		VQDeldrimor()
 		AdlibUnRegister("DeldrimorPoint")
-		AdlibUnRegister("HeroBuff")
+
 	ElseIf $Title = "Vanguard" Then
-		AdlibRegister("HeroBuff", 3000)
+
 		AdlibRegister("CheckPartyDead", 2000)
 		AdlibRegister("Vanguardpoint", 5000)
 		VQVanguard()
 		AdlibUnRegister("CheckPartyDead")
 		AdlibUnRegister("Vanguardpoint")
-		AdlibUnRegister("HeroBuff")
+
 	ElseIf $Title = "Norn" Then
-		AdlibRegister("HeroBuff", 3000)
+
 		AdlibRegister("CheckPartyDead", 2000)
 		AdlibRegister("Nornpoint", 5000)
 		VQNorn()
 		AdlibUnRegister("CheckPartyDead")
 		AdlibUnRegister("Nornpoint")
-		AdlibUnRegister("HeroBuff")
+
 	ElseIf $Title = "Kurzick" Then
-		AdlibRegister("HeroBuff", 3000)
+
 		AdlibRegister("CheckPartyDead", 2000)
 		AdlibRegister("Kurzickpoint", 5000)
 		VQKurzick()
 		AdlibUnRegister("CheckPartyDead")
 		AdlibUnRegister("Kurzickpoint")
-		AdlibUnRegister("HeroBuff")
+
 	ElseIf $Title = "Luxon" Then
-		AdlibRegister("HeroBuff", 3000)
+
 		AdlibRegister("CheckPartyDead", 2000)
 		AdlibRegister("Luxonpoint", 5000)
 		VQLuxon()
 		AdlibUnRegister("CheckPartyDead")
 		AdlibUnRegister("Luxonpoint")
-		AdlibUnRegister("HeroBuff")
+
 	ElseIf $Title = "SS and LB" Then
 		AdlibRegister("CheckPartyDead", 2000)
 		AdlibRegister("SSLBpoint", 5000)
@@ -365,16 +352,16 @@ Func VQ()
 		AdlibUnRegister("CheckPartyDead")
 		AdlibUnRegister("SSLBpoint")
 	ElseIf $Title = "SS" Then
-		AdlibRegister("HeroBuff", 3000)
+
 		AdlibRegister("CheckPartyDead", 2000)
 		AdlibRegister("SSpoint", 5000)
 		VQSS()
 		AdlibUnRegister("CheckPartyDead")
 		AdlibUnRegister("SSpoint")
-		AdlibUnRegister("HeroBuff")
+
 	EndIf
 	CurrentAction("Waiting...")
-	rndslp(5000)
+	Sleep(5000)
 EndFunc
 
 Func AsuraPoint()
@@ -431,16 +418,14 @@ EndFunc
 Func VQLuxon() ;
 	CurrentAction("Taking blessing")
 	$deadlock = 0
-	Do
+
 		GoNearestNPCToCoords(-8394, -9801)
 		;Dialog(0x83)
-;	rndslp(1000)
+;	Sleep(1000)
 	Dialog(0x85)
-	rndslp(1000)
+	Sleep(1000)
 	Dialog(0x86)
-	rndslp(1000)
-		$deadlock+=1
-	Until DllStructGetData(geteffect(1947), 'skillid') = 1947 or DllStructGetData(geteffect(1946), 'skillid') = 1946 or $deadlock = 10 ; luxon = 1947
+	Sleep(1000)
 
 
 	If $DeadOnTheRun = 0 Then $enemy = "Yeti"
@@ -490,7 +475,7 @@ Func VQLuxon() ;
 
 	If $DeadOnTheRun = 0 Then $enemy = "Oni"
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(6298, -8707, $enemy)
-	If $DeadOnTheRun = 0 Then rndslp(2000)
+	If $DeadOnTheRun = 0 Then Sleep(2000)
 
 	If $DeadOnTheRun = 0 Then $enemy = "bridge"
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(3981, -3295, $enemy)
@@ -532,20 +517,16 @@ Func VQLuxon() ;
 
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Waiting to get reward")
-	If $DeadOnTheRun = 0 Then rndslp(6000)
+	If $DeadOnTheRun = 0 Then Sleep(6000)
 EndFunc
 
 Func VQVanguard();
+	$DeadOnTheRun = 0
 	CurrentAction("Taking Blessing")
-
-	$deadlock = 0
-	Do
-		GoNearestNPCToCoords(-14903, 11023)
-		rndslp(1000)
-		Dialog(0x00000084)
-		rndslp(1000)
-		$deadlock+=1
-	Until DllStructGetData(geteffect(2550), 'skillid') = 2550 or DllStructGetData(geteffect(2578), 'skillid') = 2578 or $deadlock = 10 ; luxon = 1947
+	GoNearestNPCToCoords(-14903, 11023)
+	Sleep(1000)
+	Dialog(0x84)
+	Sleep(1000)
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
 	If $DeadOnTheRun = 0 Then MoveTo(-12373, 12899)
@@ -556,16 +537,15 @@ Func VQVanguard();
 	If $DeadOnTheRun = 0 Then MoveTo(-5532, 11281)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3979, 9184, "Mantid Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-355, 9296, "Again mantid Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(836, 12171, "Charr Patrol")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(836, 12171, "Charr Patrol", 3000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(884, 15641, "Charr Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(2956, 10496, "Mantid Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(5160, 11032, "Moving")
-
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(5816, 11687)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(1000)
 	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(5848, 11086)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(5848, 11086, "Mantid Group", 3000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(7639, 11839, "Charr Patrol")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(6494, 15729, "Charr Patrol")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(5704, 17469, "Charr Group")
@@ -576,29 +556,44 @@ Func VQVanguard();
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(16363, 3809, "Moving Gain")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(15635, 710, "Charr Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(12754, 2740, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(10068, 3790, "Skale")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(10068, 2580, "Skale")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(7663, 3236, "Charr Seeker")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(6152, 1706, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5086, -2187, "Charr on the way")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(3449, -3693, "Charr Patrol")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(5086, -2187, "Charr on the way", 2500)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(3449, -3693, "Charr Patrol", 2000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(7170, -4037, "Moving")
-
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(8565, -3974)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(1000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(8903, -1801, "Second Skale")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(6790, -6124, "Moving")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(3696, -9324, "Charr Patrol", 3000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(6790, -6124, "Moving")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(8031, -10361, "Charr on the way")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(9282, -12837, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8817, -16314, "Charr Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13337, -14025, "Charr Patrol 2")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(15290, -13688, "Charr Seeker")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(8817, -16314, "Charr Patrol", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(13337, -14025, "Charr Patrol 2", 3000)
+
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(13675, -5513, "Charr Group", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(14760, -2224, "Charr Group", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(13378, -2577, "Charr Group")
+	;If $DeadOnTheRun = 0 Then AggroMoveToEx(13675, -5513, "Charr Group")
+
+	;If $DeadOnTheRun = 0 Then AggroMoveToEx(13337, -14025, "Charr Patrol 2")
+	;If $DeadOnTheRun = 0 Then AggroMoveToEx(15290, -13688, "Charr Seeker")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(17500, -11685, "Charr Group")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(15290, -13688, "Charr Seeker")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(15932, -14104, "Moving Back")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(14934, -17261, "Moving")
 
+	;If $DeadOnTheRun = 0 Then AggroMoveToEx(17500, -11685, "Charr Group")
+	;If $DeadOnTheRun = 0 Then AggroMoveToEx(15932, -14104, "Moving Back")
+	;If $DeadOnTheRun = 0 Then AggroMoveToEx(14934, -17261, "Moving")
+
+
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(14891, -18146)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(1000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(11509, -17586, "Moving")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(6031, -17582, "Moving")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(2846, -17340, "Charr Group")
@@ -608,55 +603,93 @@ Func VQVanguard();
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-4014, -11504)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(1000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8023, -13970, "Charr Seeker")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-7326, -8852, "Charr Seeker")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8023, -13970, "Charr Patrol")
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9808, -15103, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10902, -16356, "Skale Place")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11917, -18111, "Skale Place")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10902, -16356, "Skale Place", 2000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11917, -18111, "Skale Place", 2000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13425, -16930, "Skale Boss")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-15218, -17460, "Skale Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-16084, -14159, "Skale Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17395, -12851, "Skale Place")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18157, -9785, "Skale On the Way")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18222, -6263, "Finish Skale")
+	;charr on field
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18157, -9785, "Skale On the Way", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18222, -6263, "Finish Skale", 3000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17239, -1933, "Moving")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17509, 202, "Moving")
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-17546, 341)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(1000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13853, -2427, "Charr Seeker")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9313, -3786, "Charr Seeker")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13228, 2083, "Charr Seeker")
+
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13622, 5476, "Moving")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17705, 3079, "Mantid on the way")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-16565, 2528, "More Charr")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17705, 3079, "Moving")
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-12909, 6403, "Mantid on the way")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10699, 5105, "Mantid Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9016, 6958, "Mantid Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8889, 9446, "Mantid Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8190, 6872, "Mantid")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-6869, 4604, "Mantid Monk Boss")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-6181, 2977, "Mantid Group")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8190, 6872, "Mantid")
+
+
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-6181, 1837, "Mantid Group")
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4125, 2789, "Mantid Group")
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-2875, 985, "Moving")
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-769, 2047, "Charr Group")
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(1114, 1765, "Mantid and Charr")
+
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(6550, 7549, "Looking for Mantids", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(8246, 8104, "Looking for Mantids", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(6550, 7549, "Looking for Mantids", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(1960, 4969, "Looking for Mantids", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(621, 8056, "Looking for Mantids", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4039, 8928, "Looking for Mantids", 3000)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3299, 606, "Looking for Mantids", 3000)
+
+	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
+	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-2646, -452)
+	If $DeadOnTheRun = 0 Then Sleep(1000)
+
+
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(5219, -5017, "Charr Patrol")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(7289, -9484, "Charr Patrol")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(5219, -7017, "Charr Patrol")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(1342, -9068, "Charr Patrol")
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(1606, 22, "Charr Patrol")
+
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-276, -2566, "Going to Molotov")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3337, -4323, "Molotov")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4700, -4943, "Molotov")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-5561, -5483, "Molotov")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-5561, -5483, "Molotov", 10000)
+
+
 EndFunc
 
 Func VQSS();
 	CurrentAction("Taking blessing")
 
 	$deadlock = 0
-	Do
-		GoNearestNPCToCoords(15773, -15302)
-		rndslp(1000)
-		Dialog(0x00000084)
-		Dialog(0x00000085)
-		rndslp(1000)
-		$deadlock+=1
-	Until DllStructGetData(geteffect(1974), 'skillid') = 1974 or $deadlock = 10 ; luxon = 1947
+
+	GoNearestNPCToCoords(15773, -15302)
+	Sleep(1000)
+	Dialog(0x00000084)
+	Dialog(0x00000085)
+	Sleep(1000)
 
 	$DeadOnTheRun = 0
 
@@ -710,110 +743,95 @@ Func VQSSLB();
 	CurrentAction("Taking blessing")
 
 	$deadlock = 0
-	Do
-		GoNearestNPCToCoords(-704, 15988)
 
-		Dialog(0x00000085)
-		rndslp(1000)
-		$deadlock+=1
-	Until DllStructGetData(geteffect(1982), 'skillid') = 1982 or $deadlock = 10 ; luxon = 1947
-
-	$DeadOnTheRun = 0
-
-	MoveTo(-675, 13419)
-	CurrentAction("Little Break For Hero To Come")
-	RndSleep(6000)
-	CurrentAction("Grabbing wurm")
-	TargetNearestItem()
-	RndSleep(500)
-	GoSignpost(-1)
+	CurrentAction("Taking Blessing")
+	GoToNPC(GetNearestNPCToCoords(-704, 15988))
+	Dialog(0x83)
+	RndSleep(1000)
+	Dialog(0x85)
 	RndSleep(1000)
 
-	CurrentAction("Going To Farm")
+	MoveTo(-675, 13419)
+	RndSleep(5000)
+	TargetNearestItem()
+	RndSleep(750)
+	GoSignpost(-1)
+	RndSleep(750)
+
+	$enemy = "First Undead Group"
+	AggroMoveTo(-1950, 9871, $enemy)
+
+	$enemy = "Second Undead Group"
+	AggroMoveTo(-3684, 11485, $enemy)
+	AggroMoveTo(-4705, 11411, $enemy)
+
+	$enemy = "Third Undead Group"
+	MoveTo(-9661, 12374)
+	MoveTo(-12856, 9128)
+	AggroMoveTo(-13839, 7961, $enemy)
+
+	CurrentAction("Taking Margonite Blessing")
+	MoveTo(-17247, 5902)
+	MoveTo(-19119, 6559)
+	MoveTo(-19610, 7037)
+	GoToNPC(GetNearestNPCToCoords(-20587, 7280))
+	Sleep(1000)
+	Dialog(0x85)
+	RndSleep(1000)
 
 
-	$enemy = "First Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-1950, 9871, $enemy)
+	$enemy = "First Margonite Group"
+	AggroMoveTo(-22716, 11220, $enemy, 500)
 
-	$enemy = "Second Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3684, 11485, $enemy)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4705, 11411, $enemy)
+	$enemy = "Djinn Group"
+	MoveTo(-19668, 7022)
+	MoveTo(-19266, 1867)
+	AggroMoveTo(-22030, -651, $enemy, 2000)
 
-	$enemy = "Third Group"
-	If $DeadOnTheRun = 0 Then MoveTo(-9661, 12374)
-	If $DeadOnTheRun = 0 Then MoveTo(-12856, 9128)
-	;If $DeadOnTheRun = 0 Then MoveTo(-12614, 9323)
-	If $DeadOnTheRun = 0 Then MoveTo(-13641, 7692)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13839, 7961, $enemy)
+	$enemy = "Undead Ritualist Boss Group"
+	AggroMoveTo(-19332, -9200, $enemy)
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking blessing")
-	If $DeadOnTheRun = 0 Then MoveTo(-17247, 5902)
-	If $DeadOnTheRun = 0 Then MoveTo(-19610,7037)
-	If $DeadOnTheRun = 0 Then
-		$deadlock = 0
-		Do
-			GoNearestNPCToCoords(-20587,7280)
-			rndslp(1000)
-			Dialog(0x00000085)
-			RndSleep(1000)
-			$deadlock+=1
-		Until DllStructGetData(geteffect(2037), 'skillid') = 2037 or $deadlock = 10 or $DeadOnTheRun = 1
-	EndIf
+	$enemy = "Second Margonite Group"
+	AggroMoveTo(-22748, -10570, $enemy, 2000)
+	AggroMoveTo(-22259, -13719, $enemy, 2000)
 
-	$enemy = "Djinn"
-	If $DeadOnTheRun = 0 Then MoveTo(-19266, 1867)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-22030, -651, $enemy, 2000)
+	CurrentAction("Picking Up Tome")
+	MoveTo(-21219, -13860)
+	RndSleep(250)
+	TargetNearestItem()
+	PickupItem(-1)
+	RndSleep(250)
+	PickupItem(-1)
+	RndSleep(250)
 
-	$enemy = "Rt Boss"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-19332, -9200, $enemy)
-
-	$enemy = "Margonite"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-22748, -10570, $enemy, 2000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-22259, -13719, $enemy, 2000)
-
-	If $DeadOnTheRun = 0 Then CurrentAction("Picking up Tome")
-	If $DeadOnTheRun = 0 Then MoveTo(-21219, -13860)
-	If $DeadOnTheRun = 0 Then RndSleep(250)
-	If $DeadOnTheRun = 0 Then TargetNearestItem()
-	If $DeadOnTheRun = 0 Then PickupItem(-1)
-	If $DeadOnTheRun = 0 Then RndSleep(250)
-	If $DeadOnTheRun = 0 Then PickupItem(-1)
-	If $DeadOnTheRun = 0 Then RndSleep(1000)
-	If $DeadOnTheRun = 0 Then DropBundle()
-
-	$enemy = "Spawn !"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-22648, -9901, $enemy)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18993, -9491, $enemy)
-
-	If $DeadOnTheRun = 0 Then MoveTo(-22858, -9851)
-	If $DeadOnTheRun = 0 Then MoveTo(-22035, -13729)
+	CurrentAction("Moving To Temple")
+	$enemy = "Temple Monolith Groups"
+	AggroMoveTo(-18239, -13084, $enemy)
 
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Spawning")
-	If $DeadOnTheRun = 0 Then MoveTo(-18176, -13412)
-	If $DeadOnTheRun = 0 Then $shrine = GetNearestSignpostToCoords(-18176, -13412)
-	If $DeadOnTheRun = 0 Then RndSleep(1000)
-	If $DeadOnTheRun = 0 Then GoSignpost($shrine)
-	If $DeadOnTheRun = 0 Then RndSleep(1000)
-	If $DeadOnTheRun = 0 Then GoSignpost(-1)
-	If $DeadOnTheRun = 0 Then RndSleep(3000)
+	CurrentAction("Spawning Margonite Bosses")
+	MoveTo(-18176, -13412)
+	$shrine = GetNearestSignpostToCoords(-18176, -13412)
+	RndSleep(1000)
+	GoSignpost($shrine) ;trigger shrine
+	RndSleep(1000)
+	GoSignpost(-1) ;trigger shrine
+	RndSleep(3000)
 
-	$enemy = "Margonite Boss"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18176, -13412, $enemy)
-	If $DeadOnTheRun = 0 Then RndSleep(1000)
+	$enemy = "Margonite Boss Group"
+	AggroMoveTo(-18176, -13412, $enemy)
+	RndSleep(1000)
 EndFunc
 
 Func VQNorn();
 	CurrentAction("Taking blessing")
 	MoveTo(-2034, -4512)
 	$deadlock = 0
-	Do
-		GoNearestNPCToCoords(-2034, -4512)
-		RndSleep(1000)
-		Dialog(0x00000084)
-		RndSleep(1000)
-		$deadlock+=1
-	Until DllStructGetData(geteffect(2591), 'skillid') = 2591 or DllStructGetData(geteffect(2469), 'skillid') = 2469 or $deadlock = 10 ; luxon = 1947
+
+	GoNearestNPCToCoords(-2034, -4512)
+	RndSleep(1000)
+	Dialog(0x00000084)
+	RndSleep(1000)
 
 
 	Do
@@ -833,7 +851,8 @@ Func VQNorn();
 	Until CheckArea(-21964, -12877)
 
 	CurrentAction("Taking blessing")
-	GoNearestNPCToCoords(-25274, -11970)
+	;GoNearestNPCToCoords(-25274, -11970)
+	GoNearestNPCToCoords(-1956, -4535)
 	RndSleep(1000)
 
 	Do
@@ -979,16 +998,20 @@ Func VQNorn();
 EndFunc
 
 Func VQKurzick();
-	CurrentAction("Taking blessing")
+
 	$deadlock = 0
-	Do
-		GoNearestNPCToCoords(-12909, 15616)
-		Dialog(0x85)
-		RndSleep(1000)
-		Dialog(0x86)
-		RndSleep(1000)
-		$deadlock+=1
-	Until DllStructGetData(geteffect(593), 'skillid') = 593 or DllStructGetData(geteffect(912), 'skillid') = 912 or $deadlock = 10 ; luxon = 1947
+
+	CurrentAction("Taking blessing")
+	GoNearestNPCToCoords(-12909, 15616)
+	Dialog(0x81)
+	Sleep(1000)
+	Dialog(0x2)
+	Sleep(1000)
+	Dialog(0x84)
+	Sleep(1000)
+	Dialog(0x86)
+	RndSleep(1000)
+
 
 	$enemy = "Mantis Group"
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11733, 16729, $enemy)
@@ -996,6 +1019,7 @@ Func VQKurzick();
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11178,20073, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11008, 16972, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11238, 15226, $enemy)
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9122, 14794, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10965, 13496, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10570, 11789, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10138, 10076, $enemy)
@@ -1140,19 +1164,18 @@ Func VQKurzick();
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(8223, 12552, $enemy,4000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(7148, 11167, $enemy,4000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(5427, 10834, $enemy,10000)
+
 EndFunc
 
 Func VQDeldrimor();
 	CurrentAction("Taking blessing")
 
 	$deadlock = 0
-	Do
-		GoNearestNPCToCoords(-14103, 15457)
-		RndSleep(1000)
-		Dialog(0x00000084)
-		RndSleep(1000)
-		$deadlock+=1
-	Until DllStructGetData(geteffect(2565), 'skillid') = 2565 or DllStructGetData(geteffect(2445), 'skillid') = 2445 or $deadlock = 10 ; luxon = 1947
+
+	GoNearestNPCToCoords(-14103, 15457)
+	RndSleep(1000)
+	Dialog(0x00000084)
+	RndSleep(1000)
 
 	Do
 		$DeadOnTheRun = 0
@@ -1172,7 +1195,7 @@ Func VQDeldrimor();
 		If $DeadOnTheRun = 0 Then $enemy = "Going to shrine"
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14596, 2612, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14506, 3963, $enemy)
-		If  $DeadOnTheRun = 1 then RndSlp(15000)
+		If  $DeadOnTheRun = 1 then Sleep(15000)
 	Until CheckArea(-14506, 3963)
 
 	CurrentAction("Taking blessing")
@@ -1196,91 +1219,93 @@ Func VQDeldrimor();
 		If $DeadOnTheRun = 0 Then $enemy = "Snowman"
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13114, -6255, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14367, -9244, $enemy)
-		If  $DeadOnTheRun = 1 then RndSlp(15000)
+		If  $DeadOnTheRun = 1 then Sleep(15000)
 	Until CheckArea(-14367, -9244)
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(-16025, -10702)
 	RndSleep(500)
 
-Do
-	$DeadOnTheRun = 0
-	If $DeadOnTheRun = 0 Then $enemy = "Ennemy near door"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-15396, -10850, $enemy)
-	If $DeadOnTheRun = 0 Then Moveto(-13970, -9719)
-	If $DeadOnTheRun = 0 Then Moveto(-13047, -10683)
-	If $DeadOnTheRun = 0 Then $enemy = "Angry Snowman"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10097, -11373, $enemy)
-	If $DeadOnTheRun = 1 Then RndSlp(15000)
-Until CheckArea(-10097, -11373)
+	Do
+		$DeadOnTheRun = 0
+		If $DeadOnTheRun = 0 Then $enemy = "Ennemy near door"
+		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15396, -10850, $enemy)
+		If $DeadOnTheRun = 0 Then Moveto(-13970, -9719)
+		If $DeadOnTheRun = 0 Then Moveto(-13047, -10683)
+		If $DeadOnTheRun = 0 Then $enemy = "Angry Snowman"
+		If $DeadOnTheRun = 0 Then AggroMoveToEx(-10097, -11373, $enemy)
+		If  $DeadOnTheRun = 1 then Sleep(15000)
+	Until CheckArea(-10097, -11373)
 
-$enemy = "Grabbing Key"
+	$enemy = "Grabing Key"
+	Moveto(-9852, -11078)
+	RndSleep(500)
+	PickUpLoot()
+	RndSleep(2000)
+	MoveTo(-9547, -10960)
+	RndSleep(500)
+	PickUpLoot()
+	Sleep(1000)
 
-; Move to the key's location
-Moveto(-9570.54, -10958.44)
-PickupItems(-1, 3036)
-RndSlp(1000)
+	CurrentAction("Going to open the door")
+	Moveto(-11464, -11034)
+	Moveto(-14162, -9527)
+	Moveto(-15284, -10824)
+	Moveto(-15454, -12245)
+	RndSleep(500)
+	$door = GetNearestSignpostToAgent()
+	RndSleep(500)
+	GoSignpost($door)
+	RndSleep(500)
+	Moveto(-15869, -12119)
 
-; Continue with the rest of your script
-CurrentAction("Going to open the door")
-Moveto(-11464, -11034)
-Moveto(-14162, -9527)
-Moveto(-15284, -10824)
-Moveto(-15454, -12245)
-RndSleep(500)
-$door = GetNearestSignpostToAgent()
-RndSleep(500)
-GoSignpost($door)
-RndSleep(500)
-Moveto(-15869, -12119)
+	Do
+		$DeadOnTheRun = 0
+		If $DeadOnTheRun = 0 Then $enemy = "Snowman"
+		If $DeadOnTheRun = 0 Then AggroMoveToEx(-17287, -13895, $enemy)
 
-Do
-    $DeadOnTheRun = 0
-    If $DeadOnTheRun = 0 Then $enemy = "Snowman"
-    If $DeadOnTheRun = 0 Then AggroMoveToEx(-17287, -13895, $enemy)
+		If $DeadOnTheRun = 0 Then $enemy = "Boss and others"
+		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15483, -16565, $enemy)
+		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13362, -17430, $enemy)
+		If  $DeadOnTheRun = 1 then Sleep(15000)
+	Until CheckArea(-13362, -17430)
 
-    If $DeadOnTheRun = 0 Then $enemy = "Boss and others"
-    If $DeadOnTheRun = 0 Then AggroMoveToEx(-15483, -16565, $enemy)
-    If $DeadOnTheRun = 0 Then AggroMoveToEx(-13362, -17430, $enemy)
-    If $DeadOnTheRun = 1 Then RndSlp(15000)
-Until CheckArea(-13362, -17430)
+	CurrentAction("Grabing boss key")
+	Moveto(-12974, -17414)
+	RndSleep(500)
+	PickUpLoot()
 
-CurrentAction("Grabbing boss key")
-Moveto(-13472.00, -17429.53)
-PickupItems(-1, 3036)
-RndSlp(1000)
+	CurrentAction("Going to open door")
+	Moveto(-11215, -18002)
+	$door = GetNearestSignpostToAgent()
+	RndSleep(500)
+	GoSignpost($door)
+	RndSleep(500)
 
-CurrentAction("Going to open door")
-Moveto(-11215, -18002)
-$door = GetNearestSignpostToAgent()
-RndSleep(500)
-GoSignpost($door)
-RndSleep(500)
+	Moveto(-11300, -18290)
+	CurrentAction("Going in")
+	Moveto(-9618, -19271)
+	CurrentAction("Move to chest")
+	Moveto(-7856, -19136)
+	Moveto(-7560, -18592)
 
-Moveto(-11300, -18290)
-CurrentAction("Going in")
-Moveto(-9618, -19271)
-CurrentAction("Move to chest")
-Moveto(-7856, -19136)
-Moveto(-7730, -18648)
-moveto(-7594.00, -18657.00)
+	EnsureEnglish(True)
 
 	CurrentAction("Waiting on Chest")
 	local $chestspawn = False
 	local $TimerGuynotThere = TimerInit()
 	Do
 		TargetNearestItem()
-		rndslp(500)
-		If GetAgentName(GetCurrentTarget()) = "Chest of Wintersday Past" Then $chestspawn = True
+		Sleep(500)
+		If DllStructGetData(GetCurrentTarget(), 'ID') <> 32 Then $chestspawn = True
 		If TimerDiff($TimerGuynotThere) > 240000 Then
 			CurrentAction("Apparently, Koris is stuck somewhere on the dungeon, go again")
-			rndslp(2000)
+			Sleep(2000)
 			Return
 		EndIf
 	Until $chestspawn = True
 
 	RndSleep(500)
-
 
 	CurrentAction("Opening Chest")
 	$chest = GetNearestSignpostToAgent()
@@ -1288,19 +1313,19 @@ moveto(-7594.00, -18657.00)
 	GoSignpost($chest)
 	RndSleep(1000)
 
-
 	CurrentAction("Picking")
-	PickupItems(-1,1500)
+	PickUpLoot()
 	RndSleep(500)
-	TravelTo($Map_To_Zone)
+	;id=251
+	;(-7594, -18657)
+
 	WaitForLoad()
-	CurrentAction("Waiting to really complete load")
-	rndslp(5000)
+	RndTravel($Map_To_Zone)
 
 	CurrentAction("Drop Quest")
-	rndslp(5000)
+	Sleep(5000)
 	AbandonQuest(898)
-	rndslp(500)
+	Sleep(500)
 	SwapDistricts()
 EndFunc
 
@@ -1311,20 +1336,24 @@ Func SwapDistricts()
 	RndSleep(3000)
 	CurrentAction("Leaving GH")
 	LeaveGH()
+
 	RndSleep(3000)
 EndFunc
 
 Func VQAsura();
-	CurrentAction("Taking Blessing")
-	$deadlock = 0
-	Do
-		GoNearestNPCToCoords(14796, 13170)
-		rndslp(1000)
-		Dialog(0x00000084)
-		rndslp(1000)
-		$deadlock+=1
-	Until DllStructGetData(geteffect(2552), 'skillid') = 2552 or DllStructGetData(geteffect(2481), 'skillid') = 2481 or $deadlock = 10 ; luxon = 1947
 
+	$DeadOnTheRun = 0
+
+	CurrentAction("Taking Blessing")
+	GoNearestNPCToCoords(14796, 13170)
+	Sleep(1000)
+	Dialog(0x83)
+	Sleep(1000)
+	Dialog(0x84)
+	Sleep(1000)
+	Dialog(0x85)
+	Sleep(5000)
+	$DeadOnTheRun = 0
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
 	If $DeadOnTheRun = 0 Then MoveTo(16722, 11774)
@@ -1341,7 +1370,7 @@ Func VQAsura();
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(18409, -8474)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(2000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(18613, -11799, "Froggy Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(17154, -15669, "Krait Patrol")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(14250, -16744, "Second Patrol")
@@ -1355,6 +1384,8 @@ Func VQAsura();
 	If $DeadOnTheRun = 0 Then MoveTo(1052, -7074)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-1029, -8724, "Spider Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3439, -10339, "Krait Group")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3024, -12586, "Spider Cave")
+	Sleep(1000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-2797, -13645, "Spider Cave")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3393, -15633, "Spider Cave")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4635, -16643, "Spider Pop")
@@ -1362,13 +1393,14 @@ Func VQAsura();
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-10109, -17520)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(2000)
 	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
 	If $DeadOnTheRun = 0 Then MoveTo(-9111, -17237)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10963, -15506, "Ranger Boss Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-12885, -14651, "Froggy Group")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13975, -17857, "Corner Spiders")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11912, -10641, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10760, -9933, "Krait Boss Warrior")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8760, -9933, "Krait Boss Warrior")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-14030, -9780, "Froggy Coing Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-12368, -7330, "Froggy Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-16527, -8175, "Froggy Patrol")
@@ -1383,7 +1415,7 @@ Func VQAsura();
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-19292, 8994)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(2000)
 	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
 	If $DeadOnTheRun = 0 Then MoveTo(-18640, 8724)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18484, 12021, "Krait Patrol")
@@ -1403,7 +1435,8 @@ Func VQAsura();
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-2037, 10758)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(2000)
+
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3804, 8017, "Krait Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-1346, 12360, "Moving")
 	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
@@ -1420,11 +1453,16 @@ Func VQAsura();
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(4893, 445)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(2000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(8943, -985, "Krait Boss")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(10949, -2056, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(11870, -4403, "Rider Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8193, -841, "Moving Back")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(13780, -5667, "Rider Patrol", 2000)
+
+	;If $DeadOnTheRun = 0 Then AggroMoveToEx(10566, -3196, "Moving Back")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(12444, -793, "Moving Back",3000)
+	;If $DeadOnTheRun = 0 Then AggroMoveToEx(10752, 991, "Moving Back")
+
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(8193, -841, "Moving Back",3000)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(3284, -1599, "Krait Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-76, -1498, "Krait Group")
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(578, 719, "Krait Group")
@@ -1435,5 +1473,10 @@ Func VQAsura();
 
 	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
 	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-9231, -2629)
-	If $DeadOnTheRun = 0 Then rndslp(1000)
+	If $DeadOnTheRun = 0 Then Sleep(3000)
+
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11414, 4055, "Leftovers Krait")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-6907, 8461, "Moving")
+	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8689, 11227, "Leftovers Krait and Rider",10000)
+
 EndFunc
