@@ -7,6 +7,11 @@ TitleBot
 2. Deldrimor
 3. Norn
 4. Luxon
+5. Kurzick
+6. Vanguard
+
+Added option to use Cons
+Added Function to Check to Locked Chest (still testing)
 
 Custom Changes to GWA2 Headers/CommonFunctions/Addons
 
