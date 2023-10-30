@@ -344,7 +344,6 @@ EndFunc   ;==>CommandHero7
 #Region chest
 
 Func OpenChestByExtraType($ExtraType)
-		Out("Use Lockpick")
 		OpenChest()
 EndFunc   ;==>OpenChestByExtraType
 
@@ -358,12 +357,28 @@ Func OpenChest()
 	Return SendPacket(0x8, $HEADER_OPEN_CHEST, 2)
 EndFunc   ;==>OpenChest
 
+Func GetAgentArraySorted($lAgentType)     ;returns a 2-dimensional array([agentID, [distance]) sorted by distance
+	Local $lDistance
+	Local $lAgentArray = GetAgentArray($lAgentType)
+	Local $lReturnArray[1][2]
+	Local $lMe = GetAgentByID(-2)
+	Local $AgentID
+	For $i = 1 To $lAgentArray[0]
+		$lDistance = (DllStructGetData($lMe, 'X') - DllStructGetData($lAgentArray[$i], 'X')) ^ 2 + (DllStructGetData($lMe, 'Y') - DllStructGetData($lAgentArray[$i], 'Y')) ^ 2
+		$AgentID = DllStructGetData($lAgentArray[$i], 'ID')
+		ReDim $lReturnArray[$i][2]
+		$lReturnArray[$i - 1][0] = $AgentID
+		$lReturnArray[$i - 1][1] = Sqrt($lDistance)
+	Next
+	_ArraySort($lReturnArray, 0, 0, 0, 1)
+	Return $lReturnArray
+ EndFunc   ;==>GetAgentArraySorted
+
 Func CheckForChest($chestrun = False)
 	Local $AgentArray, $lAgent, $lExtraType
 	Local $ChestFound = False
 	If GetIsDead(-2) Then Return
 	$AgentArray = GetAgentArraySorted(0x200)   ;0x200 = type: static
-	Out("Looking for chests")
 	For $i = 0 To UBound($AgentArray) - 1    ;there might be multiple chests in range
 		$lAgent = GetAgentByID($AgentArray[$i][0])
 		$lType = DllStructGetData($lAgent, 'Type')
@@ -378,19 +393,17 @@ Func CheckForChest($chestrun = False)
 				_ArrayAdd($OpenedChestAgentIDs, $AgentArray[$i][0])
 			EndIf
 			$ChestFound = True
-			Out("Find " & $aChestID)
 			ExitLoop
 		EndIf
 	Next
 	If Not $ChestFound Then Return
-	Out("opening " & $aChestID)
 	ChangeTarget($lAgent)
 	GoSignpost($lAgent)
 	OpenChestByExtraType($aChestID)
 	Sleep(GetPing() + 500)
 	$AgentArray = GetAgentArraySorted(0x400)    ;0x400 = type: item
 	ChangeTarget($AgentArray[0][0])    ;in case you watch the bot running you can see what dropped immed
-		PickupLootEx(3500)
+;		PickupLootEx(3500)
 EndFunc   ;==>CheckForChest
 
 #EndRegion Chest

@@ -636,7 +636,7 @@ Func Fight($x, $s = "")
 	PingSleep(3000)
 	CurrentAction("Picking up items")
 	If $Bool_PickUp Then PickUpLoot()
-	If $Bool_Uselockpicks then OpenChest()
+	If $Bool_Uselockpicks then CheckForChest()
 EndFunc   ;==>Fight
 
 Func FightEx($z, $s = "enemies")
@@ -724,7 +724,7 @@ Func FightEx($z, $s = "enemies")
 	Else
 		CurrentAction("Picking up items")
 		If $Bool_PickUp Then PickUpLoot()
-		If $Bool_Uselockpicks then OpenChest()
+		If $Bool_Uselockpicks then CheckForChest()
 	EndIf
 EndFunc   ;==>FightEx
 

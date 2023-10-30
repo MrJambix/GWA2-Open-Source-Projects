@@ -36,9 +36,6 @@ Global $SS_LB_Map = 444
 Global $Kurzick_Map = 210
 Global $Luxon_Map = 200
 
-
-
-
 While 1
 	If $boolrun = true Then
 		If $NumberRun = 0 Then ;first run
