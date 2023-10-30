@@ -315,13 +315,7 @@ Func CommandHero7($aX = 0x7F800000, $aY = 0x7F800000)
 EndFunc   ;==>CommandHero7
 
 
-
-#Region Action-related commands
-
-
-#Region Item related commands
-
-
+#Region chest
 
 Func OpenChestByExtraType($ExtraType)
 		Out("Use Lockpick")
@@ -334,9 +328,45 @@ Func OpenChestNoLockpick()
 EndFunc   ;==>OpenChestNoLockpick
 
 ;~ Description: Open a chest with lockpick.
-;Func OpenChest()
-;	Return SendPacket(0x8, $HEADER_OPEN_CHEST, 2)
-;EndFunc   ;==>OpenChest
+Func OpenChest()
+	Return SendPacket(0x8, $HEADER_OPEN_CHEST, 2)
+EndFunc   ;==>OpenChest
+
+Func CheckForChest($chestrun = False)
+	Local $AgentArray, $lAgent, $lExtraType
+	Local $ChestFound = False
+	If GetIsDead(-2) Then Return
+	$AgentArray = GetAgentArraySorted(0x200)   ;0x200 = type: static
+	Out("Looking for chests")
+	For $i = 0 To UBound($AgentArray) - 1    ;there might be multiple chests in range
+		$lAgent = GetAgentByID($AgentArray[$i][0])
+		$lType = DllStructGetData($lAgent, 'Type')
+		$lExtraType = DllStructGetData($lAgent, 'ExtraType')
+		If $lType <> 512 Then ContinueLoop
+		If $aChestID = "" Then ContinueLoop
+		If _ArraySearch($OpenedChestAgentIDs, $AgentArray[$i][0]) == -1 Then
+			If @error <> 6 Then ContinueLoop
+			If $OpenedChestAgentIDs[0] = "" Then    ;dirty fix: blacklist chests that were opened before
+				$OpenedChestAgentIDs[0] = $AgentArray[$i][0]
+			Else
+				_ArrayAdd($OpenedChestAgentIDs, $AgentArray[$i][0])
+			EndIf
+			$ChestFound = True
+			Out("Find " & $aChestID)
+			ExitLoop
+		EndIf
+	Next
+	If Not $ChestFound Then Return
+	Out("opening " & $aChestID)
+	ChangeTarget($lAgent)
+	GoSignpost($lAgent)
+	OpenChestByExtraType($aChestID)
+	Sleep(GetPing() + 500)
+	$AgentArray = GetAgentArraySorted(0x400)    ;0x400 = type: item
+	ChangeTarget($AgentArray[0][0])    ;in case you watch the bot running you can see what dropped immed
+		PickupLootEx(3500)
+EndFunc   ;==>CheckForChest
+
 #EndRegion Chest
 
 ;=================================================================================================

@@ -636,12 +636,8 @@ Func Fight($x, $s = "")
 	PingSleep(3000)
 	CurrentAction("Picking up items")
 	If $Bool_PickUp Then PickUpLoot()
+	If $Bool_lockpicks then OpenChest()
 EndFunc   ;==>Fight
-
-;Func PingSleep($msExtra = 0)
-;	$ping = GetPing()
-;	Sleep($ping + $msExtra)
-;EndFunc   ;==>PingSleep
 
 Func FightEx($z, $s = "enemies")
 	Local $lastId = 99999, $coordinate[2], $timer
@@ -728,6 +724,7 @@ Func FightEx($z, $s = "enemies")
 	Else
 		CurrentAction("Picking up items")
 		If $Bool_PickUp Then PickUpLoot()
+		If $Bool_lockpicks then OpenChest()
 	EndIf
 EndFunc   ;==>FightEx
 

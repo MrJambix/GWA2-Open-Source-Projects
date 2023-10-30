@@ -2157,10 +2157,6 @@ Func SuppressAction($aSuppress)
 	EndIf
 EndFunc   ;==>SuppressAction
 
-;~ Description: Open a chest.
-Func OpenChest()
-	Return SendPacket(0x8, $HEADER_CHEST_OPEN, 2)
-EndFunc   ;==>OpenChest
 
 ;~ Description: Stop maintaining enchantment on target.
 Func DropBuff($aSkillID, $aAgentID, $aHeroNumber = 0)
