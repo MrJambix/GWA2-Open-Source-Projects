@@ -1,3 +1,7 @@
+; Create by Globeul back in 2009/10
+; Kept alive by the community
+; Moment of Silent for those no longer part of the Guild Wars Community.
+
 #include "GWA2_Headers.au3"
 #include "GWA2.au3"
 #include <ButtonConstants.au3>

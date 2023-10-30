@@ -23,7 +23,7 @@ Global $totalskills = 7
 Opt("GUIOnEventMode", 1)
 
 #Region ### START Koda GUI section ### Form=c:\bot\reputation farming\title package\form1.kxf
-global $Form1_1 = GUICreate("Globeul -Title Package updated", 321, 283, -1, -1)
+global $Form1_1 = GUICreate("Title Farm Bot: Version 2023.1", 370, 300, -1, -1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 global $Start = GUICtrlCreateButton("Start", 264, 248, 51, 25)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -67,6 +67,8 @@ GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $Gui_Donate = GUICtrlCreateCheckbox("Donate", 248, 208, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $gui_cons = GUICtrlCreateCheckbox("Cons", 248, 160, 65, 17)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+Global $Gui_UseLockpicks = GUICtrlCreateCheckbox("Lockpicks", 202, 226, 79, 14)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 248, 184, 60, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -229,6 +231,7 @@ func gui_eventHandler()
 			If BitAND(GUICtrlRead($Gui_Donate), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Donate = True
 			If BitAND(GUICtrlRead($Gui_PickUp), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_PickUp = True
 			If BitAND(GUICtrlRead($gui_cons), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_cons = True
+			If BitAND(GUICtrlRead($Gui_UseLockpicks), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_lockpicks = True
 
 			If GUICtrlRead($txtName) = "" Then
 				MsgBox(0, "Error", "Plz enter your name in the input box")
