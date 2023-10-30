@@ -6,7 +6,7 @@ global $boolrun = False
 Global $strName = ""
 Global $coords[2]
 Global $Title, $sGW
-Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False
+Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_Uselockpicks = False
 
 Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
 
@@ -231,7 +231,7 @@ func gui_eventHandler()
 			If BitAND(GUICtrlRead($Gui_Donate), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Donate = True
 			If BitAND(GUICtrlRead($Gui_PickUp), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_PickUp = True
 			If BitAND(GUICtrlRead($gui_cons), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_cons = True
-			If BitAND(GUICtrlRead($Gui_UseLockpicks), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_lockpicks = True
+			If BitAND(GUICtrlRead($Gui_UseLockpicks), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Uselockpicks = True
 
 			If GUICtrlRead($txtName) = "" Then
 				MsgBox(0, "Error", "Plz enter your name in the input box")
@@ -636,7 +636,7 @@ Func Fight($x, $s = "")
 	PingSleep(3000)
 	CurrentAction("Picking up items")
 	If $Bool_PickUp Then PickUpLoot()
-	If $Bool_lockpicks then OpenChest()
+	If $Bool_Uselockpicks then OpenChest()
 EndFunc   ;==>Fight
 
 Func FightEx($z, $s = "enemies")
@@ -724,7 +724,7 @@ Func FightEx($z, $s = "enemies")
 	Else
 		CurrentAction("Picking up items")
 		If $Bool_PickUp Then PickUpLoot()
-		If $Bool_lockpicks then OpenChest()
+		If $Bool_Uselockpicks then OpenChest()
 	EndIf
 EndFunc   ;==>FightEx
 

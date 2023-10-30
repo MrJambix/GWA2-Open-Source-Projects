@@ -23,6 +23,32 @@ Global $Armor_of_Salvation_item_effect = 2520
 Global $Grail_of_Might_item_effect = 2521
 Global $Essence_of_Celerity_item_effect = 2522
 
+Global $OpenedChestAgentIDs[1]
+Global $aChestID[9000]
+     $aChestID[65] = "Krytan Chest"
+     $aChestID[66] = "Elonian Chest"
+     $aChestID[67] = "Maguuma Chest"
+     $aChestID[68] = "Phantom Chest"
+     $aChestID[69] = "Ascalonian Chest"
+	 $aChestID[70] = "Miners Chest"
+     $aChestID[71] = "Steel Chest"
+     $aChestID[72] = "Shiverpeak Chest"
+     $aChestID[73] = "Darkstone Chest"
+	 $aChestID[74] = "Obsidian Chest"
+	 $aChestID[4576] = "Forbidden Chest"
+     $aChestID[4577] = "Kurzick Chest"
+	 $aChestID[4578] = "Stoneroot Chest"
+     $aChestID[4579] = "Shing Jea Chest"
+	 $aChestID[4580] = "Luxon Chest"
+	 $aChestID[4581] = "Deep Jade Chest"
+     $aChestID[4582] = "Canthan Chest"
+	 $aChestID[6061] = "Ancient Elonian Chest"
+     $aChestID[6062] = "Istani Chest"
+	 $aChestID[6063] = "Vabbi Chest"
+     $aChestID[6064] = "Kournan Chest"
+     $aChestID[6065] = "Margonite Chest"
+     $aChestID[7053] = "Demonic Chest"
+	 $aChestID[8141] = "Locked Chest"
 
 ;~ Dungeon Key
 Global Const $TYPE_KEY = 18
@@ -88,7 +114,7 @@ Global $ModelsParty[100] = [6368, 6369, 6376, 21809, 21810, 21813]
 Global $Array_pscon[39]=[910, 5585, 6366, 6375, 22190, 24593, 28435, 30855, 31145, 35124, 36682, 6376, 21809, 21810, 21813, 36683, 21492, 21812, 22269, 22644, 22752, 28436,15837, 21490, 30648, 31020, 6370, 21488, 21489, 22191, 26784, 28433, 5656, 18345, 21491, 37765, 21833, 28433, 28434]
 
 
-Global $Legion = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_usealc = False, $Bool_lockpicks = False, $Bool_cons = False
+Global $Legion = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_usealc = False, $Bool_cons = False, $Bool_Donate = False, $Bool_Uselockpicks = False
 
 #Region Global MatsPic´s And ModelID´Select
 Global $PIC_MATS[26][2] = [["Fur Square", 941],["Bolt of Linen", 926],["Bolt of Damask", 927],["Bolt of Silk", 928],["Glob of Ectoplasm", 930],["Steel of Ignot", 949],["Deldrimor Steel Ingot", 950],["Monstrous Claws", 923],["Monstrous Eye", 931],["Monstrous Fangs", 932],["Rubies", 937],["Sapphires", 938],["Diamonds", 935],["Onyx Gemstones", 936],["Lumps of Charcoal", 922],["Obsidian Shard", 945],["Tempered Glass Vial", 939],["Leather Squares", 942],["Elonian Leather Square", 943],["Vial of Ink", 944],["Rolls of Parchment", 951],["Rolls of Vellum", 952],["Spiritwood Planks", 956],["Amber Chunk", 6532],["Jadeite Shard", 6533]]

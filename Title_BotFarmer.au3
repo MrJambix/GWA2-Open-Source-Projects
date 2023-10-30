@@ -36,32 +36,6 @@ Global $SS_LB_Map = 444
 Global $Kurzick_Map = 210
 Global $Luxon_Map = 200
 
-Global $OpenedChestAgentIDs[1]
-Global $aChestID[9000]
-     $aChestID[65] = "Krytan Chest"
-     $aChestID[66] = "Elonian Chest"
-     $aChestID[67] = "Maguuma Chest"
-     $aChestID[68] = "Phantom Chest"
-     $aChestID[69] = "Ascalonian Chest"
-	 $aChestID[70] = "Miners Chest"
-     $aChestID[71] = "Steel Chest"
-     $aChestID[72] = "Shiverpeak Chest"
-     $aChestID[73] = "Darkstone Chest"
-	 $aChestID[74] = "Obsidian Chest"
-	 $aChestID[4576] = "Forbidden Chest"
-     $aChestID[4577] = "Kurzick Chest"
-	 $aChestID[4578] = "Stoneroot Chest"
-     $aChestID[4579] = "Shing Jea Chest"
-	 $aChestID[4580] = "Luxon Chest"
-	 $aChestID[4581] = "Deep Jade Chest"
-     $aChestID[4582] = "Canthan Chest"
-	 $aChestID[6061] = "Ancient Elonian Chest"
-     $aChestID[6062] = "Istani Chest"
-	 $aChestID[6063] = "Vabbi Chest"
-     $aChestID[6064] = "Kournan Chest"
-     $aChestID[6065] = "Margonite Chest"
-     $aChestID[7053] = "Demonic Chest"
-	 $aChestID[8141] = "Locked Chest"
 
 
 
