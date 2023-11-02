@@ -880,8 +880,7 @@ Func VQNorn();
 	Until CheckArea(-21964, -12877)
 
 	CurrentAction("Taking blessing")
-	;GoNearestNPCToCoords(-25274, -11970)
-	GoNearestNPCToCoords(-1956, -4535)
+	GoNearestNPCToCoords(-25272.89, -11968.49)
 	RndSleep(1000)
 
 	Do
