@@ -11,7 +11,10 @@ TitleBot
 6. Vanguard
 
 Added option to use Cons
-Added Function to Check to Locked Chest (still testing)
+Added Function to Check to Locked Chest
+
+ToA Dust Farmer
+
 
 Custom Changes to GWA2 Headers/CommonFunctions/Addons
 
