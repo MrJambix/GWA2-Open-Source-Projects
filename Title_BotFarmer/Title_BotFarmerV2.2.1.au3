@@ -35,6 +35,7 @@ Global $Vanguard_Map = 647
 Global $SS_LB_Map = 444
 Global $Kurzick_Map = 210
 Global $Luxon_Map = 200
+Global $RenderingEnabled = True
 
 While 1
 	If $boolrun = true Then
@@ -79,11 +80,11 @@ While 1
 			EndIf
 
 			If $Title = "Luxon" and $Bool_Donate Then
-				MsgBox(48, "Warnning", "You tick donate button, be sure you are in a Luxon guild and you are also able to speak to the merchant in the outpost.")
-			ElseIf $Title = "Kurzick" and $Bool_Donate Then
-				MsgBox(48, "Warnning", "You tick donate button, be sure you are in a Kurzick guild and you are also able to speak to the merchant in the outpost.")
-			ElseIf $Title = "SS and LB" Then
-				MsgBox(48, "Warnning", "You choose SS and LB bot, dont forget that you need the 2 quest for that and rune of doom in inventory.")
+    MsgBox(48, "Warning", "You ticked the donate button. Be sure you are in a Luxon guild and you are also able to speak to the merchant in the outpost. Please provide feedback of your experience to MrJambix and ensure you give the proper thanks on the forums.")
+ElseIf $Title = "Kurzick" and $Bool_Donate Then
+    MsgBox(48, "Warning", "You ticked the donate button. Be sure you are in a Kurzick guild and you are also able to speak to the merchant in the outpost. Please provide feedback of your experience and ensure you give the proper thanks on the forums.")
+ElseIf $Title = "SS and LB" Then
+				MsgBox(48, "Warnning", "You choose SS and LB bot, dont forget that you need the 2 quest for that and rune of doom in inventory. Please provide feedback of your experience to MrJambix and ensure you give the proper thanks on the forums")
 			EndIf
 		EndIf
 
@@ -242,9 +243,11 @@ Func GoOut()
 				Until GetMapID() = $areaFerndale
 			ElseIf $Title = "Luxon" Then
 				MoveTo(-4268, 11628)
-				MoveTo(-4980, 12425)
-				Move(-5493, 13712)
-				WaitForLoad()
+				Do
+					Move(-5493, 13712)
+					RndSleep(500)
+					WaitForLoad()
+				Until GetMapID() = $Luxon_Map
 			ElseIf $Title = "SS and LB" Then
 				MoveTo(1527, -4114)
 				Move(1970, -4353)
@@ -1050,7 +1053,12 @@ Func VQKurzick();
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11942, 18468, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11178,20073, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11008, 16972, $enemy)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11238, 15226, $enemy)
+	If $DeadOnTheRun = 0 Then 
+		AggroMoveToEx(-11238, 15226, $enemy)
+		AggroMoveToEx(-9179.54, 15281.15, $enemy)
+		AggroMoveToEx(-8799.17, 14159.67, $enemy)
+		AggroMoveToEx(-9454.66, 13399.67, $enemy)
+	EndIf
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9122, 14794, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10965, 13496, $enemy)
 	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10570, 11789, $enemy)

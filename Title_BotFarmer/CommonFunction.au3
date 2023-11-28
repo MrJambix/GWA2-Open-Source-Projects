@@ -23,63 +23,85 @@ Global $totalskills = 7
 Opt("GUIOnEventMode", 1)
 
 #Region ### START Koda GUI section ### Form=c:\bot\reputation farming\title package\form1.kxf
-global $Form1_1 = GUICreate("Title Farm Bot: Version 2023.1", 370, 300, -1, -1)
+global $Form1_1 = GUICreate("Title Farm Bot: Version 2 - 2023", 370, 320, -1, -1)  ; Increased height to 320
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 global $Start = GUICtrlCreateButton("Start", 264, 248, 51, 25)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 GUICtrlCreateGroup("Title", 152, 8, 161, 129)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $Radio_Asura = GUICtrlCreateRadio("Asura", 168, 32, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 Global $Radio_Deldrimor = GUICtrlCreateRadio("Deldrimor", 232, 32, 65, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 Global $Radio_Vanguard = GUICtrlCreateRadio("Vanguard", 232, 56, 73, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 Global $Radio_Norn = GUICtrlCreateRadio("Norn", 168, 56, 49, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 Global $Radio_Kurzick = GUICtrlCreateRadio("Kurzick", 232, 80, 65, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 Global $Radio_Luxon = GUICtrlCreateRadio("Luxon", 232, 104, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 Global $Radio_SS_and_LB = GUICtrlCreateRadio("LB/SS", 168, 80, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 Global $Radio_SS = GUICtrlCreateRadio("SS", 168, 104, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 GUICtrlCreateGroup("General Config", 152, 136, 161, 105)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $Gui_Id_and_sell = GUICtrlCreateCheckbox("Id and Sell", 168, 184, 75, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $Gui_Store_unid = GUICtrlCreateCheckbox("Store Unid", 168, 160, 73, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $Gui_HM_enable = GUICtrlCreateCheckbox("HM", 168, 208, 49, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $Gui_Donate = GUICtrlCreateCheckbox("Donate", 248, 208, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $gui_cons = GUICtrlCreateCheckbox("Cons", 248, 160, 65, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $Gui_UseLockpicks = GUICtrlCreateCheckbox("Lockpicks", 202, 226, 79, 14)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 248, 184, 60, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-;global $txtName = GUICtrlCreateInput($strName, 152, 248, 105, 21)
+
 Global Const $txtName = GUICtrlCreateCombo("", 152, 248, 105, 21, BitOR($CBS_DROPDOWN, $CBS_AUTOHSCROLL))
 GUICtrlSetData(-1, GetLoggedCharNames())
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 GUICtrlCreateGroup("Points Status", 8, 8, 137, 161)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 GUICtrlCreateLabel("Asura", 24, 32, 31, 17)
 GUICtrlSetColor(-1, 0x808000)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -136,25 +158,39 @@ Global $STATUS = GUICtrlCreateLabel("Script Not Started Yet", 16, 208, 124, 17, 
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $label_stat = GUICtrlCreateLabel("min: 000  sec: 00", 24, 176, 105, 17, $SS_CENTER)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 GUICtrlCreateGroup("Runs", 8, 224, 137, 49)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 GUICtrlCreateLabel("Total Runs", 16, 248, 56, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetColor(-1, 0x008000)
+
 global $gui_status_runs = GUICtrlCreateLabel("0", 96, 248, 10, 17, $SS_RIGHT)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetColor(-1, 0x008000)
+
+; Added "disable rendering" checkbox
+$Checkbox2 = GUICtrlCreateCheckbox("disable rendering", 16, 280, 97, 17) ; Adjusted position
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetOnEvent(-1, "ToggleRendering")
+
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 GUISetOnEvent($GUI_EVENT_CLOSE, "gui_eventHandler")
+
 GUICtrlSetState($Gui_Id_and_sell, $GUI_CHECKED)
 GUICtrlSetState($Gui_Store_unid, $GUI_CHECKED)
 GUICtrlSetState($Gui_HM_enable, $GUI_CHECKED)
 GUICtrlSetState($Gui_PickUp, $GUI_CHECKED)
 GUICtrlSetState($Radio_Asura, $GUI_CHECKED)
 GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
+
 GUISetState(@SW_SHOW)
+
 #EndRegion ### END Koda GUI section ###
+
 
 func gui_eventHandler()
 	switch (@GUI_CtrlId)
@@ -223,7 +259,8 @@ func gui_eventHandler()
 			EndIf
 
 			$Size = WinGetPos($Form1_1)
-			WinMove ( $Form1_1, "", $Size[0], $Size[1], 155, 310, 1)
+			WinMove($Form1_1, "", $Size[0], $Size[1], 370, 320, 1)
+
 
 			If BitAND(GUICtrlRead($Gui_Id_and_sell), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_IdAndSell = True
 			If BitAND(GUICtrlRead($Gui_Store_unid), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Store = True
