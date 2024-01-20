@@ -147,9 +147,6 @@ Global Const $HEADER_FACTION_DONATE = 0x0033	;Donates kurzick/luxon faction to a
 Global Const $HEADER_TITLE_DISPLAY = 0x56	;Displays title
 ;GAME_CMSG_TITLE_HIDE
 Global Const $HEADER_TITLE_CLEAR = 0x57	;Hides title
-;GAME_SMSG_TITLE_UPDATE      
-Global Const $HEADER_TITLE_UPDATE = 0xF4    ; TITLE_UPDATE - MrJambix
-
 
 ;=DIALOG=
 ;GAME_CMSG_SEND_DIALOG
@@ -203,3 +200,9 @@ Global Const $HEADER_MAX_ATTRIBUTES_CONST_22	= 0x03	;constant at word 22 of max 
 Global Const $HEADER_OPEN_GB_WINDOW = 0x9E
 Global Const $HEADER_CLOSE_GB_WINDOW = 0x9F
 Global Const $HEADER_START_RATING_GVG = 0xA8
+
+;=NEW CONSTANTS=
+Global Const $HEADER_TITLE_UPDATE = 0x00F4 
+Global Const $HEADER_TITLE_TRACK_INFO = 0x0075 
+Global Const $HEADER_PLAYER_ATTR_UPDATE = 0x0086 
+Global Const $HEADER_PLAYER_ATTR_SET = 0x0097 

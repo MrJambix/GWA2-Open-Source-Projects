@@ -6594,3 +6594,51 @@ Func _PurgeHook()
 	Sleep(Random(4000, 5000))
 	; ToggleRendering()
 EndFunc   ;==>_PurgeHook
+
+; Define TitleInfo structure
+Func TitleInfo($title_id, $unk_flags, $value, $h000c, $current_rank_minimum_value, $h0014, $next_rank_minimum_value, $num_ranks, $h0020, $progress_display_enc_string, $mouseover_hint_enc_string)
+    Local $struct = DllStructCreate("uint32 title_id;uint32 unk_flags;uint32 value;uint32 h000c;uint32 current_rank_minimum_value;uint32 h0014;uint32 next_rank_minimum_value;uint32 num_ranks;uint32 h0020;wchar[16] progress_display_enc_string;wchar[16] mouseover_hint_enc_string")
+    DllStructSetData($struct, "title_id", $title_id)
+    DllStructSetData($struct, "unk_flags", $unk_flags)
+    DllStructSetData($struct, "value", $value)
+    DllStructSetData($struct, "h000c", $h000c)
+    DllStructSetData($struct, "current_rank_minimum_value", $current_rank_minimum_value)
+    DllStructSetData($struct, "h0014", $h0014)
+    DllStructSetData($struct, "next_rank_minimum_value", $next_rank_minimum_value)
+    DllStructSetData($struct, "num_ranks", $num_ranks)
+    DllStructSetData($struct, "h0020", $h0020)
+    DllStructSetData($struct, "progress_display_enc_string", $progress_display_enc_string, 1)
+    DllStructSetData($struct, "mouseover_hint_enc_string", $mouseover_hint_enc_string, 1)
+    Return $struct
+EndFunc
+
+
+; Define PlayerAttrUpdate structure
+Func PlayerAttrUpdate($attr_id, $modifier)
+    Local $struct = DllStructCreate("uint32 attr_id;int32 modifier")
+    DllStructSetData($struct, "attr_id", $attr_id)
+    DllStructSetData($struct, "modifier", $modifier)
+    Return $struct
+EndFunc
+
+; Define PlayerAttrSet structure
+Func PlayerAttrSet($experience, $kurzick_faction, $kurzick_faction_total, $luxon_faction, $luxon_faction_total, $imperial_faction, $imperial_faction_total, $hero_skill_points, $hero_skill_points_total, $level, $morale_percent, $balthazar_faction, $balthazar_faction_total, $skill_points, $skill_points_total)
+    Local $struct = DllStructCreate("uint32 experience;uint32 kurzick_faction;uint32 kurzick_faction_total;uint32 luxon_faction;uint32 luxon_faction_total;uint32 imperial_faction;uint32 imperial_faction_total;uint32 hero_skill_points;uint32 hero_skill_points_total;uint32 level;uint32 morale_percent;uint32 balthazar_faction;uint32 balthazar_faction_total;uint32 skill_points;uint32 skill_points_total")
+    DllStructSetData($struct, "experience", $experience)
+    DllStructSetData($struct, "kurzick_faction", $kurzick_faction)
+    DllStructSetData($struct, "kurzick_faction_total", $kurzick_faction_total)
+    DllStructSetData($struct, "luxon_faction", $luxon_faction)
+    DllStructSetData($struct, "luxon_faction_total", $luxon_faction_total)
+    DllStructSetData($struct, "imperial_faction", $imperial_faction)
+    DllStructSetData($struct, "imperial_faction_total", $imperial_faction_total)
+    DllStructSetData($struct, "hero_skill_points", $hero_skill_points)
+    DllStructSetData($struct, "hero_skill_points_total", $hero_skill_points_total)
+    DllStructSetData($struct, "level", $level)
+    DllStructSetData($struct, "morale_percent", $morale_percent)
+    DllStructSetData($struct, "balthazar_faction", $balthazar_faction)
+    DllStructSetData($struct, "balthazar_faction_total", $balthazar_faction_total)
+    DllStructSetData($struct, "skill_points", $skill_points)
+    DllStructSetData($struct, "skill_points_total", $skill_points_total)
+    Return $struct
+EndFunc
+
