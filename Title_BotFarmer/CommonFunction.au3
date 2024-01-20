@@ -166,12 +166,13 @@ GUICtrlCreateLabel("Total Runs", 16, 248, 56, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetColor(-1, 0x008000)
 
-global $gui_status_runs = GUICtrlCreateLabel("0", 96, 248, 10, 17, $SS_RIGHT)
+; Adjust the size and position of the status runs label
+global $gui_status_runs = GUICtrlCreateLabel("0", 96, 248, 30, 17, $SS_RIGHT) ; Increased width to 30
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetColor(-1, 0x008000)
 
 ; Added "disable rendering" checkbox
-$Checkbox2 = GUICtrlCreateCheckbox("disable rendering", 16, 280, 97, 17) ; Adjusted position
+$Checkbox2 = GUICtrlCreateCheckbox("disable rendering", 16, 280, 97, 17)
 GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlSetOnEvent(-1, "ToggleRendering")
 
@@ -188,12 +189,12 @@ GUICtrlSetState($Radio_Asura, $GUI_CHECKED)
 GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 
 GUISetState(@SW_SHOW)
-
 #EndRegion ### END Koda GUI section ###
 
 
 func gui_eventHandler()
 	switch (@GUI_CtrlId)
+		
 		Case $Radio_Deldrimor
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_UNCHECKED)
@@ -221,6 +222,8 @@ func gui_eventHandler()
 		case $GUI_EVENT_CLOSE
 			exit
 		case $Start
+		 ;Delete the "disable rendering" checkbox
+            GUICtrlDelete($Checkbox2)
 			$NumberRun = 0
 			$RunSuccess = 0
 			$boolrun = True
@@ -514,10 +517,10 @@ Func WaitForLoad()
 		Sleep(100)
 		$deadlock += 100
 		$load = GetMapLoading()
-		$lMe = GetAgentByID(-2)
-
+		$lMe = GetAgentByID(-2);
+		
 	Until $load = 2 And DllStructGetData($lMe, 'X') = 0 And DllStructGetData($lMe, 'Y') = 0 Or $deadlock > 1000
-
+;
 	$deadlock = 0
 	Do
 		Sleep(100)
@@ -526,7 +529,7 @@ Func WaitForLoad()
 		$deadlock += 100
 		$load = GetMapLoading()
 		$lMe = GetAgentByID(-2)
-
+;
 	Until $load <> 2 And DllStructGetData($lMe, 'X') <> 0 And DllStructGetData($lMe, 'Y') <> 0 Or $deadlock > 3000
 	CurrentAction("Load complete")
 	Sleep(1000)

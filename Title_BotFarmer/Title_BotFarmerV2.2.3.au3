@@ -1,6 +1,7 @@
 ; Create by Globeul back in 2009/10
 ; Kept alive by the community
 ; Moment of Silent for those no longer part of the Guild Wars Community.
+; If you are seeing this, you are one of the few who was able to either Reverse Engineer the Exe or found my Github. Good Job, you deserve it -MrJambix
 
 #include "GWA2_Headers.au3"
 #include "GWA2.au3"
@@ -164,7 +165,7 @@ Func FactionCheckLuxon()
 	CurrentAction("Check Luxon point atm")
 	RndSleep(250)
 
-	If GetLuxonFaction() > GetMaxLuxonFaction() - 12000 Then
+	If GetLuxonFaction() > GetMaxLuxonFaction() - 13000 Then
 		Return True
 	Else
 		Return False
@@ -200,6 +201,13 @@ Func TurnInFactionLuxon()
 	RndTravel(389)
 	WaitForLoad()
 EndFunc
+
+; Function to display debug messages
+Func DebugMsg($msg)
+    ; Replace this with your preferred method of displaying debug messages
+    MsgBox(0, "Debug Message", $msg)
+EndFunc
+
 
 Func GoOut()
 	RndSleep(250)

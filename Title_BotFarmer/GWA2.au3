@@ -15,7 +15,7 @@ EndIf
 #EndRegion Headers
 
 #Region Declarations
-Local $mGWA2Version = '4.0.04' ; Update this? (29/08-2023)
+Local $mGWA2Version = '5.0.0' ; Update 01/18/2024
 Local $mKernelHandle
 Local $mGWProcHandle
 Local $mMemory
@@ -2219,12 +2219,12 @@ EndFunc   ;==>Resign
 
 ;~ Description: Donate Kurzick or Luxon faction.
 Func DonateFaction($aFaction)
-	If StringLeft($aFaction, 1) = 'k' Then
-		Return SendPacket(0x10, $HEADER_FACTION_DONATE, 0, 0, 5000)
-	ElseIf StringLeft($aFaction, 1) = 'l' Then
-		Return SendPacket(0x10, $HEADER_FACTION_DONATE, 0, 1, 5000)
-	EndIf
-EndFunc   ;==>DonateFaction
+    If StringLeft($aFaction, 1) = 'k' Then
+        Return SendPacket(0x10, $HEADER_FACTION_DONATE, 0, 0, 5000)
+    Else
+        Return SendPacket(0x10, $HEADER_FACTION_DONATE, 0, 1, 5000)
+    EndIf
+EndFunc
 
 ;~ Description: Open a dialog.
 Func Dialog($aDialogID)
@@ -2518,6 +2518,22 @@ Func SetDisplayedTitle($aTitle = 0)
 	;~ Ebon Vanguard = 0x28
 	;~ Norn = 0x29
 EndFunc   ;==>SetDisplayedTitle
+
+;Func SetTitleUpdate($aTitle = 0)
+ ;   If $aTitle Then
+  ;      Return SendPacket(0x8, $HEADER_TITLE_UPDATE, $aTitle)
+   ; Else
+    ;    Return SendPacket(0x4, $HEADER_TITLE_UPDATE)
+    ;EndIf
+    ;~ No Title = 0x00
+    ;~ Spearmarshall = 0x11
+    ;~ Lightbringer = 0x14
+    ;~ Asuran = 0x26
+    ;~ Dwarven = 0x27
+    ;~ Ebon Vanguard = 0x28
+    ;~ Norn = 0x29
+;EndFunc   ;==>SetTitleUpdate
+
 
 ;~ Description: Returns Hero title progress.
 Func GetHeroTitle()
