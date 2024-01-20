@@ -140,13 +140,16 @@ Global Const $HEADER_GUILDHALL_LEAVE = 0xB0	;Leaves Guildhall
 
 ;=FACTION=
 ;GAME_CMSG_DEPOSIT_FACTION
-Global Const $HEADER_FACTION_DONATE = 0x33	;Donates kurzick/luxon faction to ally
+Global Const $HEADER_FACTION_DONATE = 0x0033	;Donates kurzick/luxon faction to ally
 
 ;=TITLE=
 ;GAME_CMSG_TITLE_DISPLAY 0x57 or GAME_SMSG_TITLE_RANK_DISPLAY 0xF5
 Global Const $HEADER_TITLE_DISPLAY = 0x56	;Displays title
 ;GAME_CMSG_TITLE_HIDE
 Global Const $HEADER_TITLE_CLEAR = 0x57	;Hides title
+;GAME_SMSG_TITLE_UPDATE      
+Global Const $HEADER_TITLE_UPDATE = 0xF4    ; TITLE_UPDATE - MrJambix
+
 
 ;=DIALOG=
 ;GAME_CMSG_SEND_DIALOG
