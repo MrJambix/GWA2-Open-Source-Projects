@@ -16,7 +16,7 @@
 #include "GWA_AddOn.au3"
 #include "CommonFunction.au3"
 
-
+;===Globals
 global $DeadOnTheRun = 0
 Global $GWA_CONST_UnyieldingAura = 268
 Global $SS_begin, $LB_begin, $Asura_begin, $Deldrimor_begin, $Norn_begin, $Vanguard_begin, $Kurzick_begin, $Luxon_begin
