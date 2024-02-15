@@ -5,10 +5,12 @@
 
 #RequireAdmin
 
-Global $configFilePath = @ScriptDir & "\config.ini"
+Global $configFilePath = @ScriptDir & "\skill_requirements.ini"
+Global $iniFilePath = @ScriptDir & "\hero_selections.ini"
+
 Global $sectionName 
-Global $loggedCharNames ; Will hold the raw string of character names returned by GetLoggedCharNames()
-Global $charNamesArray ; Will hold the array of character names split from $loggedCharNames
+Global $loggedCharNames 
+Global $charNamesArray 
 Global $heroDropdowns[7]
 Global $heroNames 
 Global $selectedIndex = -1
@@ -18,10 +20,13 @@ Global $boolrun = False
 Global $strName = ""
 Global $coords[2]
 Global $Title, $sGW
-Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_Uselockpicks = False
+Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_Uselockpicks = False, $Bool_ID_Salvage  = False
 Global $g_bRun = False
 Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
 
+
+$loggedCharNames = GetLoggedCharNames()
+$charNamesArray = StringSplit($loggedCharNames, "|", 2)
 
 Func ConvertToSectionName($sInput)
     Local $sLower = StringLower($sInput)
@@ -34,7 +39,7 @@ Global $strSkillCastTime = IniRead($configFilePath, $sectionName, "SkillCastTime
 Global $strSkillAdrenaline = IniRead($configFilePath, $sectionName, "SkillAdrenaline", "")
 
 For $i = 1 To UBound($charNamesArray) - 1
-    $sectionName = "Skills_" & ConvertToSectionName($charNamesArray[$i]) ; This is now a global variable
+    $sectionName = "Skills_" & ConvertToSectionName($charNamesArray[$i]) 
 
     If IniRead($configFilePath, $sectionName, "SkillEnergy", "NotFound") = "NotFound" Then
         IniWrite($configFilePath, $sectionName, "SkillEnergy", "5, 5, 5, 10, 5, 10, 10, 10")
@@ -47,15 +52,10 @@ Global $intSkillEnergy = StringSplit($strSkillEnergy, ",", 2) ; Convert string t
 Global $intSkillCastTime = StringSplit($strSkillCastTime, ",", 2)
 Global $intSkillAdrenaline = StringSplit($strSkillAdrenaline, ",", 2)
 
-
-$loggedCharNames = GetLoggedCharNames()
-$charNamesArray = StringSplit($loggedCharNames, "|", 2)
-
-
 Opt("GUIOnEventMode", 1)
 
 #Region ### START Koda GUI section ### Form=
-Global $Form1_1 = GUICreate("Title Farm Bot: Version 2.2.8.3", 661, 431, -1, -1)
+Global $Form1_1 = GUICreate("Title Farm Bot: Version 2.2.8.4", 661, 431, -1, -1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $Start = GUICtrlCreateButton("Start", 56, 272, 43, 17, $WS_GROUP)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -90,10 +90,10 @@ GUICtrlSetOnEvent(-1, "gui_eventHandler")
 Global $Radio_SS = GUICtrlCreateRadio("SS", 240, 80, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
-GUICtrlCreateGroup("", -99, -99, 1, 1)
 Global $Radio_TreasureHunter = GUICtrlCreateRadio("Treasure Hunter", 240, 104, 100, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
+GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateGroup("General Config", 160, 175, 161, 105)
 Global $Gui_Id_and_sell = GUICtrlCreateCheckbox("Id and Sell", 176, 216, 75, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
@@ -107,6 +107,8 @@ Global $gui_cons = GUICtrlCreateCheckbox("Cons", 256, 192, 65, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $Gui_UseLockpicks = GUICtrlCreateCheckbox("Lockpicks", 176, 261, 79, 14)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+Global $Gui_ID_Salvage = GUICtrlCreateCheckbox("ID_Salvage", 256, 261, 79, 14)
+GUICtrlSetState(-1, $GUI_DOCKALL)
 Global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 256, 216, 60, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
 GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -182,10 +184,7 @@ For $i = 0 To 3
         GUICtrlSetData(-1, $name)
     Next
 Next
-
-; Adjust the X position of the second set of dropdowns here
 $rightDropdownX = 180 ; Adjusted from 220 to 180
-
 For $i = 4 To 6
     $heroDropdowns[$i] = GUICtrlCreateCombo("", $rightDropdownX, 300 + (($i - 4) * 30), $dropdownWidth, 20, BitOR($CBS_DROPDOWNLIST, $WS_DISABLED))
     For $name In $heroNames
@@ -209,6 +208,7 @@ GUICtrlSetState($Gui_HM_enable, $GUI_CHECKED)
 GUICtrlSetState($Gui_PickUp, $GUI_CHECKED)
 GUICtrlSetState($Radio_Asura, $GUI_CHECKED)
 GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
+GUICtrlSetState($Gui_ID_Salvage, $GUI_CHECKED)
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
 
@@ -235,12 +235,8 @@ func gui_eventHandler()
 			GUICtrlSetState($Gui_Donate, $GUI_ENABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_CHECKED)
 		Case $Radio_TreasureHunter
-		If GUICtrlRead($Radio_TreasureHunter) = $GUI_CHECKED Then
-			$Title = "Treasure"
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_UNCHECKED)
-		EndIf
-
 		Case $Radio_SS
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_UNCHECKED)
@@ -250,10 +246,10 @@ func gui_eventHandler()
 		case $GUI_EVENT_CLOSE
 			exit
 		Case $Stop
-			$g_bRun = False ; Signal the main functions to stop
-			CurrentAction("Script will stop after this run ends") ; Use CurrentAction to notify the user
-			GUICtrlSetState($Start, $GUI_ENABLE) ; Re-enable the start button
-			GUICtrlSetState($Stop, $GUI_DISABLE) ; Disable the stop button after stopping the script
+			$g_bRun = False ; 
+			CurrentAction("Script will stop after this run ends") ; 
+			GUICtrlSetState($Start, $GUI_ENABLE)
+			GUICtrlSetState($Stop, $GUI_DISABLE) 
 		Case $Start
 			$g_bRun = True ; Signal the main functions to start
 			GUICtrlSetState($Start, $GUI_DISABLE) ; Disable the start button to prevent re-entrance
@@ -268,10 +264,14 @@ func gui_eventHandler()
 			GUICtrlSetState($Radio_Norn, $GUI_DISABLE)
 			GUICtrlSetState($Radio_Kurzick, $GUI_DISABLE)
 			GUICtrlSetState($Radio_Luxon, $GUI_DISABLE)
+			GUICtrlSetState($Radio_TreasureHunter, $GUI_DISABLE)
 			GUICtrlSetState($Radio_SS_and_LB, $GUI_DISABLE)
 			GUICtrlSetState($Radio_SS, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Id_and_sell, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Store_unid, $GUI_DISABLE)
+			GUICtrlSetState($Gui_ID_Salvage, $GUI_DISABLE)
+			GUICtrlSetState($gui_cons, $GUI_DISABLE)
+			GUICtrlSetState($Gui_UseLockpicks, $GUI_DISABLE)
 			GUICtrlSetState($Gui_HM_enable, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
 			GUICtrlSetState($Start, $GUI_DISABLE)
@@ -292,13 +292,11 @@ func gui_eventHandler()
 				$Title = "Luxon"
 			ElseIf BitAND(GUICtrlRead($Radio_SS_and_LB), $GUI_CHECKED) = $GUI_CHECKED Then
 				$Title = "SS and LB"
+			ElseIf BitAND(GUICtrlRead($Radio_TreasureHunter), $GUI_CHECKED) = $GUI_CHECKED Then
+				$Title = "Treasure Hunter"
 			ElseIf BitAND(GUICtrlRead($Radio_SS), $GUI_CHECKED) = $GUI_CHECKED Then
 				$Title = "SS"
 			EndIf
-
-			;$Size = WinGetPos($Form1_1)
-			;WinMove($Form1_1, "", $Size[0], $Size[1], 680, 480, 1) ; This Controls Size After Starting
-
 
 			If BitAND(GUICtrlRead($Gui_Id_and_sell), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_IdAndSell = True
 			If BitAND(GUICtrlRead($Gui_Store_unid), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Store = True
@@ -307,6 +305,7 @@ func gui_eventHandler()
 			If BitAND(GUICtrlRead($Gui_PickUp), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_PickUp = True
 			If BitAND(GUICtrlRead($gui_cons), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_cons = True
 			If BitAND(GUICtrlRead($Gui_UseLockpicks), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Uselockpicks = True
+			If BitAND(GUICtrlRead($Gui_ID_Salvage), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_ID_Salvage = True
 
 			If GUICtrlRead($txtName) = "" Then
 				MsgBox(0, "Error", "Plz enter your name in the input box")
@@ -334,39 +333,28 @@ EndFunc
 
 
 Func SaveSelections()
-    Local $file = FileOpen("hero_selections.txt", 2) ; Open the file for writing, overwrite existing content
-    If $file = -1 Then Return ; If the file couldn't be opened, exit the function
-
     For $i = 0 To UBound($heroDropdowns) - 1
         Local $selected = GUICtrlRead($heroDropdowns[$i])
-        FileWriteLine($file, $selected)
+        IniWrite($iniFilePath, "Heroes", "HeroDropdown" & $i, $selected)
     Next
-
-    FileClose($file)
 EndFunc
 
 Func LoadSelections()
-    If Not FileExists("hero_selections.txt") Then Return
-
-    Local $file = FileOpen("hero_selections.txt", 0) ; Open the file for reading
-    If $file = -1 Then Return
+    If Not FileExists($iniFilePath) Then Return
 
     Local $index = 0
     While 1
-        Local $selection = FileReadLine($file)
-        If @error Then ExitLoop ;
+        Local $selection = IniRead($iniFilePath, "Heroes", "HeroDropdown" & $index, "")
+        If $selection = "" Then ExitLoop
 
-        $selectedIndex = _ArraySearch($heroNames, $selection)
+        Local $selectedIndex = _ArraySearch($heroNames, $selection)
         If $selectedIndex <> -1 Then
             GUICtrlSetData($heroDropdowns[$index], $selection)
         EndIf
 
         $index += 1
     WEnd
-
-    FileClose($file)
 EndFunc
-
 
 Func ToggleHeroDropdowns()
     Local $isChecked = GUICtrlRead($heroCheck) = $GUI_CHECKED
@@ -422,6 +410,8 @@ Func SellItemToMerchant()
 			$merchant = GetNearestNPCToCoords(8481, 2005)
 		ElseIf $Title = "Luxon" Then
 			$merchant = GetNearestNPCToCoords(-4318, 11298)
+		ElseIf $Title = "Treasure Hunter" Then
+			$merchant = GetNearestNPCToCoords(7319, -24874)
 		ElseIf $Title = "SS and LB" Then
 			$merchant = GetNearestNPCToCoords(-1795, -2482)
 		ElseIf $Title = "SS" Then
@@ -472,6 +462,43 @@ Func IDENT($bagIndex)
 		Sleep(Random(400, 750))
 	Next
 EndFunc   ;==>IDENT
+
+Func SalvageItems($bagIndex)
+    IDENT($bagIndex) ; First, identify all items in the specified bag.
+
+    $bag = GetBag($bagIndex)
+    For $i = 1 To DllStructGetData($bag, 'slots')
+        $aItem = GetItemBySlot($bagIndex, $i)
+        If DllStructGetData($aItem, 'ID') = 0 Then ContinueLoop
+
+        StartSalvage($aItem) ; Start salvage process for each identified item.
+        Sleep(Random(400, 750))
+    Next
+EndFunc
+
+Func CheckIfInventoryIsFull()
+    If CountSlots() = 0 Then
+        Return True
+    Else
+        Return False
+    EndIf
+EndFunc   ;==>CheckIfInventoryIsFull
+
+Func CheckAndSalvage()
+    If BitAND(GUICtrlRead($Gui_Id_and_sell), $GUI_CHECKED) = $GUI_CHECKED Then
+        ; Check if the inventory is full before attempting to salvage
+        If Not CheckIfInventoryIsFull() Then
+            CurrentAction("Inventory Check", "Inventory is not full. No need to salvage yet.")
+            Return 
+        EndIf
+
+        For $bagIndex = 1 To 4 ; Assuming you have 4 bags, adjust as necessary
+            SalvageItems($bagIndex)
+        Next
+    EndIf
+EndFunc
+
+
 
 Func Sell($BAGINDEX)
 	Local $AITEM
@@ -556,26 +583,28 @@ Func GoldIs($bagIndex)
 
 	For $i = 1 To DllStructGetData($lBag, 'Slots')
 		$aItem = GetItemBySlot($bagIndex, $i)
-		ConsoleWrite("Checking items: " & $bagIndex & ", " & $i & @CRLF & GetRarity($aItem) & @crlf)
+		CurrentAction("Checking items: " & $bagIndex & ", " & $i & @CRLF & GetRarity($aItem) & @crlf)
 		If DllStructGetData($aItem, 'ID') <> 0 And GetRarity($aItem) = $RARITY_Gold Then
 				Do
 					For $bag = 8 To 12; Storage panels are form 8 till 16 (I have only standard amount plus aniversary one)
 						$slot = FindEmptySlot($bag)
 						$slot = @extended
 						If $slot <> 0 Then
+							CurrentAction("Storing Golds Now")
 							$FULL = False
 							$nSlot = $slot
 							ExitLoop 2; finding first empty $slot in $bag and jump out
 						Else
+							CurrentAction("Slot Taken_Next")
 							$FULL = True; no empty slots :(
 						EndIf
-						Sleep(400)
+						Sleep(100)
 					Next
 				Until $FULL = True
 				If $FULL = False Then
 					MoveItem($aItem, $bag, $nSlot)
-					ConsoleWrite("Gold item moved ...."& @CRLF)
-					Sleep(Random(450, 550))
+					CurrentAction("Gold item moved ...."& @CRLF)
+					Sleep(Random(150, 250))
 				EndIf
 		EndIf
 	Next
@@ -596,15 +625,6 @@ EndFunc   ;==>GoldIs
 ;	Return 0
 ;EndFunc
 
-
-
-Func CheckIfInventoryIsFull()
-	If CountSlots() = 0 Then
-		return true
-	Else
-		return false
-	EndIf
-EndFunc   ;==>CheckIfInventoryIsFull
 
 Func WaitForLoad()
 	CurrentAction("Loading zone")

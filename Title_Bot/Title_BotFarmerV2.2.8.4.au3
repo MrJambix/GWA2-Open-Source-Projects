@@ -16,7 +16,7 @@
 #include "GWA_AddOn.au3"
 #include "CommonFunction.au3"
 
-;===Globals
+
 global $DeadOnTheRun = 0
 Global $GWA_CONST_UnyieldingAura = 268
 Global $SS_begin, $LB_begin, $Asura_begin, $Deldrimor_begin, $Norn_begin, $Vanguard_begin, $Kurzick_begin, $Luxon_begin
@@ -27,8 +27,8 @@ Global $Asura_Outpost = 640
 Global $Norn_Outpost = 645
 Global $Vanguard_Outpost = 648
 Global $SS_LB_Outpost = 545
-Global $Treasure_Outpost = 675
-Global $Treasure_Map = 499
+Global $Treasure_Hunter_Outpost = 675
+Global $Treasure_Huter_Map = 499
 Global $Kurzick_Outpost = 77
 Global $Luxon_Outpost = 389
 Global $areaFerndale = 210
@@ -87,9 +87,9 @@ If $g_bRun Then
 			ElseIf $Title = "SS" Then
 				$Map_To_Zone = $SS_Outpost
 				$Map_To_Farm = $SS_Map
-			ElseIf $Title = "Treasure" then
-				$Map_To_Zone = $Treasure_Outpost
-				$Map_To_Farm = $Treasure_Map
+			ElseIf $Title = "Treasure Hunter" then
+				$Map_To_Zone = $Treasure_Hunter_Outpost
+				$Map_To_Farm = $Treasure_Huter_Map
 			EndIf
 
 			If $Title = "Luxon" and $Bool_Donate Then
@@ -123,13 +123,17 @@ ElseIf $Title = "SS and LB" Then
 		Else
 			SwitchMode(0)
 		EndIf
-
+		
+		If $Bool_ID_Salvage Then
+			CheckAndSalvage()
+		EndIf
+		
 		If CheckIfInventoryIsFull() then SellItemToMerchant()
 
 		GoOut()
 
 		VQ()
-
+		
 		$NumberRun = $NumberRun +1
 	EndIf
 	Sleep(50)
@@ -294,7 +298,7 @@ RndSleep(2000)
 				MoveTo(1527, -4114)
 				Move(1970, -4353)
 				WaitForLoad()
-			ElseIf $Title = "Treasure" Then
+			ElseIf $Title = "Treasure Hunter" Then
 				MoveTo(5444, -27900)
 				MoveTo(4065, -27734)
 				WaitForLoad()
@@ -404,7 +408,8 @@ Func VQ()
 		AdlibUnRegister("CheckPartyDead")
 		AdlibUnRegister("SSLBpoint")
 
-	ElseIf $Title = "Treasure" Then
+	ElseIf $Title = "Treasure Hunter" Then
+	
 		AdlibRegister("CheckPartyDead", 2000)
 		AdlibRegister("SSLBpoint", 5000)
 		VQTreasureHunter()
@@ -1618,7 +1623,7 @@ Func VQAsura();
 
 EndFunc
 
-Func VQTreasureHunter()
+Func VQTreasure_Hunter()
 	$DeadOnTheRun = 0
 
 	Sleep(1000)
