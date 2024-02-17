@@ -1623,27 +1623,50 @@ Func VQAsura();
 
 EndFunc
 
-Func VQTreasure_Hunter()
+Func VQTreasureHunter()
 	$DeadOnTheRun = 0
 
 	Sleep(1000)
-	_Run(2728, -25294)
-  	_Run(2900, -22272)
-  	_Run(-1000, -19801)
-  	_Run(-2570, -17208)
+	;_Run(2728, -25294)
+  	;_Run(2900, -22272)
+  	;_Run(-1000, -19801)
+  	;_Run(-2570, -17208)
+	AggroMoveToEx(2728, -25294, "Point 1")
+	AggroMoveToEx(2900, -22272, "Point 2")
+	AggroMoveToEx(-1000, -19801, "Point 3")
+	AggroMoveToEx(-2570, -17208, "Point 4", 2000)
+	RndSleep(600)
+	RndSleep(600)
+	
   	CurrentAction("Check for the maximum of three chests")
-  	_Run(-4218, -15219)
+  	;_Run(-4218, -15219)
+	AggroMoveToEx(-4218, -15219, "Point 5", 2000)
+	
 	CurrentAction("Checking Chests")
 	CheckForChest()
-  	_Run(-4218, -15219)
+	
+	RndSleep(600)
+	RndSleep(600)
+	
+  	;_Run(-4218, -15219)
+	AggroMoveToEx(-4218, -15219, "Point 6", 2000)
 	CurrentAction("Checking Chests")
   	CheckForChest()
-  	_Run(-4218, -15219)
+	
+	RndSleep(600)
+	RndSleep(600)
+	
+  	;_Run(-4218, -15219)
+	AggroMoveToEx(-4218, -15219, "Point 7", 2000)
   	CheckForChest()
+	
+	RndSleep(600)
+	RndSleep(600)
+	
 	CurrentAction("Completed Run")
-	RndSleep(2000)
-	PickUpLoot()
-	RndSleep(2000)
+	RndSleep(600)
+	RndSleep(600)
+	;PickUpLoot()
 	Return True
 EndFunc	;==>VQTreasureHunter
 

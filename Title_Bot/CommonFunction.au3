@@ -22,7 +22,16 @@ Global $coords[2]
 Global $Title, $sGW
 Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_Uselockpicks = False, $Bool_ID_Salvage  = False
 Global $g_bRun = False
-Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
+Global $File = @ScriptDir & "\Trace\Traï¿½a du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
+
+Global $Array_Store_ModelIDs[77] = [910, 2513, 5585, 6366, 6375, 22190, 24593, 28435, 30855, 31145, 36682 _ ; Alcohol
+		, 21492, 21812, 22269, 22644, 22752, 28436, 36681 _ ; FruitCake, Blue Drink, Cupcake, Bunnies, Eggs, Pie, Delicious Cake
+		, 6376, 21809, 21810, 21813, 36683 _ ; Party Spam
+		, 6370, 21488, 21489, 22191, 26784, 28433 _ ; DP Removals
+		, 15837, 21490, 30648, 31020 _ ; Tonics
+		, 556, 18345, 21491, 37765, 21833, 28433, 28434, 522 _ ; CC Shards, Victory Token, Wayfarer, Lunar Tokens, ToTs, Dark Remains
+		, 921, 922, 923, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 948, 949, 950, 951, 952, 953, 954, 955, 956, 6532, 6533] ; All Materials
+
 
 
 $loggedCharNames = GetLoggedCharNames()
@@ -416,6 +425,8 @@ Func SellItemToMerchant()
 			$merchant = GetNearestNPCToCoords(-1795, -2482)
 		ElseIf $Title = "SS" Then
 			$merchant = GetNearestNPCToCoords(498, 1297)
+		ElseIf $Title = "Treasure" Then 
+			$merchant = GetNearestNPCToCoords(7319, -24954)
 		EndIf
 		Sleep(1000)
 		GoToNPC($merchant)
@@ -477,7 +488,7 @@ Func SalvageItems($bagIndex)
 EndFunc
 
 Func CheckIfInventoryIsFull()
-    If CountSlots() = 0 Then
+    If CountSlots() <= 3 Then ; This is to prevent full inventory from blocking the bot
         Return True
     Else
         Return False
@@ -547,6 +558,10 @@ Func CanSell($aitem)
 		Return False    ;jade
 	ElseIf $m = 22751 Then
 		return False
+	ElseIf $m = 22751 or $m = 930 or $m = 945 or $m = 146 Or $m = 5971 Or $m = 5899 Or $m = 5900 Then ; Lockpicks, Ecto, Obby Shards, Dyes, Obby keys, Sup ID kit, Sup Salvage kit
+		Return False
+	ElseIf CheckArrayAllDrops($m) Then ; Event Items, materials
+		Return False
 	Else
 		Return True
 	EndIf
@@ -946,6 +961,13 @@ Func CanPickUp($aItem)
 		Return False
 	EndIf
 EndFunc   ;==>CanPickUp
+
+Func CheckArrayAllDrops($m)
+	For $p = 0 To (UBound($Array_Store_ModelIDs) -1)
+		If ($m == $Array_Store_ModelIDs[$p]) Then Return True
+	Next
+	Return False
+EndFunc ;==>CheckArrayAllDrops
 
 Func RndTravel($aMapID) ;Travel to a random region in the outpost
 	Local $UseDistricts = 11 ; 7=eu-only, 8=eu+int, 11=all(excluding America)
