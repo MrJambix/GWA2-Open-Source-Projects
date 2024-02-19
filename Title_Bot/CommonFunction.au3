@@ -24,7 +24,6 @@ Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_St
 Global $g_bRun = False
 Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
 
-
 $loggedCharNames = GetLoggedCharNames()
 $charNamesArray = StringSplit($loggedCharNames, "|", 2)
 
@@ -109,6 +108,7 @@ Global $Gui_UseLockpicks = GUICtrlCreateCheckbox("Lockpicks", 176, 261, 79, 14)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $Gui_ID_Salvage = GUICtrlCreateCheckbox("ID_Salvage", 256, 261, 79, 14)
 GUICtrlSetState(-1, $GUI_DOCKALL)
+;GUICtrlSetState(-1, $GUI_DOCKALL)
 Global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 256, 216, 60, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
 GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -464,41 +464,46 @@ Func IDENT($bagIndex)
 EndFunc   ;==>IDENT
 
 Func SalvageItems($bagIndex)
-    IDENT($bagIndex) ; First, identify all items in the specified bag.
+    IDENT($bagIndex) 
+    Sleep(Random(2000, 3000))
 
     $bag = GetBag($bagIndex)
     For $i = 1 To DllStructGetData($bag, 'slots')
         $aItem = GetItemBySlot($bagIndex, $i)
         If DllStructGetData($aItem, 'ID') = 0 Then ContinueLoop
 
-        StartSalvage($aItem) ; Start salvage process for each identified item.
-        Sleep(Random(400, 750))
-    Next
-EndFunc
+        ; Check if the item can be salvaged before proceeding
+        If Not CanSalvage($aItem) Then ContinueLoop
 
-Func CheckIfInventoryIsFull()
-    If CountSlots() = 0 Then
-        Return True
-    Else
+        Sleep(Random(1000, 1500))
+        StartSalvage($aItem)
+        Sleep(Random(1000, 1500))
+    Next
+
+    Sleep(Random(3000, 4000))
+EndFunc   ;==>SalvageItems
+
+Func CanSalvage($aItem)
+    ; Retrieve the ModelID and extraId from the item structure
+    Local $m = DllStructGetData($aItem, 'ModelID')
+    Local $i = DllStructGetData($aItem, 'extraId')
+    Local $itemRarity = GetRarity($aItem)
+
+    If $itemRarity = $RARITY_Gold Then
         Return False
     EndIf
-EndFunc   ;==>CheckIfInventoryIsFull
+    Return True
+EndFunc   ;==>CanSalvage
 
-Func CheckAndSalvage()
-    If BitAND(GUICtrlRead($Gui_Id_and_sell), $GUI_CHECKED) = $GUI_CHECKED Then
-        ; Check if the inventory is full before attempting to salvage
-        If Not CheckIfInventoryIsFull() Then
-            CurrentAction("Inventory Check", "Inventory is not full. No need to salvage yet.")
-            Return 
-        EndIf
 
-        For $bagIndex = 1 To 4 ; Assuming you have 4 bags, adjust as necessary
-            SalvageItems($bagIndex)
-        Next
+
+Func CheckIfInventoryIsFull()
+    If CountSlots() < 3 Then
+        return true
+    Else
+        return false
     EndIf
-EndFunc
-
-
+EndFunc   ;==>CheckIfInventoryIsFull
 
 Func Sell($BAGINDEX)
 	Local $AITEM
@@ -507,7 +512,7 @@ Func Sell($BAGINDEX)
 	For $I = 1 To $NUMOFSLOTS
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "Id") == 0 Then ContinueLoop
-		If CANSELL($AITEM) Then
+		If CanSell($AITEM) Then
 			SELLITEM($AITEM)
 		EndIf
 		Sleep(GetPing()+250)
@@ -516,13 +521,24 @@ EndFunc
 
 
 Func GetExtraItemInfo($aitem)
-	;Use GetRarity() instead...
-    If IsDllStruct($aitem) = 0 Then $aAgent = GetItemByItemID($aitem)
+
+
+    If IsDllStruct($aitem) = 0 Then
+        $aitem = GetItemByItemID($aitem)
+    EndIf
+
     $lItemExtraPtr = DllStructGetData($aitem, "namestring")
 
-    ;DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'int', $mHandle[1], 'int', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'int', $lItemExtraStructSize, 'int', '')
-    Return $lItemExtraStruct
+    Local $lItemExtraStructSize = 256 
+    Local $lItemExtraStruct = DllStructCreate("char[" & $lItemExtraStructSize & "]")
+    Local $lItemExtraStructPtr = DllStructGetPtr($lItemExtraStruct)
+    Local $bytesRead = DllStructCreate("dword")
+
+    DllCall($mHandle[0], 'int', 'ReadProcessMemory', 'handle', $mHandle[1], 'ptr', $lItemExtraPtr, 'ptr', $lItemExtraStructPtr, 'dword', $lItemExtraStructSize, 'ptr', DllStructGetPtr($bytesRead))
+
+    Return DllStructGetData($lItemExtraStruct, 1)
 EndFunc   ;==>GetExtraItemInfo
+
 
 Func CanSell($aitem)
 	local $m = DllStructGetData($aitem, 'ModelID')
@@ -610,21 +626,99 @@ Func GoldIs($bagIndex)
 	Next
 EndFunc   ;==>GoldIs
 
+Func CountSlots()
+	Local $bag
+	Local $temp = 0
+	$bag = GetBag(1)
+	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(2)
+	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(3)
+	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(4)
+	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
+	Return $temp
+EndFunc   ;==>CountSlots
 
-; This searches for empty slots in your Storage
-;Func FindEmptySlot($BagIndex)
-;	Local $LItemINFO, $aSlot
-;	For $aSlot = 1 To DllStructGetData(GetBAG($BagIndex), "Slots")
-;		Sleep(40)
-;		$LItemINFO = GetItemBySlot($BagIndex, $aSlot)
-;		If DllStructGetData($LItemINFO, "ID") = 0 Then
-;			SetExtended($aSlot)
-;			ExitLoop
-;		EndIf
-;	Next
-;	Return 0
-;EndFunc
+Func PickUpLoot()
+    If CountSlots() < 1 Then Return ; Full inventory, don't try to pick up
+    If GetIsDead(-2) Then Return ; Player is dead, exit the function
 
+    Local $lAgent, $lItem, $lDeadlock
+    For $i = 1 To GetMaxAgents() ; Loop through all agents
+        $lAgent = GetAgentByID($i) ; Get agent data
+
+        If DllStructGetData($lAgent, 'Type') <> 0x400 Then ContinueLoop
+        
+        $lItem = GetItemByAgentID($i) 
+        If CanPickUp($lItem) Then ; Check if the item can be picked up
+            PickUpItem($lItem) ; Attempt to pick up the item
+            $lDeadlock = TimerInit() ; Initialize a timer for deadlock prevention
+
+            While GetAgentExists($i)
+                Sleep(100) ; Short sleep to prevent high CPU usage
+                If GetIsDead(-2) Then Return ; Check again if the player is dead
+                If TimerDiff($lDeadlock) > 15000 Then ExitLoop ; Timeout after 10 seconds to prevent infinite loop
+            WEnd
+        EndIf
+    Next
+EndFunc   ;==>PickUpLoot
+
+Func CanPickUp($aItem)
+    Local $lModelID = DllStructGetData($aItem, 'ModelId')
+    Local $t = DllStructGetData($aItem, 'Type')
+    Local $aExtraID = DllStructGetData($aItem, 'ExtraId')
+    Local $lRarity = GetRarity($aItem) 
+    Local $Requirement = GetItemReq($aItem)
+
+    ; Elite/Normal Tomes
+    If $lModelID > 21785 And $lModelID < 21806 Then Return True
+
+    If $lModelID == 2511 Then
+        Return GetGoldCharacter() < 100000
+    EndIf
+
+    ; Dyes (only white and black)
+    If $lModelID == $ITEM_ID_Dyes Then
+        Return ($aExtraID == $ITEM_ExtraID_BlackDye) Or ($aExtraID == $ITEM_ExtraID_WhiteDye)
+    EndIf
+
+    ; Gold rarity items
+    If $lRarity == $RARITY_Gold Then Return True
+
+    ; Dungeon key
+    If $t == $TYPE_KEY Then Return True
+
+    ; Lockpicks
+    If $lModelID == $ITEM_ID_Lockpicks Then Return True
+
+    ; Glacial Stones (explicitly not picked up)
+    If $lModelID == $ITEM_ID_Glacial_Stones Then Return False
+
+    ; Charr carvings
+    If $lModelID == $Carving Then Return True
+
+    ; Pcons or all event items
+    If CheckArrayPscon($lModelID) Then Return True
+
+    ; Map Pieces (not picked up)
+    If CheckArrayMapPieces($lModelID) Then Return False
+
+    ; White items, controlled by a global flag ($PickUpAll)
+    If $lRarity == $RARITY_White And $PickUpAll Then Return True
+
+    Return False
+EndFunc   ;==>CanPickUp
+
+Func RndTravel($aMapID) ;Travel to a random region in the outpost
+	Local $UseDistricts = 11 ; 7=eu-only, 8=eu+int, 11=all(excluding America)
+	; Region/Language order: eu-en, eu-fr, eu-ge, eu-it, eu-sp, eu-po, eu-ru, us-en, int, asia-ko, asia-ch, asia-ja
+	Local $Region[11] = [2, 2, 2, 2, 2, 2, 2, -2, 1, 3, 4]
+	Local $Language[11] = [0, 2, 3, 4, 5, 9, 10, 0, 0, 0, 0]
+	Local $Random = Random(0, $UseDistricts - 1, 1)
+	MoveMap($aMapID, $Region[$Random], 0, $Language[$Random])
+	WaitMapLoading($aMapID)
+EndFunc   ;==>RndTravel
 
 Func WaitForLoad()
 	CurrentAction("Loading zone")
@@ -652,19 +746,6 @@ Func WaitForLoad()
 	Sleep(1000)
 EndFunc   ;==>WaitForLoad
 
-Func CountSlots()
-	Local $bag
-	Local $temp = 0
-	$bag = GetBag(1)
-	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
-	$bag = GetBag(2)
-	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
-	$bag = GetBag(3)
-	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
-	$bag = GetBag(4)
-	$temp += DllStructGetData($bag, 'slots') - DllStructGetData($bag, 'ItemsCount')
-	Return $temp
-EndFunc   ;==>CountSlots
 
 
 Func AggroMoveToEx($x, $y, $s = "", $z = 1450)
@@ -884,82 +965,6 @@ Func FightEx($z, $s = "enemies")
 		If $Bool_Uselockpicks then CheckForChest()
 	EndIf
 EndFunc   ;==>FightEx
-
-Func PickUpLoot()
-	Local $lAgent
-	Local $lItem
-	Local $lDeadlock
-	For $i = 1 To GetMaxAgents()
-		If CountSlots() < 1 Then Return ;full inventory dont try to pick up
-		If GetIsDead(-2) Then Return
-		$lAgent = GetAgentByID($i)
-		If DllStructGetData($lAgent, 'Type') <> 0x400 Then ContinueLoop
-		$lItem = GetItemByAgentID($i)
-		If CanPickUp($lItem) Then
-			PickUpItem($lItem)
-			$lDeadlock = TimerInit()
-			While GetAgentExists($i)
-				Sleep(100)
-				If GetIsDead(-2) Then Return
-				If TimerDiff($lDeadlock) > 10000 Then ExitLoop
-			WEnd
-		EndIf
-	Next
-EndFunc   ;==>PickUpLoot
-
-; Checks if should pick up the given item. Returns True or False
-Func CanPickUp($aItem)
-	Local $lModelID = DllStructGetData(($aItem), 'ModelId')
-	Local $t = DllStructGetData($aItem, 'Type')
-	Local $aExtraID = DllStructGetData($aItem, 'ExtraId')
-	Local $lRarity = GetRarity($aItem)
-	Local $Requirement = GetItemReq($aItem)
-
-	If $lModelID > 21785 And $lModelID < 21806 Then Return True ; Elite/Normal Tomes
-	If ($lModelID == 2511) Then
-		If (GetGoldCharacter() < 99000) Then
-			Return True	; gold coins (only pick if character has less than 99k in inventory)
-		Else
-			Return False
-		EndIf
-	ElseIf ($lModelID == $ITEM_ID_Dyes) Then	; if dye
-		If (($aExtraID == $ITEM_ExtraID_BlackDye) Or ($aExtraID == $ITEM_ExtraID_WhiteDye)) Then ; only pick white and black ones
-			Return True
-		EndIf
-	ElseIf ($lRarity == $RARITY_Gold) Then ; gold items
-		Return True
-	ElseIf ($t == $TYPE_KEY) Then ; dungeon key
-		Return True
-	ElseIf($lModelID == $ITEM_ID_Lockpicks) Then
-		Return True ; Lockpicks
-	ElseIf($lModelID == $ITEM_ID_Glacial_Stones) Then
-		Return True ; glacial stones
-	ElseIf($lModelID == $Carving) Then
-		Return True ; charr carvings
-	ElseIf CheckArrayPscon($lModelID) Then ; ==== Pcons ==== or all event items
-		Return True
-	ElseIf CheckArrayMapPieces($lModelID) Then ; ==== Map Pieces ====
-		Return True
-	ElseIf ($lRarity == $RARITY_White) And $PickUpAll Then ; White items
-		Return False
-	Else
-		Return False
-	EndIf
-EndFunc   ;==>CanPickUp
-
-Func RndTravel($aMapID) ;Travel to a random region in the outpost
-	Local $UseDistricts = 11 ; 7=eu-only, 8=eu+int, 11=all(excluding America)
-	; Region/Language order: eu-en, eu-fr, eu-ge, eu-it, eu-sp, eu-po, eu-ru, us-en, int, asia-ko, asia-ch, asia-ja
-	Local $Region[11] = [2, 2, 2, 2, 2, 2, 2, -2, 1, 3, 4]
-	Local $Language[11] = [0, 2, 3, 4, 5, 9, 10, 0, 0, 0, 0]
-	Local $Random = Random(0, $UseDistricts - 1, 1)
-	MoveMap($aMapID, $Region[$Random], 0, $Language[$Random])
-	WaitMapLoading($aMapID)
-EndFunc   ;==>RndTravel
-
-
-
-
 
 
 
