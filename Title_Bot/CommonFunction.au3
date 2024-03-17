@@ -23,6 +23,8 @@ Global $Title, $sGW
 Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_Uselockpicks = False, $Bool_ID_Salvage  = False
 Global $g_bRun = False
 Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
+Global Const $NumberOfIdentKits = 1
+Global Const $NumberOfSalvageKits = 1
 
 $loggedCharNames = GetLoggedCharNames()
 $charNamesArray = StringSplit($loggedCharNames, "|", 2)
@@ -54,7 +56,7 @@ Global $intSkillAdrenaline = StringSplit($strSkillAdrenaline, ",", 2)
 Opt("GUIOnEventMode", 1)
 
 #Region ### START Koda GUI section ### Form=
-Global $Form1_1 = GUICreate("Title Farm Bot: Version 2.2.8.4", 661, 431, -1, -1)
+Global $Form1_1 = GUICreate("Title Farm Bot: Version 2.3", 661, 431, -1, -1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $Start = GUICtrlCreateButton("Start", 56, 272, 43, 17, $WS_GROUP)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -664,6 +666,47 @@ Func PickUpLoot()
     Next
 EndFunc   ;==>PickUpLoot
 
+
+; Checks if should pick up the given item. Returns True or False
+;Func CanPickUp($aItem)
+;	Local $lModelID = DllStructGetData(($aItem), 'ModelId')
+;	Local $t = DllStructGetData($aItem, 'Type')
+;	Local $aExtraID = DllStructGetData($aItem, 'ExtraId')
+;	Local $lRarity = GetRarity($aItem)
+;	Local $Requirement = GetItemReq($aItem)
+;
+;	If $lModelID > 21785 And $lModelID < 21806 Then Return True ; Elite/Normal Tomes
+;	If ($lModelID == 2511) Then
+;		If (GetGoldCharacter() < 99000) Then
+;			Return True	; gold coins (only pick if character has less than 99k in inventory)
+;		Else
+;			Return False
+;		EndIf
+;	ElseIf ($lModelID == $ITEM_ID_Dyes) Then	; if dye
+;		If (($aExtraID == $ITEM_ExtraID_BlackDye) Or ($aExtraID == $ITEM_ExtraID_WhiteDye)) Then ; only pick white and black ones
+;			Return True
+;		EndIf
+;	ElseIf ($lRarity == $RARITY_Gold) Then ; gold items
+;		Return True
+;	ElseIf ($t == $TYPE_KEY) Then ; dungeon key
+;		Return True
+;	ElseIf($lModelID == $ITEM_ID_Lockpicks) Then
+;		Return True ; Lockpicks
+;	ElseIf($lModelID == $ITEM_ID_Glacial_Stones) Then
+;		Return False ; glacial stones
+;	ElseIf($lModelID == $Carving) Then
+;		Return True ; charr carvings
+;	ElseIf CheckArrayPscon($lModelID) Then ; ==== Pcons ==== or all event items
+;		Return True
+;	ElseIf CheckArrayMapPieces($lModelID) Then ; ==== Map Pieces ====
+;		Return False
+;	ElseIf ($lRarity == $RARITY_White) And $PickUpAll Then ; White items
+;		Return False
+;	Else
+;		Return False
+;	EndIf
+;EndFunc   ;==>CanPickUp
+
 Func CanPickUp($aItem)
     Local $lModelID = DllStructGetData($aItem, 'ModelId')
     Local $t = DllStructGetData($aItem, 'Type')
@@ -827,6 +870,11 @@ Func AggroMoveTo($x, $y, $s = "", $z = 1450)
 EndFunc   ;==>AggroMoveTo
 
 Func Fight($x, $s = "")
+Local $intSkillEnergy[10] ; Declares an array with 10 elements
+Local $intSkillAdrenaline[10]
+Local $intSkillCastTime[10] 
+
+
 	CurrentAction("Fighting " & $s & "!")
 	Do
 		Sleep(250)

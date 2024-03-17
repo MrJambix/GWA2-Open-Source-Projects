@@ -150,7 +150,7 @@ WEnd
 
 Func FactionCheckKurzick()
 	CurrentAction("Checking faction")
-	RndSleep(250)
+	RndSleep(1250)
 	If GetKurzickFaction() > GetMaxKurzickFaction() - 12000 Then
 		Return True
 	Else
@@ -158,33 +158,81 @@ Func FactionCheckKurzick()
 	EndIf
 EndFunc
 
+;Func TurnInFactionKurzick()
+;	CurrentAction("Turning in faction")
+;	RndSleep(5000)
+;	GoNearestNPCToCoords(5390, 1524)
+;
+;	$beforedone = GetKurzickFaction()
+;
+;	If $Bool_Donate Then
+;		Do
+;			CurrentAction("Donate")
+;			DonateFaction("kurzick")
+;			RndSleep(500)
+;		Until GetKurzickFaction() < 5000
+;	Else
+;		CurrentAction("Donating Kurzick Faction for Amber")
+;		Dialog(131)
+;		RndSleep(550)
+;		$temp = Floor(GetKurzickFaction() / 5000)
+;		$id = 8388609 + ($temp * 256)
+;		Dialog($id)
+ ;       RndSleep(550)
+;	EndIf
+;
+;	$after_donate = GetKurzickFaction()
+;	$what_we_donate = $beforedone - $after_donate + $what_we_donate
+;	RndSleep(500)
+;EndFunc
+
+;===
 Func TurnInFactionKurzick()
-	CurrentAction("Turning in faction")
-	RndSleep(1000)
-	GoNearestNPCToCoords(5390, 1524)
+    CurrentAction("Turning in faction")
+    RndSleep(5000)
+    GoNearestNPCToCoords(5390, 1524)
 
-	$beforedone = GetKurzickFaction()
+    $beforedone = GetKurzickFaction()
 
-	If $Bool_Donate Then
-		Do
-			CurrentAction("Donate")
-			DonateFaction("kurzick")
-			RndSleep(500)
-		Until GetKurzickFaction() < 5000
-	Else
-		CurrentAction("Donating Kurzick Faction for Amber")
-		Dialog(131)
-		RndSleep(550)
-		$temp = Floor(GetKurzickFaction() / 5000)
-		$id = 8388609 + ($temp * 256)
-		Dialog($id)
+    If $Bool_Donate Then
+        $donationAttempts = 0
+        $maxAttempts = 3
+        Do
+            CurrentAction("Donate")
+            $donationSuccess = DonateFaction("kurzick")
+            RndSleep(1000)
+            If Not $donationSuccess Then
+                $donationAttempts += 1
+                If $donationAttempts >= $maxAttempts Then
+                    ; Fail check mechanism, reset location and attempts if donation fails 3 times
+                    CurrentAction("Resetting location due to donation failure")
+                    GoNearestNPCToCoords(5390, 1524)
+                    RndSleep(2000) ; Adding a sleep to ensure the reset is acknowledged
+                    $donationAttempts = 0 ; Reset the donation attempts counter
+                EndIf
+            Else
+                ; Reset attempts if donation is successful
+                $donationAttempts = 0
+            EndIf
+        Until GetKurzickFaction() < 5000
+    Else
+        CurrentAction("Donating Kurzick Faction for Amber")
+        Dialog(131)
         RndSleep(550)
-	EndIf
+        $temp = Floor(GetKurzickFaction() / 5000)
+        $id = 8388609 + ($temp * 256)
+        Dialog($id)
+        RndSleep(1000)
+    EndIf
 
-	$after_donate = GetKurzickFaction()
-	$what_we_donate = $beforedone - $after_donate + $what_we_donate
-	RndSleep(500)
+    $after_donate = GetKurzickFaction()
+    $what_we_donate = $beforedone - $after_donate + $what_we_donate
+    RndSleep(500)
 EndFunc
+
+
+;===
+
 
 Func FactionCheckLuxon()
 	CurrentAction("Check Luxon point atm")
@@ -329,10 +377,12 @@ Func TakeQuestDeldrimor()
 	RndSleep(750)
 	GoNearestNPCToCoords(-23818, 13931)
 	RndSleep(750)
-	Dialog(0x00000083)
-	Dialog(0x00000084)
+	Dialog(0x00000083);
+	Dialog(0x00000084); Address for Entering the Dungeon
 	Sleep(200)
 EndFunc
+
+
 
 Func status()
 	$time = TimerDiff($TimerTotal)
@@ -971,7 +1021,7 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then $enemy = "Jotun "
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-21964, -12877, $enemy, 2500)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(-21964, -12877)
+	Until CheckArea(-21964, -12877, 1000)
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(-25272.89, -11968.49)
@@ -987,10 +1037,11 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13795, -751, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-17012, -5376, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(-17012, -5376)
+	Until CheckArea(-17012, -5376, 1000)
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(-12071, -4274)
+	RndSleep(1000)
 
 	Do
 		$DeadOnTheRun = 0
@@ -1003,11 +1054,12 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-8809, 5639, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14916, 2475, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(-14916, 2475)
+	Until CheckArea(-14916, 2475, 1000)
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(-11282, 5466)
-
+	RndSleep(1000)
+	
 	Do
 		$DeadOnTheRun = 0
 		If $DeadOnTheRun = 0 Then $enemy = "Elemental"
@@ -1015,11 +1067,12 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-16934, 11145, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-19378, 14555, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(-19378, 14555)
+	Until CheckArea(-19378, 14555, 1000)
 
 		CurrentAction("Taking blessing")
 		GoNearestNPCToCoords(-22751, 14163)
-
+	RndSleep(1000)
+	
 	Do
 		$DeadOnTheRun = 0
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15932, 9386, $enemy)
@@ -1028,11 +1081,12 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then $enemy = "Lake"
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-4729, 15385, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(-4729, 15385)
+	Until CheckArea(-4729, 15385, 1000)
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(-2290, 14879)
-
+	RndSleep(1000)
+	
 	Do
 		$DeadOnTheRun = 0
 		If $DeadOnTheRun = 0 Then $enemy = "Modnir"
@@ -1058,11 +1112,12 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(15403, -4243, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(21597, -6798, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(21597, -6798)
-
+	Until CheckArea(21597, -6798, 1000)
+	
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(24522, -6532)
-
+	RndSleep(1000)
+	
 	Do
 		$DeadOnTheRun = 0
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(22883, -4248, $enemy)
@@ -1075,10 +1130,11 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(10147, -1630, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(8963, 4043, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(8963, 4043)
+	Until CheckArea(8963, 4043, 1000)
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(8963, 4043)
+	RndSleep(1000)
 
 	Do
 		$DeadOnTheRun = 0
@@ -1088,22 +1144,24 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then $enemy = "Berserker"
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(22838, 7914, $enemy, 2500)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(22838, 7914)
+	Until CheckArea(22838, 7914, 1000)
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(22961, 12757)
-
+	RndSleep(1000)
+	
 	Do
 		$DeadOnTheRun = 0
 		If $DeadOnTheRun = 0 Then $enemy = "Modniir and Elemental"
 		If $DeadOnTheRun = 0 Then MoveTo(18067, 8766)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(13311, 11917, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(13311, 11917)
+	Until CheckArea(13311, 11917, 1000)
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(13714, 14520)
-
+	RndSleep(1000)
+	
 	Do
 		$DeadOnTheRun = 0
 		If $DeadOnTheRun = 0 Then $enemy = "Modniir and Elemental"
@@ -1115,7 +1173,7 @@ Func VQNorn()
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(1582, 15275, $enemy, 2500)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(7857, 10409, $enemy, 2500)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
-	Until CheckArea(7857, 10409)
+	Until CheckArea(7857, 10409, 1000)
 EndFunc
 
 Func VQKurzick();
@@ -1145,12 +1203,19 @@ Else
     Sleep(1000)
 EndIf
 
+
+	Local $iFoesKilled = GetFoesKilled()
+	
 	$enemy = "Mantis Group"
+	$bestTarget = GetBestTarget()
+	
 	AggroMoveToEx(-11733, 16729, $enemy)
 	AggroMoveToEx(-11942, 18468, $enemy)
 	AggroMoveToEx(-11178, 20073, $enemy)
 	AggroMoveToEx(-11008, 16972, $enemy)
 	AggroMoveToEx(-11238, 15226, $enemy)
+	CurrentAction("Foes Killed: " & $iFoesKilled)
+	
 	AggroMoveToEx(-8458.45, 19618.76, $enemy)
 	AggroMoveToEx(-9179.54, 15281.15, $enemy)
 	AggroMoveToEx(-8799.17, 14159.67, $enemy)
@@ -1159,7 +1224,8 @@ EndIf
 	AggroMoveToEx(-10965, 13496, $enemy)
 	AggroMoveToEx(-10570, 11789, $enemy)	
 	AggroMoveToEx(-10138, 10076, $enemy)
-
+	CurrentAction("Foes Killed: " & $iFoesKilled)
+	
 	$enemy = "Dredge Boss Warrior"
 	AggroMoveToEx(-10289, 8329, $enemy)
 	AggroMoveToEx(-8587, 8739, $enemy)
@@ -1182,7 +1248,8 @@ EndIf
 	AggroMoveToEx(-9326,1601, $enemy)
 	AggroMoveToEx(-11000,2219, $enemy, 5000)
 	AggroMoveToEx(-6313,2778, $enemy)
-
+	CurrentAction("Foes Killed: " & $iFoesKilled)
+	
 	$enemy = "Dreadge Patrol"
 	AggroMoveToEx(-4447, 1055, $enemy, 3000)
 
@@ -1190,14 +1257,15 @@ EndIf
 	AggroMoveToEx(-3832, -586, $enemy, 3000)
 	AggroMoveToEx(-3143, -2203, $enemy, 3000)
 	AggroMoveToEx(-5780, -4665, $enemy, 3000)
-
+	CurrentAction("Foes Killed: " & $iFoesKilled)
+	
 	$enemy = "Warden Group / Mesmer Boss"
-	AggroMoveToEx(-2541, -3848, $enemy, 3000)
-	AggroMoveToEx(-2108, -5549, $enemy, 3000)
-	AggroMoveToEx(-1649, -7250, $enemy, 2500)
+	AggroMoveToEx(-2541, -3848, $enemy, 5000)
+	AggroMoveToEx(-2108, -5549, $enemy, 5000)
+	AggroMoveToEx(-1649, -7250, $enemy, 4500)
 
 	$enemy = "Dredge Patrol and Mesmer Boss"
-	AggroMoveToEx(-666, -8708, $enemy, 2500)
+	AggroMoveToEx(-666, -8708, $enemy, 5500)
 
 	$enemy = "Warden Group"
 	AggroMoveToEx(526, -10001, $enemy)
@@ -1213,7 +1281,7 @@ EndIf
 
 	$enemy = "Warden Patrol"
 	AggroMoveToEx(-3676, -18939, $enemy)
-	AggroMoveToEx(-5433, -18839, $enemy, 3000)
+	AggroMoveToEx(-5433, -18839, $enemy, 5000)
 	AggroMoveToEx(-3679, -18830, $enemy)
 	AggroMoveToEx(-1925, -18655, $enemy)
 	AggroMoveToEx(-274, -18040, $enemy)
@@ -1225,7 +1293,7 @@ EndIf
 	AggroMoveToEx(7858, -13545, $enemy)
 	AggroMoveToEx(8396, -15221, $enemy)
 	AggroMoveToEx(9117, -16820, $enemy)
-	AggroMoveToEx(10775, -17393, $enemy, 3000)
+	AggroMoveToEx(10775, -17393, $enemy, 5000)
 	AggroMoveToEx(9133, -16782, $enemy)
 	AggroMoveToEx(8366, -15202, $enemy)
 	AggroMoveToEx(8083, -13466, $enemy)
@@ -1237,12 +1305,12 @@ EndIf
 
 	$enemy = "Dredge Patrol / Bridge / Boss"
 	AggroMoveToEx(5076, -4955, $enemy)
-	AggroMoveToEx(4453, -3315, $enemy, 3000)
+	AggroMoveToEx(4453, -3315, $enemy, 5000)
 
 	$enemy = "Dedge Patrol"
 	AggroMoveToEx(5823, -2204, $enemy)
 	AggroMoveToEx(7468, -1606, $enemy)
-	AggroMoveToEx(8591, -248, $enemy, 3000)
+	AggroMoveToEx(8591, -248, $enemy, 5000)
 	AggroMoveToEx(8765, 1497, $enemy)
 	AggroMoveToEx(9756, 2945, $enemy)
 	AggroMoveToEx(11344, 3722, $enemy)
@@ -1277,24 +1345,24 @@ EndIf
 	AggroMoveToEx(3072, 7643, $enemy, 3000)
 	AggroMoveToEx(1836, 8906, $enemy, 3000)
 	AggroMoveToEx(557, 10116, $enemy, 3000)
-	AggroMoveToEx(-545, 11477, $enemy, 3000)
-	AggroMoveToEx(-1413, 13008, $enemy, 3000)
-	AggroMoveToEx(-2394, 14474, $enemy, 3000)
-	AggroMoveToEx(-3986, 15218, $enemy, 3000)
-	AggroMoveToEx(-5319, 16365, $enemy, 3000)
-	AggroMoveToEx(-5238, 18121, $enemy, 3000)
-	AggroMoveToEx(-7916, 19630, $enemy, 3000)
-	AggroMoveToEx(-3964, 19324, $enemy, 3000)
-	AggroMoveToEx(-2245, 19684, $enemy, 3000)
-	AggroMoveToEx(-802, 18685, $enemy, 3000)
-	AggroMoveToEx(74, 17149, $enemy, 3000)
-	AggroMoveToEx(611, 15476, $enemy, 4000)
-	AggroMoveToEx(2139, 14618, $enemy, 4000)
-	AggroMoveToEx(3883, 14448, $enemy, 4000)
-	AggroMoveToEx(5624, 14226, $enemy, 4000)
-	AggroMoveToEx(7384, 14094, $enemy, 4000)
-	AggroMoveToEx(8223, 12552, $enemy, 4000)
-	AggroMoveToEx(7148, 11167, $enemy, 4000)
+	AggroMoveToEx(-545, 11477, $enemy, 5000)
+	AggroMoveToEx(-1413, 13008, $enemy, 5000)
+	AggroMoveToEx(-2394, 14474, $enemy, 5000)
+	AggroMoveToEx(-3986, 15218, $enemy, 5000)
+	AggroMoveToEx(-5319, 16365, $enemy, 5000)
+	AggroMoveToEx(-5238, 18121, $enemy, 5000)
+	AggroMoveToEx(-7916, 19630, $enemy, 5000)
+	AggroMoveToEx(-3964, 19324, $enemy, 5000)
+	AggroMoveToEx(-2245, 19684, $enemy, 5000)
+	AggroMoveToEx(-802, 18685, $enemy, 5000)
+	AggroMoveToEx(74, 17149, $enemy, 5000)
+	AggroMoveToEx(611, 15476, $enemy, 5000)
+	AggroMoveToEx(2139, 14618, $enemy, 5000)
+	AggroMoveToEx(3883, 14448, $enemy, 5000)
+	AggroMoveToEx(5624, 14226, $enemy, 5000)
+	AggroMoveToEx(7384, 14094, $enemy, 5000)
+	AggroMoveToEx(8223, 12552, $enemy, 5000)
+	AggroMoveToEx(7148, 11167, $enemy, 5000)
 	AggroMoveToEx(5427, 10834, $enemy, 10000)
     
 	CurrentAction("Waiting to get reward")
@@ -1335,7 +1403,8 @@ Func VQDeldrimor();
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14596, 2612, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14506, 3963, $enemy)
 		If  $DeadOnTheRun = 1 then Sleep(15000)
-	Until CheckArea(-14506, 3963)
+	Until CheckArea(-14506, 3963, 1000)
+
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(-12512, 3919)
@@ -1359,10 +1428,10 @@ Func VQDeldrimor();
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13114, -6255, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14367, -9244, $enemy)
 		If  $DeadOnTheRun = 1 then Sleep(15000)
-	Until CheckArea(-14367, -9244)
+	Until CheckArea(-14367, -9244, 100)
 
 	CurrentAction("Taking blessing")
-	GoNearestNPCToCoords(-16025, -10702)
+	GoNearestNPCToCoords(-16025, -10702, 100)
 	RndSleep(500)
 
 	Do
@@ -1374,7 +1443,7 @@ Func VQDeldrimor();
 		If $DeadOnTheRun = 0 Then $enemy = "Angry Snowman"
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-10097, -11373, $enemy)
 		If  $DeadOnTheRun = 1 then Sleep(15000)
-	Until CheckArea(-10097, -11373)
+	Until CheckArea(-10097, -11373, 1000)
 
 	$enemy = "Grabing Key"
 	Moveto(-9852, -11078)
@@ -1407,7 +1476,7 @@ Func VQDeldrimor();
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15483, -16565, $enemy)
 		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13362, -17430, $enemy)
 		If  $DeadOnTheRun = 1 then Sleep(15000)
-	Until CheckArea(-13362, -17430)
+	Until CheckArea(-13362, -17430, 1000)
 
 	CurrentAction("Grabing boss key")
 	Moveto(-12974, -17414)
