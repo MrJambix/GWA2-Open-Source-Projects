@@ -123,19 +123,7 @@ ElseIf $Title = "SS and LB" Then
 		Else
 			SwitchMode(0)
 		EndIf
-		
-	;	If $Bool_ID_Salvage Then
-	;		IdentBag(1)
-	;		IdentBag(2)
-	;		IdentBag(3)
-	;		IdentBag(4)
-	;
-	;		SalvageBag(1)
-	;		SalvageBag(2)
-	;		SalvageBag(3)
-	;		SalvageBag(4)
-	;	EndIf
-		
+			
 		If CheckIfInventoryIsFull() then SellItemToMerchant()
 
 		GoOut()
@@ -158,35 +146,6 @@ Func FactionCheckKurzick()
 	EndIf
 EndFunc
 
-;Func TurnInFactionKurzick()
-;	CurrentAction("Turning in faction")
-;	RndSleep(5000)
-;	GoNearestNPCToCoords(5390, 1524)
-;
-;	$beforedone = GetKurzickFaction()
-;
-;	If $Bool_Donate Then
-;		Do
-;			CurrentAction("Donate")
-;			DonateFaction("kurzick")
-;			RndSleep(500)
-;		Until GetKurzickFaction() < 5000
-;	Else
-;		CurrentAction("Donating Kurzick Faction for Amber")
-;		Dialog(131)
-;		RndSleep(550)
-;		$temp = Floor(GetKurzickFaction() / 5000)
-;		$id = 8388609 + ($temp * 256)
-;		Dialog($id)
- ;       RndSleep(550)
-;	EndIf
-;
-;	$after_donate = GetKurzickFaction()
-;	$what_we_donate = $beforedone - $after_donate + $what_we_donate
-;	RndSleep(500)
-;EndFunc
-
-;===
 Func TurnInFactionKurzick()
     CurrentAction("Turning in faction")
     RndSleep(5000)
@@ -230,10 +189,6 @@ Func TurnInFactionKurzick()
     RndSleep(500)
 EndFunc
 
-
-;===
-
-
 Func FactionCheckLuxon()
 	CurrentAction("Check Luxon point atm")
 	RndSleep(250)
@@ -275,9 +230,7 @@ Func TurnInFactionLuxon()
 	WaitForLoad()
 EndFunc
 
-; Function to display debug messages
 Func DebugMsg($msg)
-    ; Replace this with your preferred method of displaying debug messages
     MsgBox(0, "Debug Message", $msg)
 EndFunc
 
@@ -536,6 +489,8 @@ Func SSpoint()
 	$point_earn = $Temp - $SS_begin
 	GUICtrlSetData($Pt_SS, $point_earn)
 EndFunc
+
+#Region VQ
 
 Func VQLuxon() ;
 
@@ -1207,7 +1162,6 @@ EndIf
 	Local $iFoesKilled = GetFoesKilled()
 	
 	$enemy = "Mantis Group"
-	$bestTarget = GetBestTarget()
 	
 	AggroMoveToEx(-11733, 16729, $enemy)
 	AggroMoveToEx(-11942, 18468, $enemy)
@@ -1216,10 +1170,10 @@ EndIf
 	AggroMoveToEx(-11238, 15226, $enemy)
 	CurrentAction("Foes Killed: " & $iFoesKilled)
 	
-	AggroMoveToEx(-8458.45, 19618.76, $enemy)
-	AggroMoveToEx(-9179.54, 15281.15, $enemy)
-	AggroMoveToEx(-8799.17, 14159.67, $enemy)
-	AggroMoveToEx(-9454.66, 13399.67, $enemy)	
+	AggroMoveToEx(-8458.45, 19618, $enemy)
+	AggroMoveToEx(-9179.54, 15281, $enemy)
+	AggroMoveToEx(-8799.17, 14159, $enemy)
+	AggroMoveToEx(-9454.66, 13399, $enemy)	
 	AggroMoveToEx(-9122, 14794, $enemy)
 	AggroMoveToEx(-10965, 13496, $enemy)
 	AggroMoveToEx(-10570, 11789, $enemy)	
@@ -1537,17 +1491,6 @@ Func VQDeldrimor();
 	SwapDistricts()
 EndFunc
 
-Func SwapDistricts()
-	CurrentAction("Moving GH")
-
-	TravelGH()
-	RndSleep(3000)
-	CurrentAction("Leaving GH")
-	LeaveGH()
-
-	RndSleep(3000)
-EndFunc
-
 Func VQAsura();
 
 	$DeadOnTheRun = 0
@@ -1717,7 +1660,19 @@ Func VQTreasure_Hunter()
 	CurrentAction("Completed Run")
 	RndSleep(2000)
 	Return True
-EndFunc	;==>VQTreasureHunter
+EndFunc	;==>VQTreasureHunte
+#EndRegion
+
+Func SwapDistricts()
+	CurrentAction("Moving GH")
+
+	TravelGH()
+	RndSleep(3000)
+	CurrentAction("Leaving GH")
+	LeaveGH()
+
+	RndSleep(3000)
+EndFunc
 
 Func _Run ($aX, $aY, $aRandom = 75)
     If GetIsDead(-2) Then Return
@@ -1745,5 +1700,3 @@ Func _Run ($aX, $aY, $aRandom = 75)
     Until ComputeDistance(DllStructGetData($lMe, 'X'), DllStructGetData($lMe, 'Y'), $lDestX, $lDestY) < 100
 
 EndFunc   ;==>_Run
-
-

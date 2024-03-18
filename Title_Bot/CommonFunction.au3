@@ -789,9 +789,92 @@ Func WaitForLoad()
 	Sleep(1000)
 EndFunc   ;==>WaitForLoad
 
+;====HealPriorityTarget
+
+Func AggroMoveToEx($x, $y, $s = "", $z = 2000^2) ; Adjusted for range as squared distance
+    Local $TimerToKill = TimerInit()
+    CurrentAction("Hunting " & $s)
+    $random = 50
+    $iBlocked = 0
+    Local $targetHealerID = 0
+
+    If $DeadOnTheRun = 0 Then Move($x, $y, $random)
+
+    $lMe = GetAgentByID(-2)
+    $coordsX = DllStructGetData($lMe, "X")
+    $coordsY = DllStructGetData($lMe, "Y")
+    Local $oldCoordsX = $coordsX, $oldCoordsY = $coordsY
+
+    If $DeadOnTheRun = 0 Then
+        Do
+            If $DeadOnTheRun = 1 Then ExitLoop
+
+            If $targetHealerID = 0 Then
+                $nearestEnemy = GetNearestEnemyToAgent(-2)
+                If IsHealer($nearestEnemy) Then
+                    ; Since $z is squared distance, compare using squared distances
+                    Local $distanceSquared = (DllStructGetData($nearestEnemy, 'X') - $coordsX) ^ 2 + (DllStructGetData($nearestEnemy, 'Y') - $coordsY) ^ 2
+                    If $distanceSquared <= $z Then ; Check if within squared distance
+                        $targetHealerID = DllStructGetData($nearestEnemy, 'ID')
+                        CallTarget($nearestEnemy)
+                        CurrentAction("Healer Found: Targeting Healer as priority")
+                    EndIf
+                EndIf
+            EndIf
+
+            If $targetHealerID <> 0 Then
+                $currentTarget = GetAgentByID($targetHealerID)
+                If $currentTarget <> 0 Then
+                    Local $distanceSquared = (DllStructGetData($currentTarget, 'X') - $coordsX) ^ 2 + (DllStructGetData($currentTarget, 'Y') - $coordsY) ^ 2
+                    If $distanceSquared <= $z Then
+                        FightEx($z, $s = "healer") ; Continue targeting the healer
+                    Else
+                        $targetHealerID = 0
+                        CurrentAction("Hunting " & $s) ; Revert to general hunting action if healer target is lost
+                    EndIf
+                Else
+                    $targetHealerID = 0
+                    CurrentAction("Hunting " & $s)
+                EndIf
+            Else
+                ; Default behavior for other enemies
+                FightEx($z, $s = "enemies")
+            EndIf
+
+            ; Update agent's current position
+            $lMe = GetAgentByID(-2)
+            $coordsX = DllStructGetData($lMe, "X")
+            $coordsY = DllStructGetData($lMe, "Y")
+
+            If $coordsX = $oldCoordsX And $coordsY = $oldCoordsY Then
+                $iBlocked += 1
+                If $DeadOnTheRun = 0 Then Move($coordsX, $coordsY, 500)
+                If $DeadOnTheRun = 0 Then Sleep(350)
+                If $DeadOnTheRun = 0 Then Move($x, $y, $random)
+            EndIf
+
+            $oldCoordsX = $coordsX
+            $oldCoordsY = $coordsY
+
+        Until ComputeDistanceEx($coordsX, $coordsY, $x, $y) < 1250 Or $iBlocked > 20 Or $DeadOnTheRun = 1
+    EndIf
+    $TimerToKillDiff = TimerDiff($TimerToKill)
+    $TEXT = StringFormat("min: %03u  sec: %02u ", $TimerToKillDiff / 1000 / 60, Mod($TimerToKillDiff / 1000, 60))
+    FileWriteLine($File, $s & " en ================================== >   " & $TEXT & @CRLF)
+EndFunc   ;==>AggroMoveToEx
 
 
-Func AggroMoveToEx($x, $y, $s = "", $z = 1450)
+Func IsHealer($enemy)
+    Local $name = GetAgentName($enemy)
+    If $name == "Mantis Mender" Then ; Check if the name matches the known healer name
+        Return True
+    Else
+        Return False
+    EndIf
+EndFunc
+
+;====HealPriorityTarget
+Func AggroMoveToEx2($x, $y, $s = "", $z = 1450)
 	Local $TimerToKill = TimerInit()
 	CurrentAction("Hunting " & $s)
 	$random = 50
