@@ -20,11 +20,10 @@ Global $boolrun = False
 Global $strName = ""
 Global $coords[2]
 Global $Title, $sGW
-Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_Uselockpicks = False, $Bool_ID_Salvage  = False
+Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_Uselockpicks = False
 Global $g_bRun = False
 Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
 Global Const $NumberOfIdentKits = 1
-Global Const $NumberOfSalvageKits = 1
 
 $loggedCharNames = GetLoggedCharNames()
 $charNamesArray = StringSplit($loggedCharNames, "|", 2)
@@ -96,24 +95,29 @@ GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetOnEvent(-1, "gui_eventHandler")
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateGroup("General Config", 160, 175, 161, 105)
+
 Global $Gui_Id_and_sell = GUICtrlCreateCheckbox("Id and Sell", 176, 216, 75, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
+
 Global $Gui_Store_unid = GUICtrlCreateCheckbox("Store Unid", 176, 192, 73, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
+
 Global $Gui_HM_enable = GUICtrlCreateCheckbox("HM", 176, 240, 49, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
+
 Global $Gui_Donate = GUICtrlCreateCheckbox("Donate", 256, 240, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $gui_cons = GUICtrlCreateCheckbox("Cons", 256, 192, 65, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
 Global $Gui_UseLockpicks = GUICtrlCreateCheckbox("Lockpicks", 176, 261, 79, 14)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-Global $Gui_ID_Salvage = GUICtrlCreateCheckbox("ID_Salvage", 256, 261, 79, 14)
-GUICtrlSetState(-1, $GUI_DOCKALL)
-;GUICtrlSetState(-1, $GUI_DOCKALL)
+
 Global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 256, 216, 60, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
 GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 Global $txtName = GUICtrlCreateCombo("", 8, 248, 89, 25)
 GUICtrlSetData(-1, GetLoggedCharNames())
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -210,7 +214,6 @@ GUICtrlSetState($Gui_HM_enable, $GUI_CHECKED)
 GUICtrlSetState($Gui_PickUp, $GUI_CHECKED)
 GUICtrlSetState($Radio_Asura, $GUI_CHECKED)
 GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
-GUICtrlSetState($Gui_ID_Salvage, $GUI_CHECKED)
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
 
@@ -271,11 +274,12 @@ func gui_eventHandler()
 			GUICtrlSetState($Radio_SS, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Id_and_sell, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Store_unid, $GUI_DISABLE)
-			GUICtrlSetState($Gui_ID_Salvage, $GUI_DISABLE)
 			GUICtrlSetState($gui_cons, $GUI_DISABLE)
 			GUICtrlSetState($Gui_UseLockpicks, $GUI_DISABLE)
 			GUICtrlSetState($Gui_HM_enable, $GUI_DISABLE)
 			GUICtrlSetState($Gui_Donate, $GUI_DISABLE)
+			GUICtrlSetState($Gui_PickUp, $GUI_DISABLE)
+			GUICtrlSetState($heroCheck, $GUI_DISABLE)
 			GUICtrlSetState($Start, $GUI_DISABLE)
 			GUICtrlSetState($txtName, $GUI_DISABLE)
 
@@ -307,7 +311,6 @@ func gui_eventHandler()
 			If BitAND(GUICtrlRead($Gui_PickUp), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_PickUp = True
 			If BitAND(GUICtrlRead($gui_cons), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_cons = True
 			If BitAND(GUICtrlRead($Gui_UseLockpicks), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Uselockpicks = True
-			If BitAND(GUICtrlRead($Gui_ID_Salvage), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_ID_Salvage = True
 
 			If GUICtrlRead($txtName) = "" Then
 				MsgBox(0, "Error", "Plz enter your name in the input box")
@@ -419,21 +422,30 @@ Func SellItemToMerchant()
 		ElseIf $Title = "SS" Then
 			$merchant = GetNearestNPCToCoords(498, 1297)
 		EndIf
+		
 		Sleep(1000)
+		
 		GoToNPC($merchant)
+		
 		Sleep(1000)
 		If $Title = "Vanguard" Then
 			Sleep(2000)
 			Dialog(0x0000007F)
 		EndIf
+		
 		BuyIDKit()
+		
 		Sleep(1000)
+		
 		CurrentAction("Ident inventory")
+		
 		Ident(1)
 		Ident(2)
 		Ident(3)
 		Ident(4)
+		
 		CurrentAction("Sell inventory")
+		
 		Sell(1)
 		Sell(2)
 		Sell(3)
@@ -465,40 +477,6 @@ Func IDENT($bagIndex)
 	Next
 EndFunc   ;==>IDENT
 
-Func SalvageItems($bagIndex)
-    IDENT($bagIndex) 
-    Sleep(Random(2000, 3000))
-
-    $bag = GetBag($bagIndex)
-    For $i = 1 To DllStructGetData($bag, 'slots')
-        $aItem = GetItemBySlot($bagIndex, $i)
-        If DllStructGetData($aItem, 'ID') = 0 Then ContinueLoop
-
-        ; Check if the item can be salvaged before proceeding
-        If Not CanSalvage($aItem) Then ContinueLoop
-
-        Sleep(Random(1000, 1500))
-        StartSalvage($aItem)
-        Sleep(Random(1000, 1500))
-    Next
-
-    Sleep(Random(3000, 4000))
-EndFunc   ;==>SalvageItems
-
-Func CanSalvage($aItem)
-    ; Retrieve the ModelID and extraId from the item structure
-    Local $m = DllStructGetData($aItem, 'ModelID')
-    Local $i = DllStructGetData($aItem, 'extraId')
-    Local $itemRarity = GetRarity($aItem)
-
-    If $itemRarity = $RARITY_Gold Then
-        Return False
-    EndIf
-    Return True
-EndFunc   ;==>CanSalvage
-
-
-
 Func CheckIfInventoryIsFull()
     If CountSlots() < 3 Then
         return true
@@ -523,7 +501,6 @@ EndFunc
 
 
 Func GetExtraItemInfo($aitem)
-
 
     If IsDllStruct($aitem) = 0 Then
         $aitem = GetItemByItemID($aitem)
@@ -667,46 +644,6 @@ Func PickUpLoot()
 EndFunc   ;==>PickUpLoot
 
 
-; Checks if should pick up the given item. Returns True or False
-;Func CanPickUp($aItem)
-;	Local $lModelID = DllStructGetData(($aItem), 'ModelId')
-;	Local $t = DllStructGetData($aItem, 'Type')
-;	Local $aExtraID = DllStructGetData($aItem, 'ExtraId')
-;	Local $lRarity = GetRarity($aItem)
-;	Local $Requirement = GetItemReq($aItem)
-;
-;	If $lModelID > 21785 And $lModelID < 21806 Then Return True ; Elite/Normal Tomes
-;	If ($lModelID == 2511) Then
-;		If (GetGoldCharacter() < 99000) Then
-;			Return True	; gold coins (only pick if character has less than 99k in inventory)
-;		Else
-;			Return False
-;		EndIf
-;	ElseIf ($lModelID == $ITEM_ID_Dyes) Then	; if dye
-;		If (($aExtraID == $ITEM_ExtraID_BlackDye) Or ($aExtraID == $ITEM_ExtraID_WhiteDye)) Then ; only pick white and black ones
-;			Return True
-;		EndIf
-;	ElseIf ($lRarity == $RARITY_Gold) Then ; gold items
-;		Return True
-;	ElseIf ($t == $TYPE_KEY) Then ; dungeon key
-;		Return True
-;	ElseIf($lModelID == $ITEM_ID_Lockpicks) Then
-;		Return True ; Lockpicks
-;	ElseIf($lModelID == $ITEM_ID_Glacial_Stones) Then
-;		Return False ; glacial stones
-;	ElseIf($lModelID == $Carving) Then
-;		Return True ; charr carvings
-;	ElseIf CheckArrayPscon($lModelID) Then ; ==== Pcons ==== or all event items
-;		Return True
-;	ElseIf CheckArrayMapPieces($lModelID) Then ; ==== Map Pieces ====
-;		Return False
-;	ElseIf ($lRarity == $RARITY_White) And $PickUpAll Then ; White items
-;		Return False
-;	Else
-;		Return False
-;	EndIf
-;EndFunc   ;==>CanPickUp
-
 Func CanPickUp($aItem)
     Local $lModelID = DllStructGetData($aItem, 'ModelId')
     Local $t = DllStructGetData($aItem, 'Type')
@@ -789,136 +726,9 @@ Func WaitForLoad()
 	Sleep(1000)
 EndFunc   ;==>WaitForLoad
 
-;====HealPriorityTarget
-
-Func AggroMoveToEx($x, $y, $s = "", $z = 2000^2) ; Adjusted for range as squared distance
-    Local $TimerToKill = TimerInit()
-    CurrentAction("Hunting " & $s)
-    $random = 50
-    $iBlocked = 0
-    Local $targetHealerID = 0
-
-    If $DeadOnTheRun = 0 Then Move($x, $y, $random)
-
-    $lMe = GetAgentByID(-2)
-    $coordsX = DllStructGetData($lMe, "X")
-    $coordsY = DllStructGetData($lMe, "Y")
-    Local $oldCoordsX = $coordsX, $oldCoordsY = $coordsY
-
-    If $DeadOnTheRun = 0 Then
-        Do
-            If $DeadOnTheRun = 1 Then ExitLoop
-
-            If $targetHealerID = 0 Then
-                $nearestEnemy = GetNearestEnemyToAgent(-2)
-                If IsHealer($nearestEnemy) Then
-                    ; Since $z is squared distance, compare using squared distances
-                    Local $distanceSquared = (DllStructGetData($nearestEnemy, 'X') - $coordsX) ^ 2 + (DllStructGetData($nearestEnemy, 'Y') - $coordsY) ^ 2
-                    If $distanceSquared <= $z Then ; Check if within squared distance
-                        $targetHealerID = DllStructGetData($nearestEnemy, 'ID')
-                        CallTarget($nearestEnemy)
-                        CurrentAction("Healer Found: Targeting Healer as priority")
-                    EndIf
-                EndIf
-            EndIf
-
-            If $targetHealerID <> 0 Then
-                $currentTarget = GetAgentByID($targetHealerID)
-                If $currentTarget <> 0 Then
-                    Local $distanceSquared = (DllStructGetData($currentTarget, 'X') - $coordsX) ^ 2 + (DllStructGetData($currentTarget, 'Y') - $coordsY) ^ 2
-                    If $distanceSquared <= $z Then
-                        FightEx($z, $s = "healer") ; Continue targeting the healer
-                    Else
-                        $targetHealerID = 0
-                        CurrentAction("Hunting " & $s) ; Revert to general hunting action if healer target is lost
-                    EndIf
-                Else
-                    $targetHealerID = 0
-                    CurrentAction("Hunting " & $s)
-                EndIf
-            Else
-                ; Default behavior for other enemies
-                FightEx($z, $s = "enemies")
-            EndIf
-
-            ; Update agent's current position
-            $lMe = GetAgentByID(-2)
-            $coordsX = DllStructGetData($lMe, "X")
-            $coordsY = DllStructGetData($lMe, "Y")
-
-            If $coordsX = $oldCoordsX And $coordsY = $oldCoordsY Then
-                $iBlocked += 1
-                If $DeadOnTheRun = 0 Then Move($coordsX, $coordsY, 500)
-                If $DeadOnTheRun = 0 Then Sleep(350)
-                If $DeadOnTheRun = 0 Then Move($x, $y, $random)
-            EndIf
-
-            $oldCoordsX = $coordsX
-            $oldCoordsY = $coordsY
-
-        Until ComputeDistanceEx($coordsX, $coordsY, $x, $y) < 1250 Or $iBlocked > 20 Or $DeadOnTheRun = 1
-    EndIf
-    $TimerToKillDiff = TimerDiff($TimerToKill)
-    $TEXT = StringFormat("min: %03u  sec: %02u ", $TimerToKillDiff / 1000 / 60, Mod($TimerToKillDiff / 1000, 60))
-    FileWriteLine($File, $s & " en ================================== >   " & $TEXT & @CRLF)
-EndFunc   ;==>AggroMoveToEx
-
-
-Func IsHealer($enemy)
-    Local $name = GetAgentName($enemy)
-    If $name == "Mantis Mender" Then ; Check if the name matches the known healer name
-        Return True
-    Else
-        Return False
-    EndIf
-EndFunc
-
-;====HealPriorityTarget
-Func AggroMoveToEx2($x, $y, $s = "", $z = 1450)
-	Local $TimerToKill = TimerInit()
-	CurrentAction("Hunting " & $s)
-	$random = 50
-	$iBlocked = 0
-
-	If $DeadOnTheRun = 0 Then Move($x, $y, $random)
-
-	$lMe = GetAgentByID(-2)
-	$coordsX = DllStructGetData($lMe, "X")
-	$coordsY = DllStructGetData($lMe, "Y")
-
-	If $DeadOnTheRun = 0 Then
-		Do
-			If $DeadOnTheRun = 1 Then ExitLoop
-			;If $DeadOnTheRun = 0 Then Sleep(250) //////
-			$oldCoordsX = $coordsX
-			$oldCoordsY = $coordsY
-			$nearestenemy = GetNearestEnemyToAgent(-2)
-			$lDistance = GetDistance($nearestenemy, -2)
-			If $DeadOnTheRun = 1 Then ExitLoop
-			If $lDistance < $z And DllStructGetData($nearestenemy, 'ID') <> 0 And $DeadOnTheRun = 0 Then
-
-					FightEx($z, $s = "enemies")
-
-			EndIf
-			;If $DeadOnTheRun = 0 Then Sleep(250) /////
-			$lMe = GetAgentByID(-2)
-			$coordsX = DllStructGetData($lMe, "X")
-			$coordsY = DllStructGetData($lMe, "Y")
-			If $oldCoordsX = $coordsX And $oldCoordsY = $coordsY Then
-				$iBlocked += 1
-				If $DeadOnTheRun = 0 Then Move($coordsX, $coordsY, 500)
-				If $DeadOnTheRun = 0 Then Sleep(350)
-				If $DeadOnTheRun = 0 Then Move($x, $y, $random)
-			EndIf
-		Until ComputeDistanceEx($coordsX, $coordsY, $x, $y) < 250 Or $iBlocked > 20 Or $DeadOnTheRun = 1
-	EndIf
-	$TimerToKillDiff = TimerDiff($TimerToKill)
-	$TEXT = StringFormat("min: %03u  sec: %02u ", $TimerToKillDiff / 1000 / 60, Mod($TimerToKillDiff / 1000, 60))
-	FileWriteLine($File, $s & " en ================================== >   " & $TEXT & @CRLF)
-EndFunc   ;==>AggroMoveToEx
 
 Func AggroMoveTo($x, $y, $s = "", $z = 1450)
-	CurrentAction("Hunting " & $s)
+	;CurrentAction("Hunting " & $s)
 	$random = 50
 	$iBlocked = 0
 
@@ -1003,6 +813,7 @@ Local $intSkillCastTime[10]
 	Until DllStructGetData($target, 'ID') = 0 Or $distance > $x
 	If GetHealth(-2) < 2400 Then UseSkill(7, -2)
 	PingSleep(3000)
+	
 	CurrentAction("Picking up items")
 	If $Bool_PickUp Then PickUpLoot()
 	If $Bool_Uselockpicks then CheckForChest()
@@ -1010,8 +821,7 @@ EndFunc   ;==>Fight
 
 Func FightEx($z, $s = "enemies")
 	Local $lastId = 99999, $coordinate[2], $timer
-	CurrentAction("Fighting Ex!")
-
+	
 	If $DeadOnTheRun = 0 Then
 		Do
 			$Me = GetAgentByID(-2)

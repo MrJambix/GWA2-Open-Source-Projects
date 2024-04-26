@@ -519,98 +519,104 @@ Else
     Sleep(1000)
 EndIf
 
+$enemy = "Yeti"
+If GetAreaVanquished() = False Then AggroMoveTo(-13046, -9347, $enemy)
+
+$enemy = "Yeti"
+If GetAreaVanquished() = False Then AggroMoveTo(-17348, -9895, $enemy)
+If GetAreaVanquished() = False Then AggroMoveTo(-17399, -10140, $enemy)
+
+$enemy = "Oni and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(-14702, -6671, $enemy)
+
+$enemy = "Oni and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(-11080, -6126, $enemy, 2000)
+
+$enemy = "Yeti"
+If GetAreaVanquished() = False Then AggroMoveTo(-13426, -2344, $enemy)
+
+$enemy = "TomTom"
+If GetAreaVanquished() = False Then AggroMoveTo(-15055, -3226, $enemy)
+
+$enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(-9448, -283, $enemy)
+
+$enemy = "Yeti"
+If GetAreaVanquished() = False Then AggroMoveTo(-9918, 2826, $enemy, 2000)
+
+$enemy = "Yeti"
+If GetAreaVanquished() = False Then AggroMoveTo(-8721, 7682, $enemy)
+
+$enemy = "Yeti"
+If GetAreaVanquished() = False Then AggroMoveTo(-3749, 8053, $enemy)
+If GetAreaVanquished() = False Then AggroMoveTo(-2837, 8990, $enemy)
+
+$enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(-9666, 2625, $enemy)
+
+$enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(-7474, -1144, $enemy)
+
+$enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(-5895, -3959, $enemy)
+
+$enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(-7449, -4600, $enemy)
+
+$enemy = "Patrol"
+If GetAreaVanquished() = False Then AggroMoveTo(-3509, -8000, $enemy)
+
+$enemy = "Oni"
+If GetAreaVanquished() = False Then AggroMoveTo(-195, -9095, $enemy)
+
+$enemy = "Oni"
+If GetAreaVanquished() = False Then AggroMoveTo(6298, -8707, $enemy)
+
+$enemy = "bridge"
+If GetAreaVanquished() = False Then AggroMoveTo(3981, -3295, $enemy)
+
+$enemy = "Naga"
+If GetAreaVanquished() = False Then AggroMoveTo(496, -2581, $enemy, 2000)
+
+$enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(2069, 1127, $enemy)
+
+ $enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(5859, 1599, $enemy)
+
+$enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(5405, 5891, $enemy)
+
+$enemy = "Guardian and Wallows"
+If GetAreaVanquished() = False Then AggroMoveTo(6412, 6572, $enemy)
+
+$enemy = "Naga"
+If GetAreaVanquished() = False Then AggroMoveTo(10507, 8140, $enemy)
+
+$enemy = "Naga"
+If GetAreaVanquished() = False Then AggroMoveTo(8526, 6528, $enemy)
+
+$enemy = "Naga"
+If GetAreaVanquished() = False Then AggroMoveTo(10747, 8484, $enemy)
+
+$enemy = "Oni"
+If GetAreaVanquished() = False Then AggroMoveTo(14403, 6938, $enemy)
+
+$enemy = "Oni"
+If GetAreaVanquished() = False Then AggroMoveTo(18080, 3127, $enemy)
+
+$enemy = "Naga"
+If GetAreaVanquished() = False Then AggroMoveTo(13518, -35, $enemy)
+
+$enemy = "Naga"
+If GetAreaVanquished() = False Then AggroMoveTo(13450, -6084, $enemy, 4000)
+
+$enemy = "Naga"
+If GetAreaVanquished() = False Then AggroMoveTo(13764, -4816, $enemy, 4000)
 
 
-	If $DeadOnTheRun = 0 Then $enemy = "Yeti"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13046, -9347, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Yeti"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17348, -9895, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Oni and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-14702, -6671, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Oni and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11080, -6126, $enemy, 2000)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Yeti"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13426, -2344, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "TomTom"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-15055, -3226, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Guardian and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9448, -283, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Yeti"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9918, 2826, $enemy, 2000)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Yeti"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8721, 7682, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Yeti"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3749, 8053, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Guardian and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-7474, -1144, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Guardian and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9666, 2625, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Guardian and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-5895, -3959, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Patrol"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3509, -8000, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Oni"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-195, -9095, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Oni"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6298, -8707, $enemy)
-	If $DeadOnTheRun = 0 Then Sleep(2000)
-
-	If $DeadOnTheRun = 0 Then $enemy = "bridge"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(3981, -3295, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Naga"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(496, -2581, $enemy, 2000)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Guardian and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(2069, 1127, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Guardian and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5859, 1599, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Guardian and Wallows"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6412, 6572, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Naga"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(10507, 8140, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Oni"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(14403, 6938, $enemy)
-	If $DeadOnTheRun = 0 Then $enemy = "Oni"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(18080, 3127, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Naga"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13518, -35, $enemy)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Naga"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13450, -6084, $enemy, 4000)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Naga"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13764, -4816, $enemy, 4000)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Naga"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13450, -6084, $enemy, 4000)
-
-	If $DeadOnTheRun = 0 Then $enemy = "Naga"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13764, -4816, $enemy, 4000)
-
-
-	If $DeadOnTheRun = 0 Then CurrentAction("Waiting to get reward")
-	If $DeadOnTheRun = 0 Then Sleep(6000)
+CurrentAction("Waiting to get reward")
+Sleep(6000)
 EndFunc
 
 Func VQVanguard();
@@ -626,154 +632,154 @@ Func VQVanguard();
 		UseConsets()
 	EndIf
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(-12373, 12899)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9464, 15937, "Charr Group")
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(-9130, 13535)
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(-5532, 11281)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3979, 9184, "Mantid Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-355, 9296, "Again mantid Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(836, 12171, "Charr Patrol", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(884, 15641, "Charr Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(2956, 10496, "Mantid Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5160, 11032, "Moving")
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(5816, 11687)
-	If $DeadOnTheRun = 0 Then Sleep(1000)
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5848, 11086, "Mantid Group", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(7639, 11839, "Charr Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6494, 15729, "Charr Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5704, 17469, "Charr Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8572, 12365, "Moving Back")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13960, 13432, "Charr Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(15385, 9899, "Going Charr")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(17089, 6922, "Charr Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(16363, 3809, "Moving Gain")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(15635, 710, "Charr Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(12754, 2740, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(10068, 2580, "Skale")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(7663, 3236, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6152, 1706, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5086, -2187, "Charr on the way", 2500)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(3449, -3693, "Charr Patrol", 2000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(7170, -4037, "Moving")
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(8565, -3974)
-	If $DeadOnTheRun = 0 Then Sleep(1000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8903, -1801, "Second Skale")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6790, -6124, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(3696, -9324, "Charr Patrol", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6790, -6124, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8031, -10361, "Charr on the way")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(9282, -12837, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8817, -16314, "Charr Patrol", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13337, -14025, "Charr Patrol 2", 3000)
+	If  CurrentAction("Moving")
+	If  MoveTo(-12373, 12899)
+	If  AggroMoveTo(-9464, 15937, "Charr Group")
+	If  CurrentAction("Moving")
+	If  MoveTo(-9130, 13535)
+	If  CurrentAction("Moving")
+	If  MoveTo(-5532, 11281)
+	If  AggroMoveTo(-3979, 9184, "Mantid Group")
+	If  AggroMoveTo(-355, 9296, "Again mantid Group")
+	If  AggroMoveTo(836, 12171, "Charr Patrol", 3000)
+	If  AggroMoveTo(884, 15641, "Charr Group")
+	If  AggroMoveTo(2956, 10496, "Mantid Group")
+	If  AggroMoveTo(5160, 11032, "Moving")
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(5816, 11687)
+	If  Sleep(1000)
+	If  CurrentAction("Moving")
+	If  AggroMoveTo(5848, 11086, "Mantid Group", 3000)
+	If  AggroMoveTo(7639, 11839, "Charr Patrol")
+	If  AggroMoveTo(6494, 15729, "Charr Patrol")
+	If  AggroMoveTo(5704, 17469, "Charr Group")
+	If  AggroMoveTo(8572, 12365, "Moving Back")
+	If  AggroMoveTo(13960, 13432, "Charr Group")
+	If  AggroMoveTo(15385, 9899, "Going Charr")
+	If  AggroMoveTo(17089, 6922, "Charr Group")
+	If  AggroMoveTo(16363, 3809, "Moving Gain")
+	If  AggroMoveTo(15635, 710, "Charr Group")
+	If  AggroMoveTo(12754, 2740, "Charr Seeker")
+	If  AggroMoveTo(10068, 2580, "Skale")
+	If  AggroMoveTo(7663, 3236, "Charr Seeker")
+	If  AggroMoveTo(6152, 1706, "Charr Seeker")
+	If  AggroMoveTo(5086, -2187, "Charr on the way", 2500)
+	If  AggroMoveTo(3449, -3693, "Charr Patrol", 2000)
+	If  AggroMoveTo(7170, -4037, "Moving")
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(8565, -3974)
+	If  Sleep(1000)
+	If  AggroMoveTo(8903, -1801, "Second Skale")
+	If  AggroMoveTo(6790, -6124, "Moving")
+	If  AggroMoveTo(3696, -9324, "Charr Patrol", 3000)
+	If  AggroMoveTo(6790, -6124, "Moving")
+	If  AggroMoveTo(8031, -10361, "Charr on the way")
+	If  AggroMoveTo(9282, -12837, "Moving")
+	If  AggroMoveTo(8817, -16314, "Charr Patrol", 3000)
+	If  AggroMoveTo(13337, -14025, "Charr Patrol 2", 3000)
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13675, -5513, "Charr Group", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(14760, -2224, "Charr Group", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13378, -2577, "Charr Group")
-	;If $DeadOnTheRun = 0 Then AggroMoveToEx(13675, -5513, "Charr Group")
+	If  AggroMoveTo(13675, -5513, "Charr Group", 3000)
+	If  AggroMoveTo(14760, -2224, "Charr Group", 3000)
+	If  AggroMoveTo(13378, -2577, "Charr Group")
+	;If  AggroMoveTo(13675, -5513, "Charr Group")
 
-	;If $DeadOnTheRun = 0 Then AggroMoveToEx(13337, -14025, "Charr Patrol 2")
-	;If $DeadOnTheRun = 0 Then AggroMoveToEx(15290, -13688, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(17500, -11685, "Charr Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(15290, -13688, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(15932, -14104, "Moving Back")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(14934, -17261, "Moving")
+	;If  AggroMoveTo(13337, -14025, "Charr Patrol 2")
+	;If  AggroMoveTo(15290, -13688, "Charr Seeker")
+	If  AggroMoveTo(17500, -11685, "Charr Group")
+	If  AggroMoveTo(15290, -13688, "Charr Seeker")
+	If  AggroMoveTo(15932, -14104, "Moving Back")
+	If  AggroMoveTo(14934, -17261, "Moving")
 
-	;If $DeadOnTheRun = 0 Then AggroMoveToEx(17500, -11685, "Charr Group")
-	;If $DeadOnTheRun = 0 Then AggroMoveToEx(15932, -14104, "Moving Back")
-	;If $DeadOnTheRun = 0 Then AggroMoveToEx(14934, -17261, "Moving")
+	;If  AggroMoveTo(17500, -11685, "Charr Group")
+	;If  AggroMoveTo(15932, -14104, "Moving Back")
+	;If  AggroMoveTo(14934, -17261, "Moving")
 
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(14891, -18146)
-	If $DeadOnTheRun = 0 Then Sleep(1000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(11509, -17586, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6031, -17582, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(2846, -17340, "Charr Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-586, -16529, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4099, -14897, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4217, -12620, "Moving")
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(14891, -18146)
+	If  Sleep(1000)
+	If  AggroMoveTo(11509, -17586, "Moving")
+	If  AggroMoveTo(6031, -17582, "Moving")
+	If  AggroMoveTo(2846, -17340, "Charr Group")
+	If  AggroMoveTo(-586, -16529, "Charr Seeker")
+	If  AggroMoveTo(-4099, -14897, "Moving")
+	If  AggroMoveTo(-4217, -12620, "Moving")
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-4014, -11504)
-	If $DeadOnTheRun = 0 Then Sleep(1000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8023, -13970, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-7326, -8852, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8023, -13970, "Charr Patrol")
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(-4014, -11504)
+	If  Sleep(1000)
+	If  AggroMoveTo(-8023, -13970, "Charr Seeker")
+	If  AggroMoveTo(-7326, -8852, "Charr Seeker")
+	If  AggroMoveTo(-8023, -13970, "Charr Patrol")
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9808, -15103, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10902, -16356, "Skale Place", 2000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11917, -18111, "Skale Place", 2000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13425, -16930, "Skale Boss")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-15218, -17460, "Skale Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-16084, -14159, "Skale Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17395, -12851, "Skale Place")
+	If  AggroMoveTo(-9808, -15103, "Moving")
+	If  AggroMoveTo(-10902, -16356, "Skale Place", 2000)
+	If  AggroMoveTo(-11917, -18111, "Skale Place", 2000)
+	If  AggroMoveTo(-13425, -16930, "Skale Boss")
+	If  AggroMoveTo(-15218, -17460, "Skale Group")
+	If  AggroMoveTo(-16084, -14159, "Skale Group")
+	If  AggroMoveTo(-17395, -12851, "Skale Place")
 	;charr on field
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18157, -9785, "Skale On the Way", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18222, -6263, "Finish Skale", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17239, -1933, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17509, 202, "Moving")
+	If  AggroMoveTo(-18157, -9785, "Skale On the Way", 3000)
+	If  AggroMoveTo(-18222, -6263, "Finish Skale", 3000)
+	If  AggroMoveTo(-17239, -1933, "Moving")
+	If  AggroMoveTo(-17509, 202, "Moving")
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-17546, 341)
-	If $DeadOnTheRun = 0 Then Sleep(1000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13853, -2427, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9313, -3786, "Charr Seeker")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13228, 2083, "Charr Seeker")
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(-17546, 341)
+	If  Sleep(1000)
+	If  AggroMoveTo(-13853, -2427, "Charr Seeker")
+	If  AggroMoveTo(-9313, -3786, "Charr Seeker")
+	If  AggroMoveTo(-13228, 2083, "Charr Seeker")
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13622, 5476, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17705, 3079, "Mantid on the way")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-16565, 2528, "More Charr")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17705, 3079, "Moving")
+	If  AggroMoveTo(-13622, 5476, "Moving")
+	If  AggroMoveTo(-17705, 3079, "Mantid on the way")
+	If  AggroMoveTo(-16565, 2528, "More Charr")
+	If  AggroMoveTo(-17705, 3079, "Moving")
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-12909, 6403, "Mantid on the way")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10699, 5105, "Mantid Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9016, 6958, "Mantid Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8889, 9446, "Mantid Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-6869, 4604, "Mantid Monk Boss")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8190, 6872, "Mantid")
-
-
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-6181, 1837, "Mantid Group")
-
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4125, 2789, "Mantid Group")
-
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-2875, 985, "Moving")
-
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-769, 2047, "Charr Group")
-
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(1114, 1765, "Mantid and Charr")
-
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6550, 7549, "Looking for Mantids", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8246, 8104, "Looking for Mantids", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6550, 7549, "Looking for Mantids", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(1960, 4969, "Looking for Mantids", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(621, 8056, "Looking for Mantids", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4039, 8928, "Looking for Mantids", 3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3299, 606, "Looking for Mantids", 3000)
-
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-2646, -452)
-	If $DeadOnTheRun = 0 Then Sleep(1000)
+	If  AggroMoveTo(-12909, 6403, "Mantid on the way")
+	If  AggroMoveTo(-10699, 5105, "Mantid Group")
+	If  AggroMoveTo(-9016, 6958, "Mantid Group")
+	If  AggroMoveTo(-8889, 9446, "Mantid Group")
+	If  AggroMoveTo(-6869, 4604, "Mantid Monk Boss")
+	If  AggroMoveTo(-8190, 6872, "Mantid")
 
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5219, -5017, "Charr Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(7289, -9484, "Charr Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5219, -7017, "Charr Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(1342, -9068, "Charr Patrol")
+	If  AggroMoveTo(-6181, 1837, "Mantid Group")
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(1606, 22, "Charr Patrol")
+	If  AggroMoveTo(-4125, 2789, "Mantid Group")
+
+	If  AggroMoveTo(-2875, 985, "Moving")
+
+	If  AggroMoveTo(-769, 2047, "Charr Group")
+
+	If  AggroMoveTo(1114, 1765, "Mantid and Charr")
+
+	If  AggroMoveTo(6550, 7549, "Looking for Mantids", 3000)
+	If  AggroMoveTo(8246, 8104, "Looking for Mantids", 3000)
+	If  AggroMoveTo(6550, 7549, "Looking for Mantids", 3000)
+	If  AggroMoveTo(1960, 4969, "Looking for Mantids", 3000)
+	If  AggroMoveTo(621, 8056, "Looking for Mantids", 3000)
+	If  AggroMoveTo(-4039, 8928, "Looking for Mantids", 3000)
+	If  AggroMoveTo(-3299, 606, "Looking for Mantids", 3000)
+
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(-2646, -452)
+	If  Sleep(1000)
 
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-276, -2566, "Going to Molotov")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3337, -4323, "Molotov")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4700, -4943, "Molotov")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-5561, -5483, "Molotov", 10000)
+	If  AggroMoveTo(5219, -5017, "Charr Patrol")
+	If  AggroMoveTo(7289, -9484, "Charr Patrol")
+	If  AggroMoveTo(5219, -7017, "Charr Patrol")
+	If  AggroMoveTo(1342, -9068, "Charr Patrol")
+
+	If  AggroMoveTo(1606, 22, "Charr Patrol")
+
+
+	If  AggroMoveTo(-276, -2566, "Going to Molotov")
+	If  AggroMoveTo(-3337, -4323, "Molotov")
+	If  AggroMoveTo(-4700, -4943, "Molotov")
+	If  AggroMoveTo(-5561, -5483, "Molotov", 10000)
 
 
 EndFunc
@@ -808,39 +814,39 @@ Func VQSS();
 	MoveTo(6995, -14597)
 
 	$enemy = "First Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(4543, -12928, $enemy)
+	If  AggroMoveTo(4543, -12928, $enemy)
 
 	$enemy = "Second Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(2361, -10638, $enemy)
+	If  AggroMoveTo(2361, -10638, $enemy)
 
 	$enemy = "Third Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(1218, -9046, $enemy, 1800)
+	If  AggroMoveTo(1218, -9046, $enemy, 1800)
 
 	$enemy = "4 Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(825, -5411, $enemy)
+	If  AggroMoveTo(825, -5411, $enemy)
 
 	$enemy = "Monk Boss Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-599, -3110, $enemy, 1600)
+	If  AggroMoveTo(-599, -3110, $enemy, 1600)
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving Other Side")
+	If  CurrentAction("Moving Other Side")
 
-	If $DeadOnTheRun = 0 Then MoveTo(1785, -5534)
+	If  MoveTo(1785, -5534)
 
-	If $DeadOnTheRun = 0 Then MoveTo(3027, -5764)
-	If $DeadOnTheRun = 0 Then MoveTo(6122, -2189)
-	If $DeadOnTheRun = 0 Then MoveTo(9346, -3097)
+	If  MoveTo(3027, -5764)
+	If  MoveTo(6122, -2189)
+	If  MoveTo(9346, -3097)
 
 	$enemy = "First Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(10874, -5008, $enemy)
+	If  AggroMoveTo(10874, -5008, $enemy)
 
 	$enemy = "Second Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(10970, -7779, $enemy)
+	If  AggroMoveTo(10970, -7779, $enemy)
 
 	$enemy = "Third Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(14262, -7000, $enemy)
+	If  AggroMoveTo(14262, -7000, $enemy)
 
 	$enemy = "E Boss Group"
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(16338, -6716, $enemy)
+	If  AggroMoveTo(16338, -6716, $enemy)
 EndFunc
 
 Func VQSSLB();
@@ -964,17 +970,17 @@ Func VQNorn()
 
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Berzerker"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-5278, -5771, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-5456, -7921, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-8793, -5837, $enemy)
+		If  $enemy = "Berzerker"
+		If  AggroMoveTo(-5278, -5771, $enemy)
+		If  AggroMoveTo(-5456, -7921, $enemy)
+		If  AggroMoveTo(-8793, -5837, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Vaettir and Berzerker"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14092, -9662, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-17260, -7906, $enemy)
+		If  $enemy = "Vaettir and Berzerker"
+		If  AggroMoveTo(-14092, -9662, $enemy)
+		If  AggroMoveTo(-17260, -7906, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Jotun "
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-21964, -12877, $enemy, 2500)
+		If  $enemy = "Jotun "
+		If  AggroMoveTo(-21964, -12877, $enemy, 2500)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(-21964, -12877, 1000)
 
@@ -984,13 +990,13 @@ Func VQNorn()
 
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then MoveTo(-22275, -12462)
+		If  MoveTo(-22275, -12462)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Berzerker"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-21671, -2163, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-19592, 772, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13795, -751, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-17012, -5376, $enemy)
+		If  $enemy = "Berzerker"
+		If  AggroMoveTo(-21671, -2163, $enemy)
+		If  AggroMoveTo(-19592, 772, $enemy)
+		If  AggroMoveTo(-13795, -751, $enemy)
+		If  AggroMoveTo(-17012, -5376, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(-17012, -5376, 1000)
 
@@ -1000,14 +1006,14 @@ Func VQNorn()
 
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Berzerker"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-8351, -2633, $enemy)
-		If $DeadOnTheRun = 0 Then MoveTo(-4362, -1610)
+		If  $enemy = "Berzerker"
+		If  AggroMoveTo(-8351, -2633, $enemy)
+		If  MoveTo(-4362, -1610)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Lake"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-4316, 4033, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-8809, 5639, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14916, 2475, $enemy)
+		If  $enemy = "Lake"
+		If  AggroMoveTo(-4316, 4033, $enemy)
+		If  AggroMoveTo(-8809, 5639, $enemy)
+		If  AggroMoveTo(-14916, 2475, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(-14916, 2475, 1000)
 
@@ -1017,10 +1023,10 @@ Func VQNorn()
 	
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Elemental"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-16051, 6492, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-16934, 11145, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-19378, 14555, $enemy)
+		If  $enemy = "Elemental"
+		If  AggroMoveTo(-16051, 6492, $enemy)
+		If  AggroMoveTo(-16934, 11145, $enemy)
+		If  AggroMoveTo(-19378, 14555, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(-19378, 14555, 1000)
 
@@ -1030,11 +1036,11 @@ Func VQNorn()
 	
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15932, 9386, $enemy)
-		If $DeadOnTheRun = 0 Then MoveTo(-13777, 8097)
+		If  AggroMoveTo(-15932, 9386, $enemy)
+		If  MoveTo(-13777, 8097)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Lake"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-4729, 15385, $enemy)
+		If  $enemy = "Lake"
+		If  AggroMoveTo(-4729, 15385, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(-4729, 15385, 1000)
 
@@ -1044,28 +1050,28 @@ Func VQNorn()
 	
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Modnir"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-1810, 4679, $enemy)
+		If  $enemy = "Modnir"
+		If  AggroMoveTo(-1810, 4679, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Boss"
-		If $DeadOnTheRun = 0 Then MoveTo(-6911, 5240)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15471, 6384, $enemy)
-		If $DeadOnTheRun = 0 Then moveTo(-411, 5874)
+		If  $enemy = "Boss"
+		If  MoveTo(-6911, 5240)
+		If  AggroMoveTo(-15471, 6384, $enemy)
+		If  moveTo(-411, 5874)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Modniir "
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(2859, 3982, $enemy)
+		If  $enemy = "Modniir "
+		If  AggroMoveTo(2859, 3982, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Ice Imp"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(4909, -4259, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(7514, -6587, $enemy)
+		If  $enemy = "Ice Imp"
+		If  AggroMoveTo(4909, -4259, $enemy)
+		If  AggroMoveTo(7514, -6587, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Berserker"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(3800, -6182, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(7755, -11467, $enemy)
+		If  $enemy = "Berserker"
+		If  AggroMoveTo(3800, -6182, $enemy)
+		If  AggroMoveTo(7755, -11467, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Elementals and Griffins"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(15403, -4243, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(21597, -6798, $enemy)
+		If  $enemy = "Elementals and Griffins"
+		If  AggroMoveTo(15403, -4243, $enemy)
+		If  AggroMoveTo(21597, -6798, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(21597, -6798, 1000)
 	
@@ -1075,15 +1081,15 @@ Func VQNorn()
 	
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(22883, -4248, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(18606, -1894, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(14969, -4048, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(13599, -7339, $enemy)
+		If  AggroMoveTo(22883, -4248, $enemy)
+		If  AggroMoveTo(18606, -1894, $enemy)
+		If  AggroMoveTo(14969, -4048, $enemy)
+		If  AggroMoveTo(13599, -7339, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Ice Imp"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(10056, -4967, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(10147, -1630, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(8963, 4043, $enemy)
+		If  $enemy = "Ice Imp"
+		If  AggroMoveTo(10056, -4967, $enemy)
+		If  AggroMoveTo(10147, -1630, $enemy)
+		If  AggroMoveTo(8963, 4043, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(8963, 4043, 1000)
 
@@ -1093,11 +1099,11 @@ Func VQNorn()
 
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = ""
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(15576, 7156, $enemy)
+		If  $enemy = ""
+		If  AggroMoveTo(15576, 7156, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Berserker"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(22838, 7914, $enemy, 2500)
+		If  $enemy = "Berserker"
+		If  AggroMoveTo(22838, 7914, $enemy, 2500)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(22838, 7914, 1000)
 
@@ -1107,9 +1113,9 @@ Func VQNorn()
 	
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Modniir and Elemental"
-		If $DeadOnTheRun = 0 Then MoveTo(18067, 8766)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(13311, 11917, $enemy)
+		If  $enemy = "Modniir and Elemental"
+		If  MoveTo(18067, 8766)
+		If  AggroMoveTo(13311, 11917, $enemy)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(13311, 11917, 1000)
 
@@ -1119,14 +1125,14 @@ Func VQNorn()
 	
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Modniir and Elemental"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(11126, 10443, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(5575, 4696, $enemy, 2500)
+		If  $enemy = "Modniir and Elemental"
+		If  AggroMoveTo(11126, 10443, $enemy)
+		If  AggroMoveTo(5575, 4696, $enemy, 2500)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Modniir and Elemental 2"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-503, 9182, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(1582, 15275, $enemy, 2500)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(7857, 10409, $enemy, 2500)
+		If  $enemy = "Modniir and Elemental 2"
+		If  AggroMoveTo(-503, 9182, $enemy)
+		If  AggroMoveTo(1582, 15275, $enemy, 2500)
+		If  AggroMoveTo(7857, 10409, $enemy, 2500)
 		If  $DeadOnTheRun = 1 then RndSlp(15000)
 	Until CheckArea(7857, 10409, 1000)
 EndFunc
@@ -1163,161 +1169,161 @@ EndIf
 	
 	$enemy = "Mantis Group"
 	
-	AggroMoveToEx(-11733, 16729, $enemy)
-	AggroMoveToEx(-11942, 18468, $enemy)
-	AggroMoveToEx(-11178, 20073, $enemy)
-	AggroMoveToEx(-11008, 16972, $enemy)
-	AggroMoveToEx(-11238, 15226, $enemy)
+	AggroMoveTo(-11733, 16729, $enemy)
+	AggroMoveTo(-11942, 18468, $enemy)
+	AggroMoveTo(-11178, 20073, $enemy)
+	AggroMoveTo(-11008, 16972, $enemy)
+	AggroMoveTo(-11238, 15226, $enemy)
 	CurrentAction("Foes Killed: " & $iFoesKilled)
 	
-	AggroMoveToEx(-8458.45, 19618, $enemy)
-	AggroMoveToEx(-9179.54, 15281, $enemy)
-	AggroMoveToEx(-8799.17, 14159, $enemy)
-	AggroMoveToEx(-9454.66, 13399, $enemy)	
-	AggroMoveToEx(-9122, 14794, $enemy)
-	AggroMoveToEx(-10965, 13496, $enemy)
-	AggroMoveToEx(-10570, 11789, $enemy)	
-	AggroMoveToEx(-10138, 10076, $enemy)
+	AggroMoveTo(-8458.45, 19618, $enemy)
+	AggroMoveTo(-9179.54, 15281, $enemy)
+	AggroMoveTo(-8799.17, 14159, $enemy)
+	AggroMoveTo(-9454.66, 13399, $enemy)	
+	AggroMoveTo(-9122, 14794, $enemy)
+	AggroMoveTo(-10965, 13496, $enemy)
+	AggroMoveTo(-10570, 11789, $enemy)	
+	AggroMoveTo(-10138, 10076, $enemy)
 	CurrentAction("Foes Killed: " & $iFoesKilled)
 	
 	$enemy = "Dredge Boss Warrior"
-	AggroMoveToEx(-10289, 8329, $enemy)
-	AggroMoveToEx(-8587, 8739, $enemy)
-	AggroMoveToEx(-6853, 8496, $enemy)
+	AggroMoveTo(-10289, 8329, $enemy)
+	AggroMoveTo(-8587, 8739, $enemy)
+	AggroMoveTo(-6853, 8496, $enemy)
 
 	$enemy = "Dredge Patrol"
-	AggroMoveToEx(-5211, 7841, $enemy)
+	AggroMoveTo(-5211, 7841, $enemy)
 
 	$enemy = "Missing Dredge Patrol"
-	AggroMoveToEx(-4059, 11325, $enemy)
+	AggroMoveTo(-4059, 11325, $enemy)
 
 	$enemy = "Oni and Dredge Patrol"
-	AggroMoveToEx(-4328, 6317, $enemy)
-	AggroMoveToEx(-4454, 4558, $enemy)
+	AggroMoveTo(-4328, 6317, $enemy)
+	AggroMoveTo(-4454, 4558, $enemy)
 
 	$enemy = "Dredge Patrol Again"
-	AggroMoveToEx(-4650, 2812, $enemy)
+	AggroMoveTo(-4650, 2812, $enemy)
 
 	$enemy = "Missing Patrol"
-	AggroMoveToEx(-9326,1601, $enemy)
-	AggroMoveToEx(-11000,2219, $enemy, 5000)
-	AggroMoveToEx(-6313,2778, $enemy)
+	AggroMoveTo(-9326,1601, $enemy)
+	AggroMoveTo(-11000,2219, $enemy, 5000)
+	AggroMoveTo(-6313,2778, $enemy)
 	CurrentAction("Foes Killed: " & $iFoesKilled)
 	
 	$enemy = "Dreadge Patrol"
-	AggroMoveToEx(-4447, 1055, $enemy, 3000)
+	AggroMoveTo(-4447, 1055, $enemy, 3000)
 
 	$enemy = "Warden and Dredge Patrol"
-	AggroMoveToEx(-3832, -586, $enemy, 3000)
-	AggroMoveToEx(-3143, -2203, $enemy, 3000)
-	AggroMoveToEx(-5780, -4665, $enemy, 3000)
+	AggroMoveTo(-3832, -586, $enemy, 3000)
+	AggroMoveTo(-3143, -2203, $enemy, 3000)
+	AggroMoveTo(-5780, -4665, $enemy, 3000)
 	CurrentAction("Foes Killed: " & $iFoesKilled)
 	
 	$enemy = "Warden Group / Mesmer Boss"
-	AggroMoveToEx(-2541, -3848, $enemy, 5000)
-	AggroMoveToEx(-2108, -5549, $enemy, 5000)
-	AggroMoveToEx(-1649, -7250, $enemy, 4500)
+	AggroMoveTo(-2541, -3848, $enemy, 5000)
+	AggroMoveTo(-2108, -5549, $enemy, 5000)
+	AggroMoveTo(-1649, -7250, $enemy, 4500)
 
 	$enemy = "Dredge Patrol and Mesmer Boss"
-	AggroMoveToEx(-666, -8708, $enemy, 5500)
+	AggroMoveTo(-666, -8708, $enemy, 5500)
 
 	$enemy = "Warden Group"
-	AggroMoveToEx(526, -10001, $enemy)
-	AggroMoveToEx(1947, -11033, $enemy)
-	AggroMoveToEx(3108, -12362, $enemy)
+	AggroMoveTo(526, -10001, $enemy)
+	AggroMoveTo(1947, -11033, $enemy)
+	AggroMoveTo(3108, -12362, $enemy)
 
 	$enemy = "Kirin Group"
-	AggroMoveToEx(2932, -14112, $enemy)
-	AggroMoveToEx(2033, -15621, $enemy)
-	AggroMoveToEx(1168, -17145, $enemy)	
-	AggroMoveToEx(-254, -18183, $enemy)
-	AggroMoveToEx(-1934, -18692, $enemy)
+	AggroMoveTo(2932, -14112, $enemy)
+	AggroMoveTo(2033, -15621, $enemy)
+	AggroMoveTo(1168, -17145, $enemy)	
+	AggroMoveTo(-254, -18183, $enemy)
+	AggroMoveTo(-1934, -18692, $enemy)
 
 	$enemy = "Warden Patrol"
-	AggroMoveToEx(-3676, -18939, $enemy)
-	AggroMoveToEx(-5433, -18839, $enemy, 5000)
-	AggroMoveToEx(-3679, -18830, $enemy)
-	AggroMoveToEx(-1925, -18655, $enemy)
-	AggroMoveToEx(-274, -18040, $enemy)
-	AggroMoveToEx(1272, -17199, $enemy)
-	AggroMoveToEx(2494, -15940, $enemy)
-	AggroMoveToEx(3466, -14470, $enemy)
-	AggroMoveToEx(4552, -13081, $enemy)
-	AggroMoveToEx(6279, -12777, $enemy)
-	AggroMoveToEx(7858, -13545, $enemy)
-	AggroMoveToEx(8396, -15221, $enemy)
-	AggroMoveToEx(9117, -16820, $enemy)
-	AggroMoveToEx(10775, -17393, $enemy, 5000)
-	AggroMoveToEx(9133, -16782, $enemy)
-	AggroMoveToEx(8366, -15202, $enemy)
-	AggroMoveToEx(8083, -13466, $enemy)
-	AggroMoveToEx(6663, -12425, $enemy)
-	AggroMoveToEx(5045, -11738, $enemy)
-	AggroMoveToEx(4841, -9983, $enemy)
-	AggroMoveToEx(5262, -8277, $enemy)
-	AggroMoveToEx(5726, -6588, $enemy)
+	AggroMoveTo(-3676, -18939, $enemy)
+	AggroMoveTo(-5433, -18839, $enemy, 5000)
+	AggroMoveTo(-3679, -18830, $enemy)
+	AggroMoveTo(-1925, -18655, $enemy)
+	AggroMoveTo(-274, -18040, $enemy)
+	AggroMoveTo(1272, -17199, $enemy)
+	AggroMoveTo(2494, -15940, $enemy)
+	AggroMoveTo(3466, -14470, $enemy)
+	AggroMoveTo(4552, -13081, $enemy)
+	AggroMoveTo(6279, -12777, $enemy)
+	AggroMoveTo(7858, -13545, $enemy)
+	AggroMoveTo(8396, -15221, $enemy)
+	AggroMoveTo(9117, -16820, $enemy)
+	AggroMoveTo(10775, -17393, $enemy, 5000)
+	AggroMoveTo(9133, -16782, $enemy)
+	AggroMoveTo(8366, -15202, $enemy)
+	AggroMoveTo(8083, -13466, $enemy)
+	AggroMoveTo(6663, -12425, $enemy)
+	AggroMoveTo(5045, -11738, $enemy)
+	AggroMoveTo(4841, -9983, $enemy)
+	AggroMoveTo(5262, -8277, $enemy)
+	AggroMoveTo(5726, -6588, $enemy)
 
 	$enemy = "Dredge Patrol / Bridge / Boss"
-	AggroMoveToEx(5076, -4955, $enemy)
-	AggroMoveToEx(4453, -3315, $enemy, 5000)
+	AggroMoveTo(5076, -4955, $enemy)
+	AggroMoveTo(4453, -3315, $enemy, 5000)
 
 	$enemy = "Dedge Patrol"
-	AggroMoveToEx(5823, -2204, $enemy)
-	AggroMoveToEx(7468, -1606, $enemy)
-	AggroMoveToEx(8591, -248, $enemy, 5000)
-	AggroMoveToEx(8765, 1497, $enemy)
-	AggroMoveToEx(9756, 2945, $enemy)
-	AggroMoveToEx(11344, 3722, $enemy)
-	AggroMoveToEx(12899, 2912, $enemy, 3000)
-	AggroMoveToEx(12663, 4651, $enemy)
-	AggroMoveToEx(13033, 6362, $enemy)
-	AggroMoveToEx(13018, 8121, $enemy)
-	AggroMoveToEx(11596, 9159, $enemy)
-	AggroMoveToEx(11880, 10895, $enemy)
-	AggroMoveToEx(11789, 12648, $enemy)
-	AggroMoveToEx(10187, 13369, $enemy)
-	AggroMoveToEx(8569, 14054, $enemy, 3000)
-	AggroMoveToEx(8641, 15803, $enemy, 3000)
-	AggroMoveToEx(10025, 16876, $enemy, 3000)
-	AggroMoveToEx(11318, 18944, $enemy, 3000)
-	AggroMoveToEx(8621, 15831, $enemy, 3000)
-	AggroMoveToEx(7382, 14594, $enemy, 3000)
-	AggroMoveToEx(6253, 13257, $enemy, 3000)
-	AggroMoveToEx(5531, 11653, $enemy, 3000)
-	AggroMoveToEx(6036, 8799, $enemy)
-	AggroMoveToEx(4752, 7594, $enemy)
-	AggroMoveToEx(3630, 6240, $enemy)
-	AggroMoveToEx(4831, 4966, $enemy)
-	AggroMoveToEx(6390, 4141, $enemy)
-	AggroMoveToEx(4833, 4958, $enemy)
-	AggroMoveToEx(3167, 5498, $enemy)
-	AggroMoveToEx(2129, 4077, $enemy, 3000)
-	AggroMoveToEx(3151, 5502, $enemy)
-	AggroMoveToEx(-2234, 311, $enemy, 3000)
-	AggroMoveToEx(2474, 4345, $enemy, 3000)
-	AggroMoveToEx(3294, 5899, $enemy, 3000)
-	AggroMoveToEx(3072, 7643, $enemy, 3000)
-	AggroMoveToEx(1836, 8906, $enemy, 3000)
-	AggroMoveToEx(557, 10116, $enemy, 3000)
-	AggroMoveToEx(-545, 11477, $enemy, 5000)
-	AggroMoveToEx(-1413, 13008, $enemy, 5000)
-	AggroMoveToEx(-2394, 14474, $enemy, 5000)
-	AggroMoveToEx(-3986, 15218, $enemy, 5000)
-	AggroMoveToEx(-5319, 16365, $enemy, 5000)
-	AggroMoveToEx(-5238, 18121, $enemy, 5000)
-	AggroMoveToEx(-7916, 19630, $enemy, 5000)
-	AggroMoveToEx(-3964, 19324, $enemy, 5000)
-	AggroMoveToEx(-2245, 19684, $enemy, 5000)
-	AggroMoveToEx(-802, 18685, $enemy, 5000)
-	AggroMoveToEx(74, 17149, $enemy, 5000)
-	AggroMoveToEx(611, 15476, $enemy, 5000)
-	AggroMoveToEx(2139, 14618, $enemy, 5000)
-	AggroMoveToEx(3883, 14448, $enemy, 5000)
-	AggroMoveToEx(5624, 14226, $enemy, 5000)
-	AggroMoveToEx(7384, 14094, $enemy, 5000)
-	AggroMoveToEx(8223, 12552, $enemy, 5000)
-	AggroMoveToEx(7148, 11167, $enemy, 5000)
-	AggroMoveToEx(5427, 10834, $enemy, 10000)
+	AggroMoveTo(5823, -2204, $enemy)
+	AggroMoveTo(7468, -1606, $enemy)
+	AggroMoveTo(8591, -248, $enemy, 5000)
+	AggroMoveTo(8765, 1497, $enemy)
+	AggroMoveTo(9756, 2945, $enemy)
+	AggroMoveTo(11344, 3722, $enemy)
+	AggroMoveTo(12899, 2912, $enemy, 3000)
+	AggroMoveTo(12663, 4651, $enemy)
+	AggroMoveTo(13033, 6362, $enemy)
+	AggroMoveTo(13018, 8121, $enemy)
+	AggroMoveTo(11596, 9159, $enemy)
+	AggroMoveTo(11880, 10895, $enemy)
+	AggroMoveTo(11789, 12648, $enemy)
+	AggroMoveTo(10187, 13369, $enemy)
+	AggroMoveTo(8569, 14054, $enemy, 3000)
+	AggroMoveTo(8641, 15803, $enemy, 3000)
+	AggroMoveTo(10025, 16876, $enemy, 3000)
+	AggroMoveTo(11318, 18944, $enemy, 3000)
+	AggroMoveTo(8621, 15831, $enemy, 3000)
+	AggroMoveTo(7382, 14594, $enemy, 3000)
+	AggroMoveTo(6253, 13257, $enemy, 3000)
+	AggroMoveTo(5531, 11653, $enemy, 3000)
+	AggroMoveTo(6036, 8799, $enemy)
+	AggroMoveTo(4752, 7594, $enemy)
+	AggroMoveTo(3630, 6240, $enemy)
+	AggroMoveTo(4831, 4966, $enemy)
+	AggroMoveTo(6390, 4141, $enemy)
+	AggroMoveTo(4833, 4958, $enemy)
+	AggroMoveTo(3167, 5498, $enemy)
+	AggroMoveTo(2129, 4077, $enemy, 3000)
+	AggroMoveTo(3151, 5502, $enemy)
+	AggroMoveTo(-2234, 311, $enemy, 3000)
+	AggroMoveTo(2474, 4345, $enemy, 3000)
+	AggroMoveTo(3294, 5899, $enemy, 3000)
+	AggroMoveTo(3072, 7643, $enemy, 3000)
+	AggroMoveTo(1836, 8906, $enemy, 3000)
+	AggroMoveTo(557, 10116, $enemy, 3000)
+	AggroMoveTo(-545, 11477, $enemy, 5000)
+	AggroMoveTo(-1413, 13008, $enemy, 5000)
+	AggroMoveTo(-2394, 14474, $enemy, 5000)
+	AggroMoveTo(-3986, 15218, $enemy, 5000)
+	AggroMoveTo(-5319, 16365, $enemy, 5000)
+	AggroMoveTo(-5238, 18121, $enemy, 5000)
+	AggroMoveTo(-7916, 19630, $enemy, 5000)
+	AggroMoveTo(-3964, 19324, $enemy, 5000)
+	AggroMoveTo(-2245, 19684, $enemy, 5000)
+	AggroMoveTo(-802, 18685, $enemy, 5000)
+	AggroMoveTo(74, 17149, $enemy, 5000)
+	AggroMoveTo(611, 15476, $enemy, 5000)
+	AggroMoveTo(2139, 14618, $enemy, 5000)
+	AggroMoveTo(3883, 14448, $enemy, 5000)
+	AggroMoveTo(5624, 14226, $enemy, 5000)
+	AggroMoveTo(7384, 14094, $enemy, 5000)
+	AggroMoveTo(8223, 12552, $enemy, 5000)
+	AggroMoveTo(7148, 11167, $enemy, 5000)
+	AggroMoveTo(5427, 10834, $enemy, 10000)
     
 	CurrentAction("Waiting to get reward")
 	Sleep(6000)
@@ -1340,22 +1346,22 @@ Func VQDeldrimor();
 
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Snowmen at begining"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15988, 10018, $enemy)
+		If  $enemy = "Snowmen at begining"
+		If  AggroMoveTo(-15988, 10018, $enemy)
 
-		If $DeadOnTheRun = 0 Then CurrentAction("Avoiding snowball")
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-17986, 6483)
-		If $DeadOnTheRun = 0 Then RndSleep(1000)
+		If  CurrentAction("Avoiding snowball")
+		If  AggroMoveTo(-17986, 6483)
+		If  RndSleep(1000)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Snowmen"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-17574, 2190, $enemy)
+		If  $enemy = "Snowmen"
+		If  AggroMoveTo(-17574, 2190, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Cleaning way"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15361, 2551, $enemy)
+		If  $enemy = "Cleaning way"
+		If  AggroMoveTo(-15361, 2551, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Going to shrine"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14596, 2612, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14506, 3963, $enemy)
+		If  $enemy = "Going to shrine"
+		If  AggroMoveTo(-14596, 2612, $enemy)
+		If  AggroMoveTo(-14506, 3963, $enemy)
 		If  $DeadOnTheRun = 1 then Sleep(15000)
 	Until CheckArea(-14506, 3963, 1000)
 
@@ -1366,21 +1372,21 @@ Func VQDeldrimor();
 
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Snowman on the way"
-		If $DeadOnTheRun = 0 Then CurrentAction("Moving away")
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14556, 4065)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14596, 2612)
-		If $DeadOnTheRun = 0 Then CurrentAction("Avoiding Icy")
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14583, 1896)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14262, 974)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13759, -552)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13306, -1211)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-12570, -2997)
+		If  $enemy = "Snowman on the way"
+		If  CurrentAction("Moving away")
+		If  AggroMoveTo(-14556, 4065)
+		If  AggroMoveTo(-14596, 2612)
+		If  CurrentAction("Avoiding Icy")
+		If  AggroMoveTo(-14583, 1896)
+		If  AggroMoveTo(-14262, 974)
+		If  AggroMoveTo(-13759, -552)
+		If  AggroMoveTo(-13306, -1211)
+		If  AggroMoveTo(-12570, -2997)
 
 
-		If $DeadOnTheRun = 0 Then $enemy = "Snowman"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13114, -6255, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-14367, -9244, $enemy)
+		If  $enemy = "Snowman"
+		If  AggroMoveTo(-13114, -6255, $enemy)
+		If  AggroMoveTo(-14367, -9244, $enemy)
 		If  $DeadOnTheRun = 1 then Sleep(15000)
 	Until CheckArea(-14367, -9244, 100)
 
@@ -1390,12 +1396,12 @@ Func VQDeldrimor();
 
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Ennemy near door"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15396, -10850, $enemy)
-		If $DeadOnTheRun = 0 Then Moveto(-13970, -9719)
-		If $DeadOnTheRun = 0 Then Moveto(-13047, -10683)
-		If $DeadOnTheRun = 0 Then $enemy = "Angry Snowman"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-10097, -11373, $enemy)
+		If  $enemy = "Ennemy near door"
+		If  AggroMoveTo(-15396, -10850, $enemy)
+		If  Moveto(-13970, -9719)
+		If  Moveto(-13047, -10683)
+		If  $enemy = "Angry Snowman"
+		If  AggroMoveTo(-10097, -11373, $enemy)
 		If  $DeadOnTheRun = 1 then Sleep(15000)
 	Until CheckArea(-10097, -11373, 1000)
 
@@ -1423,12 +1429,12 @@ Func VQDeldrimor();
 
 	Do
 		$DeadOnTheRun = 0
-		If $DeadOnTheRun = 0 Then $enemy = "Snowman"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-17287, -13895, $enemy)
+		If  $enemy = "Snowman"
+		If  AggroMoveTo(-17287, -13895, $enemy)
 
-		If $DeadOnTheRun = 0 Then $enemy = "Boss and others"
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-15483, -16565, $enemy)
-		If $DeadOnTheRun = 0 Then AggroMoveToEx(-13362, -17430, $enemy)
+		If  $enemy = "Boss and others"
+		If  AggroMoveTo(-15483, -16565, $enemy)
+		If  AggroMoveTo(-13362, -17430, $enemy)
 		If  $DeadOnTheRun = 1 then Sleep(15000)
 	Until CheckArea(-13362, -17430, 1000)
 
@@ -1460,7 +1466,7 @@ Func VQDeldrimor();
 		TargetNearestItem()
 		Sleep(500)
 		If DllStructGetData(GetCurrentTarget(), 'ID') <> 32 Then $chestspawn = True
-		If TimerDiff($TimerGuynotThere) > 240000 Then
+		If TimerDiff($TimerGuynotThere) > 215000 Then
 			CurrentAction("Apparently, Koris is stuck somewhere on the dungeon, go again")
 			Sleep(2000)
 			Return
@@ -1510,129 +1516,129 @@ Func VQAsura();
 		UseConsets()
 	EndIf
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(16722, 11774)
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(17383, 8685)
+	If  CurrentAction("Moving")
+	If  MoveTo(16722, 11774)
+	If  CurrentAction("Moving")
+	If  MoveTo(17383, 8685)
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(18162, 6670, "First Spider Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(18447, 4537, "Second Spider Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(18331, 2108, "Spider Pop")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(17526, 143, "Spider Pop 2")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(17205, -1355, "Third Spider Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(17366, -5132, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(18111, -8030, "Krait Group")
+	If  AggroMoveTo(18162, 6670, "First Spider Group")
+	If  AggroMoveTo(18447, 4537, "Second Spider Group")
+	If  AggroMoveTo(18331, 2108, "Spider Pop")
+	If  AggroMoveTo(17526, 143, "Spider Pop 2")
+	If  AggroMoveTo(17205, -1355, "Third Spider Group")
+	If  AggroMoveTo(17366, -5132, "Krait Group")
+	If  AggroMoveTo(18111, -8030, "Krait Group")
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(18409, -8474)
-	If $DeadOnTheRun = 0 Then Sleep(2000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(18613, -11799, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(17154, -15669, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(14250, -16744, "Second Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(12186, -14139, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(12540, -13440, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13234, -9948, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8875, -9065, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(4671, -8699, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(1534, -5493, "Krait Group")
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(1052, -7074)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-1029, -8724, "Spider Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3439, -10339, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3024, -12586, "Spider Cave")
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(18409, -8474)
+	If  Sleep(2000)
+	If  AggroMoveTo(18613, -11799, "Froggy Group")
+	If  AggroMoveTo(17154, -15669, "Krait Patrol")
+	If  AggroMoveTo(14250, -16744, "Second Patrol")
+	If  AggroMoveTo(12186, -14139, "Krait Patrol")
+	If  AggroMoveTo(12540, -13440, "Krait Patrol")
+	If  AggroMoveTo(13234, -9948, "Krait Group")
+	If  AggroMoveTo(8875, -9065, "Krait Group")
+	If  AggroMoveTo(4671, -8699, "Krait Patrol")
+	If  AggroMoveTo(1534, -5493, "Krait Group")
+	If  CurrentAction("Moving")
+	If  MoveTo(1052, -7074)
+	If  AggroMoveTo(-1029, -8724, "Spider Group")
+	If  AggroMoveTo(-3439, -10339, "Krait Group")
+	If  AggroMoveTo(-3024, -12586, "Spider Cave")
 	Sleep(1000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-2797, -13645, "Spider Cave")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3393, -15633, "Spider Cave")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4635, -16643, "Spider Pop")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-7814, -17796, "Spider Group")
+	If  AggroMoveTo(-2797, -13645, "Spider Cave")
+	If  AggroMoveTo(-3393, -15633, "Spider Cave")
+	If  AggroMoveTo(-4635, -16643, "Spider Pop")
+	If  AggroMoveTo(-7814, -17796, "Spider Group")
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-10109, -17520)
-	If $DeadOnTheRun = 0 Then Sleep(2000)
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(-9111, -17237)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10963, -15506, "Ranger Boss Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-12885, -14651, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-13975, -17857, "Corner Spiders")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11912, -10641, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8760, -9933, "Krait Boss Warrior")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-14030, -9780, "Froggy Coing Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-12368, -7330, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-16527, -8175, "Froggy Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17391, -5984, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-15704, -3996, "Froggy Patrol")
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(-16609, -2607)
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(-15476, 186)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-16480, 2522, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17090, 5252, "Krait Group")
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(-10109, -17520)
+	If  Sleep(2000)
+	If  CurrentAction("Moving")
+	If  MoveTo(-9111, -17237)
+	If  AggroMoveTo(-10963, -15506, "Ranger Boss Group")
+	If  AggroMoveTo(-12885, -14651, "Froggy Group")
+	If  AggroMoveTo(-13975, -17857, "Corner Spiders")
+	If  AggroMoveTo(-11912, -10641, "Froggy Group")
+	If  AggroMoveTo(-8760, -9933, "Krait Boss Warrior")
+	If  AggroMoveTo(-14030, -9780, "Froggy Coing Group")
+	If  AggroMoveTo(-12368, -7330, "Froggy Group")
+	If  AggroMoveTo(-16527, -8175, "Froggy Patrol")
+	If  AggroMoveTo(-17391, -5984, "Froggy Group")
+	If  AggroMoveTo(-15704, -3996, "Froggy Patrol")
+	If  CurrentAction("Moving")
+	If  MoveTo(-16609, -2607)
+	If  CurrentAction("Moving")
+	If  MoveTo(-15476, 186)
+	If  AggroMoveTo(-16480, 2522, "Krait Group")
+	If  AggroMoveTo(-17090, 5252, "Krait Group")
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-19292, 8994)
-	If $DeadOnTheRun = 0 Then Sleep(2000)
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(-18640, 8724)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-18484, 12021, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-17180, 13093, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-15072, 14075, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11888, 15628, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-12043, 18463, "Froggy Boss Warrior")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8876, 17415, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-5778, 19838, "Froggy Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-10970, 16860, "Moving Back")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-9301, 15054, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-5379, 16642, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-4430, 17268, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-2974, 14197, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-5228, 12475, "Boss Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3468, 10837, "Lonely Patrol")
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(-19292, 8994)
+	If  Sleep(2000)
+	If  CurrentAction("Moving")
+	If  MoveTo(-18640, 8724)
+	If  AggroMoveTo(-18484, 12021, "Krait Patrol")
+	If  AggroMoveTo(-17180, 13093, "Krait Patrol")
+	If  AggroMoveTo(-15072, 14075, "Froggy Group")
+	If  AggroMoveTo(-11888, 15628, "Froggy Group")
+	If  AggroMoveTo(-12043, 18463, "Froggy Boss Warrior")
+	If  AggroMoveTo(-8876, 17415, "Froggy Group")
+	If  AggroMoveTo(-5778, 19838, "Froggy Group")
+	If  AggroMoveTo(-10970, 16860, "Moving Back")
+	If  AggroMoveTo(-9301, 15054, "Moving")
+	If  AggroMoveTo(-5379, 16642, "Krait Group")
+	If  AggroMoveTo(-4430, 17268, "Krait Group")
+	If  AggroMoveTo(-2974, 14197, "Krait Group")
+	If  AggroMoveTo(-5228, 12475, "Boss Patrol")
+	If  AggroMoveTo(-3468, 10837, "Lonely Patrol")
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-2037, 10758)
-	If $DeadOnTheRun = 0 Then Sleep(2000)
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(-2037, 10758)
+	If  Sleep(2000)
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3804, 8017, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-1346, 12360, "Moving")
-	If $DeadOnTheRun = 0 Then CurrentAction("Moving")
-	If $DeadOnTheRun = 0 Then MoveTo(874, 14367)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(3572, 13698, "Krait Group Standing")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(5899, 14205, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(7407, 11867, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(9541, 9027, "Rider")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(12639, 7537, "Rider Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(9064, 7312, "Rider")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(7986, 4365, "Krait group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(6341, 3029, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(7097, 92, "Krait Group")
+	If  AggroMoveTo(-3804, 8017, "Krait Group")
+	If  AggroMoveTo(-1346, 12360, "Moving")
+	If  CurrentAction("Moving")
+	If  MoveTo(874, 14367)
+	If  AggroMoveTo(3572, 13698, "Krait Group Standing")
+	If  AggroMoveTo(5899, 14205, "Moving")
+	If  AggroMoveTo(7407, 11867, "Krait Group")
+	If  AggroMoveTo(9541, 9027, "Rider")
+	If  AggroMoveTo(12639, 7537, "Rider Group")
+	If  AggroMoveTo(9064, 7312, "Rider")
+	If  AggroMoveTo(7986, 4365, "Krait group")
+	If  AggroMoveTo(6341, 3029, "Krait Group")
+	If  AggroMoveTo(7097, 92, "Krait Group")
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(4893, 445)
-	If $DeadOnTheRun = 0 Then Sleep(2000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8943, -985, "Krait Boss")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(10949, -2056, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(13780, -5667, "Rider Patrol", 2000)
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(4893, 445)
+	If  Sleep(2000)
+	If  AggroMoveTo(8943, -985, "Krait Boss")
+	If  AggroMoveTo(10949, -2056, "Krait Patrol")
+	If  AggroMoveTo(13780, -5667, "Rider Patrol", 2000)
 
-	;If $DeadOnTheRun = 0 Then AggroMoveToEx(10566, -3196, "Moving Back")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(12444, -793, "Moving Back",3000)
-	;If $DeadOnTheRun = 0 Then AggroMoveToEx(10752, 991, "Moving Back")
+	;If  AggroMoveTo(10566, -3196, "Moving Back")
+	If  AggroMoveTo(12444, -793, "Moving Back",3000)
+	;If  AggroMoveTo(10752, 991, "Moving Back")
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(8193, -841, "Moving Back",3000)
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(3284, -1599, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-76, -1498, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(578, 719, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(316, 2489, "Krait Group")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-1018, -1235, "Moving Back")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-3195, -1538, "Krait Patrol")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-6322, -2565, "Krait Group")
+	If  AggroMoveTo(8193, -841, "Moving Back",3000)
+	If  AggroMoveTo(3284, -1599, "Krait Group")
+	If  AggroMoveTo(-76, -1498, "Krait Group")
+	If  AggroMoveTo(578, 719, "Krait Group")
+	If  AggroMoveTo(316, 2489, "Krait Group")
+	If  AggroMoveTo(-1018, -1235, "Moving Back")
+	If  AggroMoveTo(-3195, -1538, "Krait Patrol")
+	If  AggroMoveTo(-6322, -2565, "Krait Group")
 
-	If $DeadOnTheRun = 0 Then CurrentAction("Taking Blessing")
-	If $DeadOnTheRun = 0 Then GoNearestNPCToCoords(-9231, -2629)
-	If $DeadOnTheRun = 0 Then Sleep(3000)
+	If  CurrentAction("Taking Blessing")
+	If  GoNearestNPCToCoords(-9231, -2629)
+	If  Sleep(3000)
 
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-11414, 4055, "Leftovers Krait")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-6907, 8461, "Moving")
-	If $DeadOnTheRun = 0 Then AggroMoveToEx(-8689, 11227, "Leftovers Krait and Rider",10000)
+	If  AggroMoveTo(-11414, 4055, "Leftovers Krait")
+	If  AggroMoveTo(-6907, 8461, "Moving")
+	If  AggroMoveTo(-8689, 11227, "Leftovers Krait and Rider",10000)
 
 EndFunc
 
