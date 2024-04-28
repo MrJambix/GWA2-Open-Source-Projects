@@ -30,6 +30,7 @@ Global Const $NumberOfIdentKits = 1
 $loggedCharNames = GetLoggedCharNames()
 $charNamesArray = StringSplit($loggedCharNames, "|", 2)
 
+
 ; Function to convert a character's name to a section name in the INI file
 Func ConvertToSectionName($sInput)
     Local $sLower = StringLower($sInput)
