@@ -2,6 +2,8 @@
 #include <GuiEdit.au3>
 #include <Array.au3>
 #include <File.au3>
+#include <WinAPI.au3>
+#include <EditConstants.au3>
 
 #RequireAdmin
 ;Define the path to the configuration files
@@ -9,10 +11,6 @@
 Global $iniFilePath = @ScriptDir & "\hero_selections.ini"
 
 ; Global variable to store GUI handle and inputs array
-Global $skillReqGUI, $inputs[25], $charNameInput
-Global $sectionName
-Global $loggedCharNames = GetLoggedCharNames()
-Global $charNamesArray = StringSplit($loggedCharNames, "|", 2)
 Global $heroDropdowns[7]
 Global $heroNames
 Global $selectedIndex = -1
@@ -30,43 +28,10 @@ Global Const $NumberOfIdentKits = 1
 $loggedCharNames = GetLoggedCharNames()
 $charNamesArray = StringSplit($loggedCharNames, "|", 2)
 
-; Function to convert a character's name to a section name in the INI file
-Func ConvertToSectionName($sInput)
-    Local $sLower = StringLower($sInput)
-    Local $sOutput = StringReplace($sLower, " ", "_")
-    Return $sOutput
-EndFunc
-
-; Load and validate skills data for a given character
-Func LoadCharacterSkills($charName)
-    Local $sectionName = "Skills_" & ConvertToSectionName($charName)
-	
-    ; Check for the section and create default values if not found
-    If IniRead($configFilePath, $sectionName, "SkillEnergy", "NotFound") = "NotFound" Then
-        IniWrite($configFilePath, $sectionName, "SkillEnergy", "5, 5, 5, 10, 5, 10, 10, 10")
-        IniWrite($configFilePath, $sectionName, "SkillCastTime", "1000, 750, 250, 250, 2000, 1000, 1000, 250")
-        IniWrite($configFilePath, $sectionName, "SkillAdrenaline", "0, 0, 0, 0, 0, 0, 0, 0")
-    EndIf
-
-    ; Read the configurations
-    Local $strSkillEnergy = IniRead($configFilePath, $sectionName, "SkillEnergy", "")
-    Local $strSkillCastTime = IniRead($configFilePath, $sectionName, "SkillCastTime", "")
-    Local $strSkillAdrenaline = IniRead($configFilePath, $sectionName, "SkillAdrenaline", "")
-
-    ; Convert string to arrays, skipping the first element which is the size of the array
-    Local $intSkillEnergy = StringSplit($strSkillEnergy, ",", 2)
-    Local $intSkillCastTime = StringSplit($strSkillCastTime, ",", 2)
-    Local $intSkillAdrenaline = StringSplit($strSkillAdrenaline, ",", 2)
-
-    Return [$intSkillEnergy, $intSkillCastTime, $intSkillAdrenaline]
-EndFunc
-
-
-
 Opt("GUIOnEventMode", 1)
 
 #Region ### START Koda GUI section ### Form=
-Global $Form1_1 = GUICreate("Title Farm Bot: Version 2.3", 661, 431, -1, -1)
+Global $Form1_1 = GUICreate("Title Farm Bot: Version 3.0 Test Version", 661, 431, -1, -1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Global $Start = GUICtrlCreateButton("Start", 56, 272, 43, 17, $WS_GROUP)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -123,6 +88,9 @@ Global $gui_cons = GUICtrlCreateCheckbox("Cons", 256, 192, 65, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
 Global $Gui_UseLockpicks = GUICtrlCreateCheckbox("Lockpicks", 176, 261, 79, 14)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
+Global $Gui_Salvage = GUICtrlCreateCheckbox("Salvage", 256, 262, 79, 17) ; Adjust the width as necessary
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
 Global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 256, 216, 60, 17)
@@ -214,14 +182,11 @@ GUICtrlSetOnEvent($btnSave, "SaveSelections")
 Global $btnLoad = GUICtrlCreateButton("Load Selection", 300, 398, 100, 30, $WS_GROUP) 
 GUICtrlSetOnEvent($btnLoad, "LoadSelections") 
 
-;Skill Buttons 
-Global $btnSkillReq = GUICtrlCreateButton("Skill Requirement", 410, 398, 120, 30, $WS_GROUP)
-GUICtrlSetOnEvent($btnSkillReq, "OpenSkillReqGUI")
-
-
 Global $STATUS = GUICtrlCreateEdit("", 370, 8, 286, 378, $ES_AUTOVSCROLL + $ES_AUTOHSCROLL + $ES_MULTILINE + $WS_VSCROLL)
 GUICtrlSetBkColor(-1, 0x000000) ; Black background
 GUICtrlSetColor(-1, 0xFFFF00) ; Yellow text
+
+
 global $gui_status_runs = GUICtrlCreateLabel("0", 96, 220, 30, 17, $SS_RIGHT) ; Increased width to 30
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetColor(-1, 0x008000)
@@ -356,6 +321,11 @@ Func ReduceMemory()
 	EndIf
 EndFunc
 
+Func _ScrollEditToEnd($hEdit)
+    Local $iLineCount = _GUICtrlEdit_GetLineCount($hEdit)  ; Get the number of lines in the edit control
+    GUICtrlSendMsg($hEdit, $EM_LINESCROLL, 0, $iLineCount)  ; Scroll to the last line
+EndFunc
+
 
 Func SaveSelections()
     For $i = 0 To UBound($heroDropdowns) - 1
@@ -395,86 +365,6 @@ Func ToggleHeroesCheckboxes()
     Next
 EndFunc
 
-Func OpenSkillReqGUI()
-    Local $skillReqGUI = GUICreate("Skill Requirements", 400, 480) ; Increased height to accommodate labels
-    
-    ; Assuming GetLoggedCharNames returns a string of character names separated by '|'
-    Local $loggedCharNames = GetLoggedCharNames()
-    Local $charNamesArray = StringSplit($loggedCharNames, "|", 2) ; Split into array, flag 2 skips the empty element at index 0
-    
-    ; Create a dropdown for character names
-    Local $charNameCombo = GUICtrlCreateCombo("Select Character", 10, 10, 180, 20)
-    For $i = 1 To $charNamesArray[0]
-        GUICtrlSetData($charNameCombo, $charNamesArray[$i], $charNamesArray[1]) ; Add each name to the combo box, default select first
-    Next
-    
-    ; Create headers for columns
-    GUICtrlCreateLabel("Skill", 10, 40, 50, 20)
-    GUICtrlCreateLabel("Energy", 80, 40, 50, 20)
-    GUICtrlCreateLabel("Adrenaline", 150, 40, 70, 20)
-    GUICtrlCreateLabel("Cast Time", 240, 40, 70, 20)
-
-    Local $inputs[25], $startY = 70
-    For $i = 1 To 8
-        ; Label each skill
-        GUICtrlCreateLabel("Skill " & $i, 10, $startY, 50, 20)
-        
-        ; Input for Energy
-        $inputs[$i * 3 - 2] = GUICtrlCreateInput("", 80, $startY, 50, 20)
-        
-        ; Input for Adrenaline
-        $inputs[$i * 3 - 1] = GUICtrlCreateInput("", 150, $startY, 50, 20)
-        
-        ; Input for Cast Time
-        $inputs[$i * 3] = GUICtrlCreateInput("", 240, $startY, 50, 20)
-        
-        $startY += 30 ; Move down for the next set of inputs
-    Next
-
-    Local $btnSave = GUICtrlCreateButton("Save", 160, 440, 80, 30)
-    GUICtrlSetOnEvent($btnSave, "SaveSkillSettings")
-
-    GUISetState(@SW_SHOW, $skillReqGUI)
-    While 1
-        Switch GUIGetMsg()
-            Case $GUI_EVENT_CLOSE
-                GUIDelete($skillReqGUI) ; Delete the GUI upon closing
-                Return ; Exit the function once GUI is closed
-        EndSwitch
-        Sleep(10)
-    WEnd
-EndFunc
-
-
-
-Func SaveSkillSettings()
-    ; Read the character name and validate it
-    Local $charName = GUICtrlRead($charNameInput)
-    If $charName = "" Then
-        MsgBox(0, "Error", "Please enter a character name.")
-        Return
-    EndIf
-
-    ; Create the file name and path for the INI file
-    Local $iniFileName = @ScriptDir & "\" & ConvertToSectionName($charName) & "_skills.ini"
-
-    ; Write each parameter to the INI file under the corresponding section
-    For $i = 1 To 24
-        Local $skillIndex = Int(($i - 1) / 3) + 1
-        Local $paramIndex = Mod($i - 1, 3) + 1
-        Local $paramName = ($paramIndex == 1 ? "SkillEnergy" : ($paramIndex == 2 ? "SkillAdrenaline" : "SkillCastTime")) & $skillIndex
-        Local $value = GUICtrlRead($inputs[$i])
-        
-        IniWrite($iniFileName, "Skill" & $skillIndex, $paramName, $value)
-    Next
-
-    MsgBox(0, "Success", "Skill settings saved successfully for " & $charName & ".")
-
-    ; Close the GUI window
-    GUIDelete($skillReqGUI)
-EndFunc
-
-
 
 Func CurrentAction($MSG)
     ; Read the current content of the Edit control
@@ -482,17 +372,21 @@ Func CurrentAction($MSG)
 
     ; Append the new message to the existing content, adding a newline if not empty
     If $sCurrentContent <> "" Then
-        $sCurrentContent &= @CRLF ; Ensure there's a newline separating messages
+        $sCurrentContent &= @CRLF  ; Ensure there's a newline separating messages
     EndIf
     $sCurrentContent &= "Run : " & $NumberRun + 1 & " at: " & @HOUR & ":" & @MIN & "." & @SEC & "   " & $MSG
 
     ; Update the Edit control with the new content
     GUICtrlSetData($STATUS, $sCurrentContent)
 
+    ; Scroll to the end of the Edit control
+    _ScrollEditToEnd($STATUS)
+
     ; Optionally, update other controls or log to a file as needed
-    GUICtrlSetData($gui_status_runs, $NumberRun) ; Assuming $gui_status_runs needs to be updated similarly
-    FileWriteLine($File, $sCurrentContent & @CRLF) ; Log the message to a file
+    GUICtrlSetData($gui_status_runs, $NumberRun)  ; Assuming $gui_status_runs needs to be updated similarly
+    FileWriteLine($File, $sCurrentContent & @CRLF)  ; Log the message to a file
 EndFunc   ;==>CurrentAction
+
 
 Func SellItemToMerchant()
 	If $Bool_Store Then
@@ -861,58 +755,3 @@ Func AggroMoveTo($x, $y, $s = "", $z = 1450)
 		EndIf
 	Until ComputeDistanceEx($coordsX, $coordsY, $x, $y) < 250 Or $iBlocked > 20
 EndFunc   ;==>AggroMoveTo
-
-; Function to handle fighting logic
-Func Fight($x, $s = "")
-    Local $skillsData = LoadCharacterSkills($s)
-    Local $intSkillEnergy = $skillsData[0]
-    Local $intSkillCastTime = $skillsData[1]
-    Local $intSkillAdrenaline = $skillsData[2]
-
-    CurrentAction("Fighting " & $s & "!")
-    Do
-        Sleep(250)
-        $nearestenemy = GetNearestEnemyToAgent(-2)
-    Until DllStructGetData($nearestenemy, 'ID') <> 0
-
-    Do
-        $useSkill = -1
-        $target = GetNearestEnemyToAgent(-2)
-        $distance = GetDistance($target, -2)
-        If DllStructGetData($target, 'ID') <> 0 And $distance < $x Then
-            ChangeTarget($target)
-            Sleep(150)
-            CallTarget($target)
-            Sleep(150)
-            Attack($target)
-            Sleep(150)
-        ElseIf DllStructGetData($target, 'ID') = 0 Or $distance > $x Then
-            ExitLoop
-        EndIf
-
-        For $i = 0 To UBound($intSkillEnergy) - 1
-            $targetHP = DllStructGetData(GetCurrentTarget(), 'HP')
-            If $targetHP = 0 Or $distance > $x Then ExitLoop
-
-            $energy = GetEnergy(-2)
-            $recharge = DllStructGetData(GetSkillBar(), "Recharge" & $i + 1)
-            $adrenaline = DllStructGetData(GetSkillBar(), "Adrenaline" & $i + 1)
-
-            If $recharge = 0 And $energy >= $intSkillEnergy[$i] And $adrenaline >= ($intSkillAdrenaline[$i] * 25 - 25) Then
-                $useSkill = $i + 1
-                PingSleep(250)
-                UseSkill($useSkill, $target)
-                Sleep($intSkillCastTime[$i] + 1000)
-            EndIf
-        Next
-    Until DllStructGetData($target, 'ID') = 0 Or $distance > $x
-    If GetHealth(-2) < 2400 Then UseSkill(7, -2)
-    PingSleep(3000)
-
-    CurrentAction("Picking up items")
-    If $Bool_PickUp Then PickUpLoot()
-    If $Bool_Uselockpicks Then CheckForChest()
-EndFunc   ;==>Fight
-
-
-

@@ -24,6 +24,7 @@
 #include "VQSS.au3"
 #include "VQSSLB.au3"
 #include "VQTHunter.au3"
+#include "Skills.au3"
 
 
 Global $DeadOnTheRun = 0
@@ -148,7 +149,7 @@ WEnd
 Func FactionCheckKurzick()
 	CurrentAction("Checking faction")
 	RndSleep(1250)
-	If GetKurzickFaction() > GetMaxKurzickFaction() - 12000 Then
+	If GetKurzickFaction() > GetMaxKurzickFaction() - 16000 Then
 		Return True
 	Else
 		Return False
@@ -156,53 +157,39 @@ Func FactionCheckKurzick()
 EndFunc
 
 Func TurnInFactionKurzick()
-    CurrentAction("Turning in faction")
-    RndSleep(1000)
-    GetNearestNPCToCoords(5390, 1524)
+	CurrentAction("Turning in faction")
+	RndSleep(1000)
+	GoNearestNPCToCoords(5390, 1524)
 
-    $beforedone = GetKurzickFaction()
+	$beforedone = GetKurzickFaction()
 
-    If $Bool_Donate Then
-        $donationAttempts = 0
-        $maxAttempts = 3
-        Do
-            CurrentAction("Donate")
-            $donationSuccess = DonateFaction("kurzick")
-            RndSleep(1000)
-            If Not $donationSuccess Then
-                $donationAttempts += 1
-                If $donationAttempts >= $maxAttempts Then
-                    ; Fail check mechanism, reset location and attempts if donation fails 3 times
-                    CurrentAction("Resetting location due to donation failure")
-                    GetNearestNPCToCoords(5390, 1524)
-                    RndSleep(2000) ; Adding a sleep to ensure the reset is acknowledged
-                    $donationAttempts = 0 ; Reset the donation attempts counter
-                EndIf
-            Else
-                ; Reset attempts if donation is successful
-                $donationAttempts = 0
-            EndIf
-        Until GetKurzickFaction() < 5000
-    Else
-        CurrentAction("Donating Kurzick Faction for Amber")
-        Dialog(131)
+	If $Bool_Donate Then
+		Do
+			CurrentAction("Donate")
+			DonateFaction("kurzick")
+			RndSleep(500)
+		Until GetKurzickFaction() < 5000
+	Else
+		CurrentAction("Donating Kurzick Faction for Amber")
+		Dialog(131)
+		RndSleep(550)
+		$temp = Floor(GetKurzickFaction() / 5000)
+		$id = 8388609 + ($temp * 256)
+		Dialog($id)
         RndSleep(550)
-        $temp = Floor(GetKurzickFaction() / 5000)
-        $id = 8388609 + ($temp * 256)
-        Dialog($id)
-        RndSleep(1000)
-    EndIf
+	EndIf
 
-    $after_donate = GetKurzickFaction()
-    $what_we_donate = $beforedone - $after_donate + $what_we_donate
-    RndSleep(500)
+	$after_donate = GetKurzickFaction()
+	$what_we_donate = $beforedone - $after_donate + $what_we_donate
+	RndSleep(500)
 EndFunc
+
 
 Func FactionCheckLuxon()
 	CurrentAction("Check Luxon point atm")
 	RndSleep(250)
 
-	If GetLuxonFaction() > GetMaxLuxonFaction() - 13000 Then
+	If GetLuxonFaction() > GetMaxLuxonFaction() - 16000 Then
 		Return True
 	Else
 		Return False
