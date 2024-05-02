@@ -10,7 +10,7 @@ Func VQSS();
 	EndIf
 
 
-	GetNearestNPCToCoords(15773, -15302)
+	GoNearestNPCToCoords(15773, -15302)
 	Sleep(1000)
 	Dialog(0x00000084)
 	Dialog(0x00000085)

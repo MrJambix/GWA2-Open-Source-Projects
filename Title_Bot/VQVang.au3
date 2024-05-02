@@ -2,7 +2,7 @@ Func VQVanguard();
 
 	$DeadOnTheRun = 0
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(-14971.00, 11013.00)
+	GoNearestNPCToCoords(-14971.00, 11013.00)
 	Sleep(1000)
 	Dialog(0x84)
 	Sleep(1000)
@@ -25,7 +25,7 @@ Func VQVanguard();
 	If GetAreaVanquished() = False Then AggroMoveTo(2956, 10496, "Mantid Group")
 	If GetAreaVanquished() = False Then AggroMoveTo(5160, 11032, "Moving")
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(5816, 11687)
+	GoNearestNPCToCoords(5816, 11687)
 	Sleep(1000)
 	CurrentAction("Moving")
 	If GetAreaVanquished() = False Then AggroMoveTo(5848, 11086, "Mantid Group", 3000)
@@ -46,7 +46,7 @@ Func VQVanguard();
 	If GetAreaVanquished() = False Then AggroMoveTo(3449, -3693, "Charr Patrol", 2000)
 	If GetAreaVanquished() = False Then AggroMoveTo(7170, -4037, "Moving")
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(8565, -3974)
+	GoNearestNPCToCoords(8565, -3974)
 	Sleep(1000)
 	If GetAreaVanquished() = False Then AggroMoveTo(8903, -1801, "Second Skale")
 	If GetAreaVanquished() = False Then AggroMoveTo(6790, -6124, "Moving")
@@ -75,7 +75,7 @@ Func VQVanguard();
 
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(14891, -18146)
+	GoNearestNPCToCoords(14891, -18146)
 	Sleep(1000)
 	If GetAreaVanquished() = False Then AggroMoveTo(11509, -17586, "Moving")
 	If GetAreaVanquished() = False Then AggroMoveTo(6031, -17582, "Moving")
@@ -85,7 +85,7 @@ Func VQVanguard();
 	If GetAreaVanquished() = False Then AggroMoveTo(-4217, -12620, "Moving")
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(-4014, -11504)
+	GoNearestNPCToCoords(-4014, -11504)
 	Sleep(1000)
 	If GetAreaVanquished() = False Then AggroMoveTo(-8023, -13970, "Charr Seeker")
 	If GetAreaVanquished() = False Then AggroMoveTo(-7326, -8852, "Charr Seeker")
@@ -105,7 +105,7 @@ Func VQVanguard();
 	If GetAreaVanquished() = False Then AggroMoveTo(-17509, 202, "Moving")
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(-17546, 341)
+	GoNearestNPCToCoords(-17546, 341)
 	Sleep(1000)
 	If GetAreaVanquished() = False Then AggroMoveTo(-13853, -2427, "Charr Seeker")
 	If GetAreaVanquished() = False Then AggroMoveTo(-9313, -3786, "Charr Seeker")
@@ -143,7 +143,7 @@ Func VQVanguard();
 	If GetAreaVanquished() = False Then AggroMoveTo(-3299, 606, "Looking for Mantids", 3000)
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(-2646, -452)
+	GoNearestNPCToCoords(-2646, -452)
 	Sleep(1000)
 
 

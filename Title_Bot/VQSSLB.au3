@@ -13,7 +13,7 @@ Func VQSSLB();
 
 	;Interact with NPCs to take blessings
     CurrentAction("Taking Blessing")
-    GoToNPC(GetNearestNPCToCoords(-704, 15988))
+    GoToNPC(GoNearestNPCToCoords(-704, 15988))
     Dialog(0x83)
     RndSleep(1000)
     Dialog(0x85)
@@ -43,7 +43,7 @@ Func VQSSLB();
 	MoveTo(-17247, 5902)
 	MoveTo(-19119, 6559)
 	MoveTo(-19610, 7037)
-	GoToNPC(GetNearestNPCToCoords(-20587, 7280))
+	GoToNPC(GoNearestNPCToCoords(-20587, 7280))
 	Sleep(1000)
 	Dialog(0x85)
 	Sleep(1000)

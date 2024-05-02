@@ -7,7 +7,7 @@ Func VQLuxon() ;
 		UseConsets()
 	EndIf
 
-GetNearestNPCToCoords(-8394, -9801)
+GoNearestNPCToCoords(-8394, -9801)
 
 If GetKurzickFaction() > GetLuxonFaction() Then
     Dialog(0x81)

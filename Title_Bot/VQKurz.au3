@@ -7,7 +7,7 @@ Func VQKurzick();
 	EndIf
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(-12909, 15616)
+	GoNearestNPCToCoords(-12909, 15616)
 
 If GetLuxonFaction() > GetKurzickFaction() Then
     Dialog(0x81)

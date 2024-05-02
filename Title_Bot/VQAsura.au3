@@ -4,7 +4,7 @@ Func VQAsura();
 	$DeadOnTheRun = 0
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(14796, 13170)
+	GoNearestNPCToCoords(14796, 13170)
 	Sleep(1000)
 	Dialog(0x83)
 	Sleep(1000)
@@ -32,7 +32,7 @@ Func VQAsura();
 	If GetAreaVanquished() = False Then AggroMoveTo(18111, -8030, "Krait Group")
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(18409, -8474)
+	GoNearestNPCToCoords(18409, -8474)
 	Sleep(2000)
 	If GetAreaVanquished() = False Then AggroMoveTo(18613, -11799, "Froggy Group")
 	If GetAreaVanquished() = False Then AggroMoveTo(17154, -15669, "Krait Patrol")
@@ -55,7 +55,7 @@ Func VQAsura();
 	If GetAreaVanquished() = False Then AggroMoveTo(-7814, -17796, "Spider Group")
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(-10109, -17520)
+	GoNearestNPCToCoords(-10109, -17520)
 	Sleep(2000)
 	CurrentAction("Moving")
 	Moveto(-9111, -17237)
@@ -77,7 +77,7 @@ Func VQAsura();
 	If GetAreaVanquished() = False Then AggroMoveTo(-17090, 5252, "Krait Group")
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(-19292, 8994)
+	GoNearestNPCToCoords(-19292, 8994)
 	Sleep(2000)
 	CurrentAction("Moving")
 	Moveto(-18640, 8724)
@@ -97,7 +97,7 @@ Func VQAsura();
 	If GetAreaVanquished() = False Then AggroMoveTo(-3468, 10837, "Lonely Patrol")
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(-2037, 10758)
+	GoNearestNPCToCoords(-2037, 10758)
 	Sleep(2000)
 
 	If GetAreaVanquished() = False Then AggroMoveTo(-3804, 8017, "Krait Group")
@@ -115,7 +115,7 @@ Func VQAsura();
 	If GetAreaVanquished() = False Then AggroMoveTo(7097, 92, "Krait Group")
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(4893, 445)
+	GoNearestNPCToCoords(4893, 445)
 	Sleep(2000)
 	If GetAreaVanquished() = False Then AggroMoveTo(8943, -985, "Krait Boss")
 	If GetAreaVanquished() = False Then AggroMoveTo(10949, -2056, "Krait Patrol")
@@ -135,7 +135,7 @@ Func VQAsura();
 	If GetAreaVanquished() = False Then AggroMoveTo(-6322, -2565, "Krait Group")
 
 	CurrentAction("Taking Blessing")
-	GetNearestNPCToCoords(-9231, -2629)
+	GoNearestNPCToCoords(-9231, -2629)
 	Sleep(3000)
 
 	If GetAreaVanquished() = False Then AggroMoveTo(-11414, 4055, "Leftovers Krait")

@@ -24,7 +24,7 @@ Func VQNorn()
         RndSleep(500)
     Next
 
-    GetNearestNPCToCoords(-2034, -4512)
+    GoNearestNPCToCoords(-2034, -4512)
     Dialog(0x00000084)
     RndSleep(1000)
 
@@ -45,7 +45,7 @@ Func VQNorn()
 	Until CheckArea(-21964, -12877, 1000)
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(-25272.89, -11968.49)
+	GoNearestNPCToCoords(-25272.89, -11968.49)
 	RndSleep(1000)
 
 	Do
@@ -61,7 +61,7 @@ Func VQNorn()
 	Until CheckArea(-17012, -5376, 1000)
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(-12071, -4274)
+	GoNearestNPCToCoords(-12071, -4274)
 	RndSleep(1000)
 
 	Do
@@ -78,7 +78,7 @@ Func VQNorn()
 	Until CheckArea(-14916, 2475, 1000)
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(-11282, 5466)
+	GoNearestNPCToCoords(-11282, 5466)
 	RndSleep(1000)
 	
 	Do
@@ -91,7 +91,7 @@ Func VQNorn()
 	Until CheckArea(-19378, 14555, 1000)
 
 		CurrentAction("Taking blessing")
-		GetNearestNPCToCoords(-22751, 14163)
+		GoNearestNPCToCoords(-22751, 14163)
 	RndSleep(1000)
 	
 	Do
@@ -105,7 +105,7 @@ Func VQNorn()
 	Until CheckArea(-4729, 15385, 1000)
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(-2290, 14879)
+	GoNearestNPCToCoords(-2290, 14879)
 	RndSleep(1000)
 	
 	Do
@@ -136,7 +136,7 @@ Func VQNorn()
 	Until CheckArea(21597, -6798, 1000)
 	
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(24522, -6532)
+	GoNearestNPCToCoords(24522, -6532)
 	RndSleep(1000)
 	
 	Do
@@ -154,7 +154,7 @@ Func VQNorn()
 	Until CheckArea(8963, 4043, 1000)
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(8963, 4043)
+	GoNearestNPCToCoords(8963, 4043)
 	RndSleep(1000)
 
 	Do
@@ -168,7 +168,7 @@ Func VQNorn()
 	Until CheckArea(22838, 7914, 1000)
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(22961, 12757)
+	GoNearestNPCToCoords(22961, 12757)
 	RndSleep(1000)
 	
 	Do
@@ -180,7 +180,7 @@ Func VQNorn()
 	Until CheckArea(13311, 11917, 1000)
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(13714, 14520)
+	GoNearestNPCToCoords(13714, 14520)
 	RndSleep(1000)
 	
 	Do

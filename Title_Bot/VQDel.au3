@@ -8,7 +8,7 @@ Func VQDeldrimor();
 	EndIf
 
 
-	GetNearestNPCToCoords(-14103, 15457)
+	GoNearestNPCToCoords(-14103, 15457)
 	RndSleep(1000)
 	Dialog(0x00000084)
 	RndSleep(1000)
@@ -36,7 +36,7 @@ Func VQDeldrimor();
 
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(-12512, 3919)
+	GoNearestNPCToCoords(-12512, 3919)
 	RndSleep(500)
 
 	Do
@@ -60,7 +60,7 @@ Func VQDeldrimor();
 	Until CheckArea(-14367, -9244, 100)
 
 	CurrentAction("Taking blessing")
-	GetNearestNPCToCoords(-16025, -10702, 100)
+	GoNearestNPCToCoords(-16025, -10702, 100)
 	RndSleep(500)
 
 	Do
