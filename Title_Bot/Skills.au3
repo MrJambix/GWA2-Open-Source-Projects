@@ -21,7 +21,6 @@ Func UseSkillBasedOnRequirements($skillNumber)
 
     ; Now use these variables to check conditions and apply the skill
     If (CurrentEnergy() >= $energy) And (CurrentAdrenaline() >= $adrenaline) Then
-        ; Assuming you have a function to activate the skill
         ActivateSkill($skillNumber)
         Sleep($castTime + 1000)  ; Adjust sleep as necessary based on the action
     EndIf
