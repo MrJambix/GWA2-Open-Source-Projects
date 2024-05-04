@@ -25,6 +25,7 @@
 #include "VQSSLB.au3"
 #include "VQTHunter.au3"
 #include "Skills.au3"
+#include "Salvage.au3"
 
 
 Global $DeadOnTheRun = 0
@@ -38,7 +39,7 @@ Global $Norn_Outpost = 645
 Global $Vanguard_Outpost = 648
 Global $SS_LB_Outpost = 545
 Global $Treasure_Hunter_Outpost = 675
-Global $Treasure_Huter_Map = 499
+Global $Treasure_Hunter_Map = 499
 Global $Kurzick_Outpost = 77
 Global $Luxon_Outpost = 389
 Global $areaFerndale = 210
@@ -99,7 +100,7 @@ If $g_bRun Then
 				$Map_To_Farm = $SS_Map
 			ElseIf $Title = "Treasure Hunter" then
 				$Map_To_Zone = $Treasure_Hunter_Outpost
-				$Map_To_Farm = $Treasure_Huter_Map
+				$Map_To_Farm = $Treasure_Hunter_Map
 			EndIf
 
 			If $Title = "Luxon" and $Bool_Donate Then
@@ -107,7 +108,7 @@ If $g_bRun Then
 ElseIf $Title = "Kurzick" and $Bool_Donate Then
     MsgBox(48, "Warning", "You ticked the donate button. Be sure you are in a Kurzick guild and you are also able to speak to the merchant in the outpost.")
 ElseIf $Title = "SS and LB" Then
-				MsgBox(48, "Warnning", "You choose SS and LB bot, dont forget that you need the 2 quest for that and rune of doom in inventory.")
+				MsgBox(48, "Warning", "You choose SS and LB bot, dont forget that you need the 2 quest for that and rune of doom in inventory.")
 			EndIf
 		EndIf
 
@@ -126,16 +127,33 @@ ElseIf $Title = "SS and LB" Then
 		ElseIf $Title = "Luxon" Then
 			If FactionCheckLuxon() Then TurnInFactionLuxon()
 		EndIf
-
+		
+		CheckForEmptyDis()
+		
+		If $Bool_Salvage Then
+		CurrentAction("Checking Inventory For Salvage")
+		CheckIDAndSalvageKits()
+		
+		Sleep(1000)
+		
+		ProcessInventory()
+		EndIf
+		
+		If $Bool_Uselockpicks Then
+		BuyLockPicks()
+		EndIf
+		
+		
 		CurrentAction("Begin run number " & $NumberRun)
 		If $Bool_HM Then
 			SwitchMode(1)
 		Else
 			SwitchMode(0)
 		EndIf
-			
-		If CheckIfInventoryIsFull() then SellItemToMerchant()
+		
 
+		If CheckIfInventoryIsFull() then SellItemToMerchant()
+		
 		GoOut()
 
 		VQ()
@@ -200,7 +218,7 @@ Func TurnInFactionLuxon()
 	RndTravel(193)
 	WaitForLoad()
 	CurrentAction("grabing")
-	GetNearestNPCToCoords(9076, -1111)
+	GoNearestNPCToCoords(9076, -1111)
 
 	$beforedone = GetLuxonFaction()
 
@@ -351,7 +369,7 @@ Func CheckPartyDead()
 		EndIf
 		If $DeadParty >= 5 Then
 			$DeadOnTheRun = 1
-			CurrentAction("We Wipe, going back oupost to save time")
+			CurrentAction("We Wipe,But We ain't no little bitch...Keep Going")
 		EndIf
 	Next
 EndFunc

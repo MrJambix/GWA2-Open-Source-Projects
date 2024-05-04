@@ -87,7 +87,7 @@ If GetAreaVanquished() = False Then AggroMoveTo(496, -2581, $enemy, 2000)
 $enemy = "Guardian and Wallows"
 If GetAreaVanquished() = False Then AggroMoveTo(2069, 1127, $enemy)
 
- $enemy = "Guardian and Wallows"
+$enemy = "Guardian and Wallows"
 If GetAreaVanquished() = False Then AggroMoveTo(5859, 1599, $enemy)
 
 $enemy = "Guardian and Wallows"
@@ -120,6 +120,37 @@ If GetAreaVanquished() = False Then AggroMoveTo(13450, -6084, $enemy, 4000)
 $enemy = "Naga"
 If GetAreaVanquished() = False Then AggroMoveTo(13764, -4816, $enemy, 4000)
 
+$enemy = "Checking for Missing Entity"
+If GetAreaVanquished() = False Then AggroMoveToEx(8789, -7285, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(6272, -8739, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(4971, -6945, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(2672, -7902, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-486, -8998, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-3799, -7831, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-7529, -7210, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-5859, -5245, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-7546, -2795, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-11337, -2872, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-9899, 19, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-10592, 3868, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-9465, 7500, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-5926, 6880, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-5214, 4478, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-6669, 647, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(-2506, 1100, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(1281, 1138, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(3825, 5618, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(7169, 7811, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(7649, 6366, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(9529, 8346, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(12450, 7721, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(15512, 6760, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(17033, 3421, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(15498, -316, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(13774, -4433, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(12658, -7181, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(2147, 3452, $enemy, 4000)
+If GetAreaVanquished() = False Then AggroMoveToEx(3448, 5167, $enemy, 4000)
 
 CurrentAction("Waiting to get reward")
 Sleep(6000)

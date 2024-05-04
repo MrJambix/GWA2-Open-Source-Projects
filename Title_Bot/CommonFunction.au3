@@ -20,10 +20,18 @@ Global $boolrun = False
 Global $strName = ""
 Global $coords[2]
 Global $Title, $sGW
-Global $Bool_Donate = False, $Bool_IdAndSell = False, $Bool_HM = False, $Bool_Store = False, $Bool_PickUp = False, $Bool_Uselockpicks = False
+Global $Bool_Donate = False
+Global $Bool_IdAndSell = False
+Global $Bool_HM = False
+Global $Bool_Store = False
+Global $Bool_PickUp = False
+Global $Bool_UseLockpicks = False
+Global $Bool_Salvage = False
 Global $g_bRun = False
+Global $RenderingEnabled = True
 Global $File = @ScriptDir & "\Trace\Traça du " & @MDAY & "-" & @MON & " a " & @HOUR & "h et " & @MIN & "minutes.txt"
 Global Const $NumberOfIdentKits = 1
+Global Const $NumberOfSalvageKits = 1
 
 $loggedCharNames = GetLoggedCharNames()
 $charNamesArray = StringSplit($loggedCharNames, "|", 2)
@@ -73,10 +81,10 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateGroup("General Config", 160, 175, 161, 105)
 
 Global $Gui_Id_and_sell = GUICtrlCreateCheckbox("Id and Sell", 176, 216, 75, 17)
-GUICtrlSetState(-1, $GUI_CHECKED)
+GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 Global $Gui_Store_unid = GUICtrlCreateCheckbox("Store Unid", 176, 192, 73, 17)
-GUICtrlSetState(-1, $GUI_CHECKED)
+GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 Global $Gui_HM_enable = GUICtrlCreateCheckbox("HM", 176, 240, 49, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
@@ -85,13 +93,14 @@ Global $Gui_Donate = GUICtrlCreateCheckbox("Donate", 256, 240, 57, 17)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
 Global $gui_cons = GUICtrlCreateCheckbox("Cons", 256, 192, 65, 17)
-GUICtrlSetResizing(-1, $GUI_DOCKALL)
+GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 Global $Gui_UseLockpicks = GUICtrlCreateCheckbox("Lockpicks", 176, 261, 79, 14)
-GUICtrlSetResizing(-1, $GUI_DOCKALL)
+GUICtrlSetState(-1, $GUI_CHECKED)
 
 Global $Gui_Salvage = GUICtrlCreateCheckbox("Salvage", 256, 262, 79, 17) ; Adjust the width as necessary
-GUICtrlSetResizing(-1, $GUI_DOCKALL)
+;GUICtrlSetResizing(-1, $GUI_DOCKALL)
+GUICtrlSetState(-1, $GUI_CHECKED)
 
 Global $Gui_PickUp = GUICtrlCreateCheckbox("PickUp", 256, 216, 60, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
@@ -294,8 +303,16 @@ func gui_eventHandler()
 			If BitAND(GUICtrlRead($Gui_HM_enable), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_HM = True
 			If BitAND(GUICtrlRead($Gui_Donate), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Donate = True
 			If BitAND(GUICtrlRead($Gui_PickUp), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_PickUp = True
+			If BitAND(GUICtrlRead($Gui_Salvage), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Salvage = True
+
 			If BitAND(GUICtrlRead($gui_cons), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_cons = True
-			If BitAND(GUICtrlRead($Gui_UseLockpicks), $GUI_CHECKED) = $GUI_CHECKED Then $Bool_Uselockpicks = True
+			If BitAND(GUICtrlRead($Gui_UseLockpicks), $GUI_CHECKED) = $GUI_CHECKED Then
+				$Bool_UseLockpicks = True
+			Else
+				$Bool_UseLockpicks = False
+			EndIf
+
+
 
 			If GUICtrlRead($txtName) = "" Then
 				MsgBox(0, "Error", "Plz enter your name in the input box")
@@ -388,6 +405,7 @@ Func CurrentAction($MSG)
 EndFunc   ;==>CurrentAction
 
 
+
 Func SellItemToMerchant()
 	If $Bool_Store Then
 		CurrentAction("Storing Gold Unid")
@@ -415,6 +433,8 @@ Func SellItemToMerchant()
 			$merchant = GetNearestNPCToCoords(-1795, -2482)
 		ElseIf $Title = "SS" Then
 			$merchant = GetNearestNPCToCoords(498, 1297)
+		ElseIf $Title = "Treasure Hunter" Then
+			$merchant = GetNearestNPCToCoords(7319,-24874)
 		EndIf
 		
 		Sleep(1000)
@@ -492,7 +512,6 @@ Func Sell($BAGINDEX)
 		Sleep(GetPing()+250)
 	Next
 EndFunc
-
 
 Func GetExtraItemInfo($aitem)
 
@@ -721,7 +740,7 @@ Func WaitForLoad()
 EndFunc   ;==>WaitForLoad
 
 
-Func AggroMoveTo($x, $y, $s = "", $z = 1450)
+Func AggroMoveTo($x, $y, $s = "", $z = 1200)
 	;CurrentAction("Hunting " & $s)
 	$random = 50
 	$iBlocked = 0
@@ -755,3 +774,128 @@ Func AggroMoveTo($x, $y, $s = "", $z = 1450)
 		EndIf
 	Until ComputeDistanceEx($coordsX, $coordsY, $x, $y) < 250 Or $iBlocked > 20
 EndFunc   ;==>AggroMoveTo
+
+Func CheckInventoryForLockpick()
+    Local $lockpicksInInventory = CountItemInBagsByModelID($ITEM_ID_Lockpicks)  ; Use the global constant for lockpicks' item ID
+    If $lockpicksInInventory > 0 Then
+        Return True
+    Else
+        Return False
+    EndIf
+EndFunc   ;==>CheckInventoryForLockpick
+
+Func BuyLockPicks()
+    CurrentAction("Checking if additional lockpicks are needed")
+    Local $currentLockpicks = CountItemInBagsByModelID(22751)  ; Using the Model ID for lockpicks
+
+    ; Only proceed if there are no lockpicks in the inventory
+    If $currentLockpicks = 0 Then
+        Local $lNeededLockPicks = 25
+        Local $lCostPerLockPick = 1500
+        Local $lTotalCost = $lCostPerLockPick * $lNeededLockPicks
+        Local $lCurrentGold = GetGoldCharacter()
+
+        CurrentAction("Calculating total cost for needed lockpicks: " & $lTotalCost & " gold")
+        
+        ; Check if current gold is sufficient
+        CurrentAction("Checking if current gold is sufficient")
+        If $lCurrentGold < $lTotalCost Then
+            Local $lShortage = $lTotalCost - $lCurrentGold
+            CurrentAction("Not enough gold, withdrawing " & $lShortage & " gold from storage")
+            WithdrawGold($lShortage)
+            $lCurrentGold = GetGoldCharacter()  ; Update gold amount after withdrawal
+        EndIf
+
+        ; Navigate based on current map ID
+        CurrentAction("Proceeding to navigate based on current map ID")
+        Local $currentMapID = GetMapID()
+        Local $agent  
+        Select
+            Case $currentMapID = 396
+                $agent = GetNearestNPCToCoords(18653, 13934)
+            Case $currentMapID = 639
+                $agent = GetNearestNPCToCoords(-21032, 10979)
+            Case $currentMapID = 640
+                $agent = GetNearestNPCToCoords(18653, 13934)
+            Case $currentMapID = 645
+                $agent = GetNearestNPCToCoords(1598, -951)
+            Case $currentMapID = 648
+                $agent = GetNearestNPCToCoords(-19166, 17980)
+            Case $currentMapID = 545
+                $agent = GetNearestNPCToCoords(-1795, -2482)
+            Case $currentMapID = 675
+                $agent = GetNearestNPCToCoords(7319, -24874)
+            Case $currentMapID = 77
+                $agent = GetNearestNPCToCoords(8481, 2005)
+            Case $currentMapID = 389
+                $agent = GetNearestNPCToCoords(-4318, 11298)
+            Case Else
+                CurrentAction("No valid map ID found")
+                Return 
+        EndSelect
+
+        If Not IsDllStruct($agent) Then
+            CurrentAction("No NPC found at the coordinates")
+            Return 
+        EndIf
+
+        ; Go to the NPC and purchase lockpicks
+        CurrentAction("Going to NPC")
+        GoToNPC($agent) 
+        CurrentAction("Purchasing lockpicks")
+        BuyItem(11, $lNeededLockPicks, $lCostPerLockPick)  ; Assuming BuyItem function exists
+        CurrentAction("Lockpicks purchased")
+    Else
+        CurrentAction("No additional lockpicks needed")
+    EndIf
+EndFunc   ;==>BuyLockPicks
+
+
+Func IsAgentAPlayer($aagent)
+    if DllStructGetData($aagent,'Allegiance') <> 1 then Return
+	$thename = GetPlayerName($aAgent)
+	if $thename = "" then Return
+    Return True
+EndFunc
+
+Func CheckForEmptyDis()
+    Local $mapID = GetMapID()  ; Automatically get current map ID
+    Local $peoplecount = -1
+    Local $town
+    $lAgentArray = GetAgentArray()
+	
+    For $i = 1 To $lAgentArray[0]
+        $aAgent = $lAgentArray[$i]
+        if IsAgentAPlayer($aAgent) Then
+            $peoplecount += 1
+        EndIf
+    Next
+    if $peoplecount > 0 Then
+        Switch $mapID
+            Case $mapID = $SS_Outpost
+                $town = $SS_Outpost ; Switch to a different district
+			case $mapID = $SS_LB_Outpost
+				$town = $SS_LB_Outpostt
+            Case $Deldrimor_Outpost
+                $town = $Deldrimor_Outpost
+            Case $Asura_Outpost
+                $town = $Asura_Outpost
+            Case $Norn_Outpost
+                $town = $Norn_Outpost
+            Case $Vanguard_Outpost
+                $town = $Vanguard_Outpost
+            Case $Treasure_Hunter_Outpost
+                $town = $Treasure_Hunter_Outpost
+            Case $Kurzick_Outpost
+                $town = $Kurzick_Outpost
+            Case $Luxon_Outpost
+                $town = $Luxon_Outpost
+        EndSwitch
+        CurrentAction("Player Detected, Moving to " & $town)
+		RndTravel($town)  ; Call RndTravel with the new map/district
+        Return False
+    Else
+        CurrentAction("No Players! We Safe!")
+        Return True
+    EndIf
+EndFunc

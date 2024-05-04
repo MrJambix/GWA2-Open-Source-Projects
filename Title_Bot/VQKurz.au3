@@ -8,7 +8,9 @@ Func VQKurzick();
 
 	CurrentAction("Taking blessing")
 	GoNearestNPCToCoords(-12909, 15616)
+	
 
+	
 If GetLuxonFaction() > GetKurzickFaction() Then
     Dialog(0x81)
     Sleep(1000)
@@ -24,6 +26,7 @@ Else
     Dialog(0x86)
     Sleep(1000)
 EndIf
+
 
 	$enemy = "Mantis #1"
 	If GetAreaVanquished() = False Then AggroMoveTo(-11733, 16729, $enemy)
